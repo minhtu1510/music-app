@@ -1,4 +1,9 @@
 import express, { Express, Request, Response } from "express";
+import dotenv from "dotenv";
+dotenv.config();
+
+import { connect } from "./config/database";
+connect();
 
 const app: Express = express();
 const port: number = 3000;
