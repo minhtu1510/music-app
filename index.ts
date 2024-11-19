@@ -6,6 +6,7 @@ import { connect } from "./config/database";
 connect();
 
 import { Topic } from "./models/topic.model";
+import { routesClient } from "./routes/client/index.route";
 
 const app: Express = express();
 const port: number = 3000;
@@ -15,14 +16,9 @@ app.set("views", `${__dirname}/views`);
 // add view template engine
 app.set("view engine", "pug");
 
-app.get("/topics", async (req: Request, res: Response) => {
-  const topics = await Topic.find({
-    deleted: false,
-  });
-  console.log(topics);
+routesClient(app);
 
-  res.render("client/pages/topics/index");
-});
+
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
