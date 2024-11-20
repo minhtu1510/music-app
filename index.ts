@@ -16,6 +16,8 @@ app.set("views", `${__dirname}/views`);
 // add view template engine
 app.set("view engine", "pug");
 
+app.use(express.static(`${__dirname}/public`)); // Thiết lập thư mục chứa file tĩnh
+
 routesClient(app);
 
 
