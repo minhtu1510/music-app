@@ -32,3 +32,33 @@ export const index = async (req: Request, res: Response) => {
     songs: songs,
   });
 };
+
+export const detail = async (req: Request, res: Response) => {
+  const slugSong: string = req.params.slugSong;
+
+  const song = await Song.findOne({
+    slug: slugSong,
+    deleted: false,
+    status: "active",
+  });
+
+  const singer = await Singer.findOne({
+    _id: song.singerId,
+    deleted: false,
+    status: "active",
+  });
+
+  const topic = await Topic.findOne({
+    _id: song.topicId,
+    deleted: false,
+    status: "active",
+  });
+  console.log(song);
+
+  res.render("client/pages/songs/detail", {
+    pageTitle: "Chi tiết bài hát",
+    song: song,
+    topic: topic,
+    singer: singer,
+  });
+};
