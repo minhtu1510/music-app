@@ -124,11 +124,17 @@
     font-size: 16px;
     margin-right: 5px;
   }
-  .singer-detail .inner-actions .inner-like {
+  .singer-detail .inner-actions .inner-like  {
     cursor: pointer;
   }
   .singer-detail .inner-actions .inner-like i {
     color: #0059ff;
+  }
+  .singer-detail .inner-actions .inner-like.active {
+    color: #0059ff;
+  }
+  .singer-detail .inner-actions .inner-like.active i {
+    font-weight: 900;
   }
   .singer-detail .inner-actions .inner-heart {
     cursor: pointer;

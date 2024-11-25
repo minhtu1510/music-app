@@ -53,7 +53,6 @@ export const detail = async (req: Request, res: Response) => {
     deleted: false,
     status: "active",
   });
-  console.log(song);
 
   res.render("client/pages/songs/detail", {
     pageTitle: "Chi tiết bài hát",
@@ -61,4 +60,46 @@ export const detail = async (req: Request, res: Response) => {
     topic: topic,
     singer: singer,
   });
+};
+
+export const likePatch = async (req: Request, res: Response) => {
+  const { id, status } = req.body;
+  const song = await Song.findOne({
+    _id: id,
+    deleted: false,
+    status: "active",
+  });
+  if (song) {
+    let updateLike = song.like;
+    switch (status) {
+      case "like":
+        updateLike++;
+        break;
+      case "dislike":
+        updateLike--;
+        break;
+
+      default:
+        break;
+    }
+    await Song.updateOne(
+      {
+        _id: id,
+        deleted: false,
+        status: "active",
+      },
+      {
+        like: updateLike,
+      }
+    );
+
+    res.json({
+      code: "success",
+      like: updateLike,
+    });
+  } else {
+    res.json({
+      code: "error",
+    });
+  }
 };
