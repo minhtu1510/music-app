@@ -13,6 +13,8 @@ router.patch("/favorite", controller.favoritePatch);
 
 router.get("/favorite", controller.favorite);
 
+router.get("/search/result", controller.search);
+
 router.get("/:slugTopic", controller.index);
 
 export const songsRoute = router;
