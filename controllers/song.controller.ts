@@ -159,3 +159,23 @@ export const favoritePatch = async (req: Request, res: Response) => {
     // }
   }
 };
+
+export const favorite = async (req: Request, res: Response) => {
+  const songs = await FavoriteSong.find({});
+  for (const song of songs) {
+    const infoSong = await Song.findOne({
+      _id: song.songId,
+    });
+    const infoSinger = await Singer.findOne({
+      _id: infoSong.singerId,
+    });
+    song["title"] = infoSong.title;
+    song["avatar"] = infoSong.avatar;
+    song["singerFullName"] = infoSinger.fullName;
+    song["slug"] = infoSong.slug;
+  }
+  res.render("client/pages/songs/favorite", {
+    pageTitle: "Bài hát yêu thích",
+    songs: songs,
+  });
+};

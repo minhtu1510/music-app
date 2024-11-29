@@ -63,34 +63,35 @@ if(buttonLike){
 //Hết tính năng like
 
 //Tính năng yêu thích
-const buttonFavorite = document.querySelector("[button-favorite]")
-if(buttonFavorite){
-  buttonFavorite.addEventListener("click",()=>{
-    const id = buttonFavorite.getAttribute("button-favorite")
-    buttonFavorite.classList.toggle("active")
+const listbuttonFavorite = document.querySelectorAll("[button-favorite]");
+if (listbuttonFavorite.length > 0) {
+  listbuttonFavorite.forEach((buttonFavorite) => {
+    buttonFavorite.addEventListener("click", () => {
+      const id = buttonFavorite.getAttribute("button-favorite");
+      buttonFavorite.classList.toggle("active");
 
-    // const dataLike = {
-    //   id:id,
-    //   status:status
-    // }
+      // const dataLike = {
+      //   id:id,
+      //   status:status
+      // }
 
-    fetch("/songs/favorite",{
-      method:"PATCH",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        id:id
+      fetch("/songs/favorite", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id,
+        }),
       })
-    })
-      .then(res=>res.json())
-      .then(data=>{
-        if(data.code=="success"){
-          console.log("Đã thêm bài hát vào danh sách yêu thích")
-        }
-      })
-
-  })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.code == "success") {
+            console.log("Đã thêm bài hát vào danh sách yêu thích");
+          }
+        });
+    });
+  });
 }
 //Hết tính năng yêu thích
 
