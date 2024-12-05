@@ -5,6 +5,7 @@ import { Singer } from "../models/singer.model";
 import { FavoriteSong } from "../models/favorite-song.model";
 import { existsSync } from "fs";
 import unidecode from "unidecode";
+import { title } from "process";
 
 export const index = async (req: Request, res: Response) => {
   const slugTopic: string = req.params.slugTopic;
@@ -182,11 +183,15 @@ export const favorite = async (req: Request, res: Response) => {
 };
 
 export const search = async (req: Request, res: Response) => {
+  const type = req.params.type;
   const keyword = `${req.query.keyword}`;
   let keywordRegex = keyword.trim();
   keywordRegex = keywordRegex.replace(/\s+/g, "-");
   keywordRegex = unidecode(keywordRegex);
   const slugRegex = new RegExp(keywordRegex, "i");
+
+  const songsFinal = [];
+
   const songs = await Song.find({
     slug: slugRegex,
   }).select("slug avatar title like singerId");
@@ -197,11 +202,27 @@ export const search = async (req: Request, res: Response) => {
       deleted: false,
     });
     song["singerFullName"] = infoSinger ? infoSinger.fullName : "";
+
+    songsFinal.push({
+      id: song.id,
+      slug: song.slug,
+      avatar: song.avatar,
+      title: song.title,
+      like: song.like,
+      singerId: song.singerId,
+      singerFullName: song["singerFullName"],
+    });
   }
 
-  res.render("client/pages/songs/search", {
-    pageTitle: `Kết quả tìm kiếm :${keyword}`,
-    keyword: keyword,
-    songs: songs,
-  });
+  if (type == "result") {
+    res.render("client/pages/songs/search", {
+      pageTitle: `Kết quả tìm kiếm :${keyword}`,
+      keyword: keyword,
+      songs: songs,
+    });
+  } else if (type == "suggest") {
+    res.json({
+      songs: songsFinal,
+    });
+  }
 };

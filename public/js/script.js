@@ -95,4 +95,40 @@ if (listbuttonFavorite.length > 0) {
 }
 //Hết tính năng yêu thích
 
+//Gợi ý tìm kiếm  
+const boxSearch = document.querySelector(".box-search")
+if(boxSearch){
+  const input = boxSearch.querySelector(`input[name="keyword"]`)
+  const innerSuggest = boxSearch.querySelector(".inner-suggest")
+  const innerList = boxSearch.querySelector(".inner-list")
+  input.addEventListener("keyup",()=>{
+    const keyword = input.value
+
+    fetch(`/songs/search/suggest?keyword=${keyword}`)
+    .then(res=>res.json())
+    .then(data=>{ 
+      if(data.songs.length>0){
+        const htmls = data.songs.map(item=>`
+          <a class="inner-item" href="/songs/detail/${item.slug}">
+          <div class="inner-image">
+            <img src="${item.avatar}">
+          </div>
+          <div class="inner-info">
+            <div class="inner-title">${item.title}</div>
+            <div class="inner-singer">
+              <i class="fa-solid fa-microphone-lines"></i> ${item.singerFullName}
+            </div>
+          </div>
+        </a> 
+          `);
+          innerSuggest.classList.add("show")
+          innerList.innerHTML=htmls.join("")
+      }else{
+        innerSuggest.classList.remove("show")
+        innerList.innerHTML=""
+      }
+    })
+  })
+}
+//Hết gợi ý tìm kiếm
 
