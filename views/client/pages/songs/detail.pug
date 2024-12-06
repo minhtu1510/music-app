@@ -17,6 +17,10 @@ block main
               <i class="fa-regular fa-thumbs-up"></i> 
               <span style="margin-right:2px;">#{song.like}</span> 
               | thích
+            div(class="inner-action inner-listen")
+              <i class="fa-solid fa-headphones"></i>
+              <span style="margin-right: 2px;">#{song.listen}</span>
+              | lượt nghe
             div(class="inner-action inner-heart" +(song.favorite ? "active":"")
             button-favorite=song.id)
               <i class="fa-regular fa-heart"></i> Bài hát yêu thích

@@ -226,3 +226,29 @@ export const search = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const listenPatch = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const song = await Song.findOne({
+    _id: id,
+    deleted: false,
+    status: "active",
+  });
+
+  await Song.updateOne(
+    {
+      _id: id,
+      deleted: false,
+      status: "active",
+    },
+    {
+      listen: song.listen + 1,
+    }
+  );
+
+  res.json({
+    code: "success",
+    listen: song.listen + 1,
+  });
+};
