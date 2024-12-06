@@ -8,6 +8,9 @@ connect();
 
 import { Topic } from "./models/topic.model";
 import { routesClient } from "./routes/client/index.route";
+import { routesAdmin } from "./routes/admin/index.route";
+import { systemConfig } from "./config/system";
+import path from "path";
 
 const app: Express = express();
 const port: number = 3000;
@@ -23,7 +26,17 @@ app.use(express.static(`${__dirname}/public`)); // Thiết lập thư mục ch�
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+
+// App Local Variables
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
+// TinyMCE
+app.use(
+  "/tinymce",
+  express.static(path.join(__dirname, "node_modules", "tinymce"))
+);
+
 routesClient(app);
+routesAdmin(app);
 
 
 
