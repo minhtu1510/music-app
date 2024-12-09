@@ -30,7 +30,8 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const createPost = async (req: Request, res: Response) => {
-  console.log(req.body);
+  req.body.avatar = req.body.avatar[0];
+  req.body.audio = req.body.audio[0];
   const song = new Song(req.body);
   await song.save();
   res.redirect(`/${systemConfig.prefixAdmin}/songs`);
