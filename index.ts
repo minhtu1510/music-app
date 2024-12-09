@@ -10,6 +10,7 @@ import { Topic } from "./models/topic.model";
 import { routesClient } from "./routes/client/index.route";
 import { routesAdmin } from "./routes/admin/index.route";
 import { systemConfig } from "./config/system";
+import methodOverride from "method-override";
 import path from "path";
 
 const app: Express = express();
@@ -34,6 +35,8 @@ app.use(
   "/tinymce",
   express.static(path.join(__dirname, "node_modules", "tinymce"))
 );
+
+app.use(methodOverride("_method"));
 
 routesClient(app);
 routesAdmin(app);
