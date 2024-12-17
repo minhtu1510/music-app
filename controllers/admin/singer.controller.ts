@@ -53,3 +53,39 @@ export const index = async (req: Request, res: Response) => {
     limit: limitSingers,
   });
 };
+
+export const changeStatus = async (req: Request, res: Response) => {
+  const id = req.body.id;
+  const status = req.body.status;
+  await Singer.updateOne(
+    {
+      _id: id,
+    },
+    {
+      status: status,
+    }
+  );
+
+  res.json({
+    code: "success",
+    message: "Đổi trạng thái thành công",
+  });
+};
+
+export const changeMulti = async (req: Request, res: Response) => {
+  const ids = req.body.ids;
+  const status = req.body.status;
+  await Singer.updateMany(
+    {
+      _id: ids,
+    },
+    {
+      status: status,
+    }
+  );
+
+  res.json({
+    code: "success",
+    message: "Đổi trạng thái thành công",
+  });
+};

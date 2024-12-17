@@ -26,6 +26,21 @@ block main
 
       .card-header Danh sách
       .card-body
+        .row.mb-3
+          .col-6
+            form(
+              form-change-multi
+              data-path=`/${prefixAdmin}/singers/change-multi`
+            )
+              .input-group
+                select(name="status" class="form-control")
+                  option(value="active") Hoạt động
+                  option(value="inactive") Dừng hoạt động
+                .input-group-append
+                  button(
+                    class="btn btn-success"
+                    type="submit"
+                  ) Áp dụng
         .row
           .col-8
             
@@ -39,6 +54,7 @@ block main
         )
           thead
             tr
+              th
               th STT
               th Hình ảnh
               th Tên ca sĩ
@@ -50,6 +66,11 @@ block main
           tbody
             each item, index in singers
               tr 
+                td
+                  input(
+                    type="checkbox"
+                    input-change=item.id
+                  )
                 td #{index+limit*(currentPage-1)+1}
                 td
                   img(
@@ -64,14 +85,18 @@ block main
                 //- td Dữ liệu vị trí
                 td
                   if (item.status === "active")
-                    a(
-                      href="javascript:;"
+                    button(
                       class="badge badge-success"
+                      item-id=item.id
+                      button-change-status="inactive"
+                      data-path=`/${prefixAdmin}/singers/change-status`
                     ) Hoạt động
                   else
-                    a(
-                      href="javascript:;"
+                    button(
                       class="badge badge-danger"
+                      item-id=item.id
+                      button-change-status="active"
+                      data-path=`/${prefixAdmin}/singers/change-status`
                     ) Dừng hoạt động
                 td
                   a(
