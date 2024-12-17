@@ -117,3 +117,38 @@ export const editPatch = async (req: Request, res: Response) => {
   res.redirect("back");
 };
 
+export const changeStatus = async (req: Request, res: Response) => {
+  const id = req.body.id;
+  const status = req.body.status;
+  await Song.updateOne(
+    {
+      _id: id,
+    },
+    {
+      status: status,
+    }
+  );
+
+  res.json({
+    code: "success",
+    message: "Đổi trạng thái thành công",
+  });
+};
+
+export const changeMulti = async (req: Request, res: Response) => {
+  const ids = req.body.ids;
+  const status = req.body.status;
+  await Song.updateMany(
+    {
+      _id: ids,
+    },
+    {
+      status: status,
+    }
+  );
+
+  res.json({
+    code: "success",
+    message: "Đổi trạng thái thành công",
+  });
+};
