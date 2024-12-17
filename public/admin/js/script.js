@@ -168,3 +168,65 @@ if(formChangeMulti) {
   
 }
 // Hết Đổi trạng thái nhiều bản ghi
+
+// Xóa bản ghi vĩnh viễn
+const listButtonDeleteRubbish = document.querySelectorAll("[button-delete-rubbish]");
+if(listButtonDeleteRubbish.length > 0) {
+  listButtonDeleteRubbish.forEach(button => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm("Bạn có chắc muốn xóa bản ghi này?");
+      if(isConfirm) {
+        const id = button.getAttribute("item-id");
+        const path = button.getAttribute("data-path");
+  
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "DELETE",
+          body: JSON.stringify({
+            id: id
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if(data.code == "success") {
+              location.reload();
+            }
+          })
+      }
+    })
+  })
+}
+// Hết Xóa bản ghi vĩnh viễn
+
+// Xóa bản ghi tạm
+const listButtonDelete = document.querySelectorAll("[button-delete]");
+if(listButtonDelete.length > 0) {
+  listButtonDelete.forEach(button => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm("Bạn có chắc muốn xóa bản ghi này?");
+      if(isConfirm) {
+        const id = button.getAttribute("item-id");
+        const path = button.getAttribute("data-path");
+  
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PATCH",
+          body: JSON.stringify({
+            id: id
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if(data.code == "success") {
+              location.reload();
+            }
+          })
+      }
+    })
+  })
+}
+// Hết Xóa bản ghi tạm

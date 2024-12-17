@@ -124,3 +124,24 @@ export const createPost = async (req: Request, res: Response) => {
   await topic.save();
   res.redirect(`/${systemConfig.prefixAdmin}/topics`);
 };
+
+export const deletee = async (req: Request, res: Response) => {
+  await Topic.deleteOne({
+    _id: req.body.id,
+  });
+};
+
+export const deletePatch = async (req: Request, res: Response) => {
+  await Topic.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      deleted: true,
+    }
+  );
+  res.json({
+    code: "success",
+    message: "Xóa thành công !!!",
+  });
+};

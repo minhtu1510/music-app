@@ -7,6 +7,8 @@ const upload = multer();
 router.get("/", controller.index);
 router.patch("/change-status", controller.changeStatus);
 router.patch("/change-multi", controller.changeMulti);
+router.patch("/delete", controller.deletePatch);
+router.delete("/delete", controller.deletee);
 router.get("/edit/:id", controller.edit);
 router.patch(
   "/edit/:id",
@@ -21,4 +23,6 @@ router.post(
   uploadSingle,
   controller.createPost
 );
+
+
 export const singerRoute = router;

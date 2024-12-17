@@ -152,3 +152,24 @@ export const changeMulti = async (req: Request, res: Response) => {
     message: "Đổi trạng thái thành công",
   });
 };
+
+export const deletee = async (req: Request, res: Response) => {
+  await Song.deleteOne({
+    _id: req.body.id,
+  });
+};
+
+export const deletePatch = async (req: Request, res: Response) => {
+  await Song.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      deleted: true,
+    }
+  );
+  res.json({
+    code: "success",
+    message: "Xóa thành công !!!",
+  });
+};

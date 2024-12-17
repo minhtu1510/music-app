@@ -106,8 +106,9 @@ block main
                   ) Sửa
                   button(
                     class="btn btn-danger btn-sm ml-1"
+                    item-id=item.id
                     button-delete
-                    data-id=item.id
+                    data-path=`/${prefixAdmin}/songs/delete`
                   ) Xóa
 
   nav(class="mt-3")

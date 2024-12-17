@@ -127,3 +127,24 @@ export const createPost = async (req: Request, res: Response) => {
   await singer.save();
   res.redirect(`/${systemConfig.prefixAdmin}/singers`);
 };
+
+export const deletee = async (req: Request, res: Response) => {
+  await Singer.deleteOne({
+    _id: req.body.id,
+  });
+};
+
+export const deletePatch = async (req: Request, res: Response) => {
+  await Singer.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      deleted: true,
+    }
+  );
+  res.json({
+    code: "success",
+    message: "Xóa thành công !!!",
+  });
+};
