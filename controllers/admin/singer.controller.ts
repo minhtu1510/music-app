@@ -89,3 +89,32 @@ export const changeMulti = async (req: Request, res: Response) => {
     message: "Đổi trạng thái thành công",
   });
 };
+
+export const edit = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const singer = await Singer.findOne({
+    _id: id,
+    deleted: false,
+  });
+
+  res.render("admin/pages/singers/edit", {
+    pageTitle: "Chỉnh sửa ca sĩ",
+    singer: singer,
+  });
+};
+
+export const editPatch = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  if (req.body.avatar) {
+    req.body.avatar = req.body.avatar[0];
+  }
+
+  await Singer.updateOne(
+    {
+      _id: id,
+    },
+    req.body
+  );
+  res.redirect("back");
+};

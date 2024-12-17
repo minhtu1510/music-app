@@ -85,3 +85,32 @@ export const changeMulti = async (req: Request, res: Response) => {
     message: "Đổi trạng thái thành công",
   });
 };
+
+export const edit = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const topic = await Topic.findOne({
+    _id: id,
+    deleted: false,
+  });
+
+  res.render("admin/pages/topics/edit", {
+    pageTitle: "Chỉnh sửa chủ đề",
+    topic: topic,
+  });
+};
+
+export const editPatch = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  if (req.body.avatar) {
+    req.body.avatar = req.body.avatar[0];
+  }
+
+  await Topic.updateOne(
+    {
+      _id: id,
+    },
+    req.body
+  );
+  res.redirect("back");
+};
