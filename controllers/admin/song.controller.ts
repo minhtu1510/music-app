@@ -29,11 +29,28 @@ export const index = async (req: Request, res: Response) => {
 
   //Hết tìm kiếm
 
-  const songs = await Song.find(find);
+  // Phân trang
+  let limitSongs = 4;
+  let page = 1;
+  if (req.query.page) {
+    page = parseInt(`${req.query.page}`);
+  }
+  //   if (req.query.limit) {
+  //     limitSingers = parseInt(`${req.query.limit}`);
+  //   }
+  const skip = (page - 1) * limitSongs;
+  const totalSong = await Song.countDocuments(find);
+  const totalPage = Math.ceil(totalSong / limitSongs);
+  // Hết Phân trang
+
+  const songs = await Song.find(find).limit(limitSongs).skip(skip);
 
   res.render("admin/pages/songs/index", {
     pageTitle: "Quản lý bài hát",
     songs: songs,
+    totalPage: totalPage,
+    currentPage: page,
+    limit: limitSongs,
   });
 };
 export const create = async (req: Request, res: Response) => {

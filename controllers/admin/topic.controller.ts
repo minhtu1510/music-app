@@ -26,9 +26,26 @@ export const index = async (req: Request, res: Response) => {
 
   //Hết tìm kiếm
 
-  const topics = await Topic.find(find);
+  // Phân trang
+  let limitTopics = 4;
+  let page = 1;
+  if (req.query.page) {
+    page = parseInt(`${req.query.page}`);
+  }
+  //   if (req.query.limit) {
+  //     limitSingers = parseInt(`${req.query.limit}`);
+  //   }
+  const skip = (page - 1) * limitTopics;
+  const totalTopic = await Topic.countDocuments(find);
+  const totalPage = Math.ceil(totalTopic / limitTopics);
+  // Hết Phân trang
+
+  const topics = await Topic.find(find).limit(limitTopics).skip(skip);
   res.render("admin/pages/topics/index", {
     pageTitle: "Quản lý chủ đề",
     topics: topics,
+    totalPage: totalPage,
+    currentPage: page,
+    limit: limitTopics,
   });
 };

@@ -30,10 +30,26 @@ export const index = async (req: Request, res: Response) => {
 
   //Hết tìm kiếm
 
-  const singers = await Singer.find(find);
+  // Phân trang
+  let limitSingers = 4;
+  let page = 1;
+  if (req.query.page) {
+    page = parseInt(`${req.query.page}`);
+  }
+  //   if (req.query.limit) {
+  //     limitSingers = parseInt(`${req.query.limit}`);
+  //   }
+  const skip = (page - 1) * limitSingers;
+  const totalSinger = await Singer.countDocuments(find);
+  const totalPage = Math.ceil(totalSinger / limitSingers);
+  // Hết Phân trang
+  const singers = await Singer.find(find).limit(limitSingers).skip(skip);
 
   res.render("admin/pages/singers/index", {
     pageTitle: "Quản lý ca sĩ",
     singers: singers,
+    totalPage: totalPage,
+    currentPage: page,
+    limit: limitSingers,
   });
 };
