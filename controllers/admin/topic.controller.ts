@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Topic } from "../../models/topic.model";
 import unidecode from "unidecode";
+import { systemConfig } from "../../config/system";
 export const index = async (req: Request, res: Response) => {
   const find: Record<string, any> = {
     deleted: false,
@@ -102,9 +103,6 @@ export const edit = async (req: Request, res: Response) => {
 
 export const editPatch = async (req: Request, res: Response) => {
   const id = req.params.id;
-  if (req.body.avatar) {
-    req.body.avatar = req.body.avatar[0];
-  }
 
   await Topic.updateOne(
     {
@@ -113,4 +111,16 @@ export const editPatch = async (req: Request, res: Response) => {
     req.body
   );
   res.redirect("back");
+};
+
+export const create = async (req: Request, res: Response) => {
+  res.render("admin/pages/topics/create", {
+    pageTitle: "Thêm mới chủ đề",
+  });
+};
+
+export const createPost = async (req: Request, res: Response) => {
+  const topic = new Topic(req.body);
+  await topic.save();
+  res.redirect(`/${systemConfig.prefixAdmin}/topics`);
 };

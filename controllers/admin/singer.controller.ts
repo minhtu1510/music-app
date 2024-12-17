@@ -106,9 +106,6 @@ export const edit = async (req: Request, res: Response) => {
 
 export const editPatch = async (req: Request, res: Response) => {
   const id = req.params.id;
-  if (req.body.avatar) {
-    req.body.avatar = req.body.avatar[0];
-  }
 
   await Singer.updateOne(
     {
@@ -117,4 +114,16 @@ export const editPatch = async (req: Request, res: Response) => {
     req.body
   );
   res.redirect("back");
+};
+
+export const create = async (req: Request, res: Response) => {
+  res.render("admin/pages/singers/create", {
+    pageTitle: "Thêm mới ca sĩ",
+  });
+};
+
+export const createPost = async (req: Request, res: Response) => {
+  const singer = new Singer(req.body);
+  await singer.save();
+  res.redirect(`/${systemConfig.prefixAdmin}/singers`);
 };

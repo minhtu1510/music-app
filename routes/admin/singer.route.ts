@@ -14,4 +14,11 @@ router.patch(
   uploadSingle,
   controller.editPatch
 );
+router.get("/create", controller.create);
+router.post(
+  "/create",
+  upload.single("avatar"),
+  uploadSingle,
+  controller.createPost
+);
 export const singerRoute = router;
