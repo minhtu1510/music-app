@@ -74,6 +74,7 @@ export const createPost = async (req: Request, res: Response) => {
   req.body.audio = req.body.audio[0];
   const song = new Song(req.body);
   await song.save();
+  req.flash("success", "Tạo thành công!");
   res.redirect(`/${systemConfig.prefixAdmin}/songs`);
 };
 
@@ -114,6 +115,7 @@ export const editPatch = async (req: Request, res: Response) => {
     },
     req.body
   );
+  req.flash("success", "Cập nhật thành công!");
   res.redirect("back");
 };
 
@@ -128,7 +130,7 @@ export const changeStatus = async (req: Request, res: Response) => {
       status: status,
     }
   );
-
+  req.flash("success", "Đổi trạng thái thành công!");
   res.json({
     code: "success",
     message: "Đổi trạng thái thành công",
@@ -146,7 +148,7 @@ export const changeMulti = async (req: Request, res: Response) => {
       status: status,
     }
   );
-
+  req.flash("success", "Đổi trạng thái thành công!");
   res.json({
     code: "success",
     message: "Đổi trạng thái thành công",
@@ -168,6 +170,7 @@ export const deletePatch = async (req: Request, res: Response) => {
       deleted: true,
     }
   );
+  req.flash("success", "Xóa thành công!");
   res.json({
     code: "success",
     message: "Xóa thành công !!!",

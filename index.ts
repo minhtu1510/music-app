@@ -1,6 +1,9 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import flash from "connect-flash";
+import cookieParser from "cookie-parser";
+import session from "express-session";
 dotenv.config();
 
 import { connect } from "./config/database";
@@ -36,6 +39,31 @@ app.use(
   "/tinymce",
   express.static(path.join(__dirname, "node_modules", "tinymce"))
 );
+// Flash
+// app.get("/", (req, res) => {
+//   res.render("admin/layouts/default", {
+//     messages: req.flash(), // Truyền tất cả thông báo flash vào template
+//   });
+// });
+app.use(cookieParser("JKSLSF"));
+// Cấu hình session với cookie
+app.use(
+  session({
+    secret: "ABCD", // Khóa bí mật cho mã hóa session
+    resave: false, // Không lưu lại session nếu không thay đổi
+    saveUninitialized: true, // Lưu session mới nếu chưa khởi tạo
+    cookie: {
+      maxAge: 60000, // Thời gian sống của cookie (1 phút)
+      secure: false, // Đặt true nếu chạy trên HTTPS
+    },
+  })
+);
+app.use(flash());
+// Middleware thêm flash messages vào locals (để Pug sử dụng)
+app.use((req, res, next) => {
+  res.locals.messages = req.flash();
+  next();
+});
 
 app.use(methodOverride("_method"));
 
