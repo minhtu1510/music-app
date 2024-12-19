@@ -176,3 +176,22 @@ export const deletePatch = async (req: Request, res: Response) => {
     message: "Xóa thành công !!!",
   });
 };
+
+export const detail = async (req: Request, res: Response) => {
+  const song = await Song.findOne({
+    _id: req.params.id,
+  });
+  const singer = await Singer.findOne({
+    _id: song.singerId,
+  });
+  const topic = await Topic.findOne({
+    _id: song.topicId,
+  });
+
+  res.render("admin/pages/songs/detail", {
+    pageTitle: "Chi tiết bài hát",
+    song: song,
+    topic: topic,
+    singer: singer,
+  });
+};

@@ -150,3 +150,14 @@ export const deletePatch = async (req: Request, res: Response) => {
     code: "success",
   });
 };
+
+export const detail = async (req: Request, res: Response) => {
+  const singer = await Singer.findOne({
+    _id: req.params.id,
+  });
+
+  res.render("admin/pages/singers/detail", {
+    pageTitle: "Chi tiết ca sĩ",
+    singer: singer,
+  });
+};

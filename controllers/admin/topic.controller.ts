@@ -149,3 +149,14 @@ export const deletePatch = async (req: Request, res: Response) => {
     message: "Xóa thành công !!!",
   });
 };
+
+export const detail = async (req: Request, res: Response) => {
+  const topic = await Topic.findOne({
+    _id: req.params.id,
+  });
+
+  res.render("admin/pages/topics/detail", {
+    pageTitle: "Chi tiết ca sĩ",
+    topic: topic,
+  });
+};
