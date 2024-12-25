@@ -17,6 +17,8 @@ router.post(
   controller.createPost
 );
 router.get("/detail/:id", controller.detail);
+router.get("/change-password/:id", controller.changePassword);
+router.patch("/change-password/:id", controller.changePasswordPatch);
 router.get("/edit/:id", controller.edit);
 router.patch(
   "/edit/:id",
