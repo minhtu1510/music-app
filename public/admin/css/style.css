@@ -98,3 +98,11 @@
   z-index: 9999;
 }
 /* End alert-message */
+
+.forbidden{
+  color: red;
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 700;
+}

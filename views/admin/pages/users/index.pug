@@ -1,8 +1,8 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-filter.pug
 block main
-    -if(role.permissions.includes("accounts_view"))
-        h1(class="mb-4") Danh sách tài khoản quản trị
+    -if(role.permissions.includes("users_view"))
+        h1(class="mb-4") Danh sách tài khoản người dùng
         .card.mb-3
             .card-header Bộ lọc và Tìm kiếm
             .card-body
@@ -30,7 +30,7 @@ block main
                 .col-6
                     form(
                     form-change-multi
-                    data-path=`/${prefixAdmin}/accounts/change-multi`
+                    data-path=`/${prefixAdmin}/users/change-multi`
                     )
                     .input-group
                         select(name="status" class="form-control")
@@ -46,7 +46,7 @@ block main
 
                 .col-4.text-right
                     a(
-                        href=`/${prefixAdmin}/accounts/create`
+                        href=`/${prefixAdmin}/users/create`
                         class="btn btn-outline-success"
                     ) + Thêm mới
 
@@ -59,7 +59,7 @@ block main
                     th STT
                     th Avatar
                     th Họ tên
-                    th Nhóm quyền
+                    th Loại tài khoản
                     th Email
                     th Trạng thái
                     th Hành động
@@ -80,7 +80,21 @@ block main
                         height="auto"
                         )
                     td #{item.fullName}
-                    td #{item.role_title}
+                    td
+                        if (item.type_user === "basic")
+                            button(
+                            class="badge badge-success"
+                            item-id=item.id
+                            button-change-type="premium"
+                            data-path=`/${prefixAdmin}/users/change-type`
+                            ) Cơ bản
+                        else
+                            button(
+                            class="badge badge-danger"
+                            item-id=item.id
+                            button-change-type="basic"
+                            data-path=`/${prefixAdmin}/users/change-type`
+                            ) Nâng cao
                     td #{item.email}
                     td
                         if (item.status === "active")
@@ -88,33 +102,33 @@ block main
                             class="badge badge-success"
                             item-id=item.id
                             button-change-status="inactive"
-                            data-path=`/${prefixAdmin}/accounts/change-status`
+                            data-path=`/${prefixAdmin}/users/change-status`
                             ) Hoạt động
                         else
                             button(
                             class="badge badge-danger"
                             item-id=item.id
                             button-change-status="active"
-                            data-path=`/${prefixAdmin}/accounts/change-status`
+                            data-path=`/${prefixAdmin}/users/change-status`
                             ) Dừng hoạt động
                     td
                         a(
                         class="btn btn-secondary btn-sm"
-                        href=`/${prefixAdmin}/accounts/detail/${item.id}`
+                        href=`/${prefixAdmin}/users/detail/${item.id}`
                         ) Chi tiết
                         a(
                         class="btn btn-warning btn-sm ml-1"
-                        href=`/${prefixAdmin}/accounts/edit/${item.id}`
+                        href=`/${prefixAdmin}/users/edit/${item.id}`
                         ) Sửa
                         a(
                         class="btn btn-info btn-sm ml-1"
-                        href=`/${prefixAdmin}/accounts/change-password/${item.id}`
+                        href=`/${prefixAdmin}/users/change-password/${item.id}`
                         ) Đổi mật khẩu
                         button(
                             class="btn btn-danger btn-sm ml-1"
                             item-id=item.id
                             button-delete
-                            data-path=`/${prefixAdmin}/accounts/delete`
+                            data-path=`/${prefixAdmin}/users/delete`
                         ) Xóa
 
         nav(class="mt-3")

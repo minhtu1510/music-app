@@ -6,15 +6,20 @@ import { uploadRoute } from "./upload.route";
 import { singerRoute } from "./singer.route";
 import { roleRoute } from "./role.route";
 import { accountRoute } from "./account.route";
+import { authRoute } from "./auth.route";
+import { userRoute } from "./user.route";
 import { systemConfig } from "../../config/system";
+import { requireAuth } from "../../middlewares/admin/auth.middleware";
 export const routesAdmin = (app: Express) => {
   const path = systemConfig.prefixAdmin;
-  app.use(`/${path}/dashboard`, dashboardRoute);
-  app.use(`/${path}/topics`, topicRoute);
-  app.use(`/${path}/songs`, songRoute);
-  app.use(`/${path}/singers`, singerRoute);
-  app.use(`/${path}/roles`, roleRoute);
-  app.use(`/${path}/accounts`, accountRoute);
+  app.use(`/${path}/dashboard`, requireAuth, dashboardRoute);
+  app.use(`/${path}/topics`, requireAuth, topicRoute);
+  app.use(`/${path}/songs`, requireAuth, songRoute);
+  app.use(`/${path}/singers`, requireAuth, singerRoute);
+  app.use(`/${path}/roles`, requireAuth, roleRoute);
+  app.use(`/${path}/accounts`, requireAuth, accountRoute);
+  app.use(`/${path}/users`, requireAuth, userRoute);
+  app.use(`/${path}/auth`, authRoute);
   app.use(`/${path}/upload`, uploadRoute);
 };
 

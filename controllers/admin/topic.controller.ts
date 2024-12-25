@@ -122,10 +122,16 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const createPost = async (req: Request, res: Response) => {
-  const topic = new Topic(req.body);
-  await topic.save();
-  req.flash("success", "Tạo thành công!");
+  if (res.locals.role.permissions.includes("topics_create")) {
+    const topic = new Topic(req.body);
+    await topic.save();
+    req.flash("success", "Tạo thành công!");
+    res.redirect(`/${systemConfig.prefixAdmin}/topics`);
+    return;
+  }
+  req.flash("error", "Không có quyền tạo mới");
   res.redirect(`/${systemConfig.prefixAdmin}/topics`);
+
 };
 
 export const deletee = async (req: Request, res: Response) => {

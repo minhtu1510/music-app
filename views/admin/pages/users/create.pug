@@ -1,9 +1,9 @@
 extends ../../layouts/default.pug
 block main
-  -if(role.permissions.includes("accounts_create"))
+  -if(role.permissions.includes("users_create"))
     h1(class="mb-4") #{pageTitle}
     form(
-      action=`/${prefixAdmin}/accounts/create`
+      action=`/${prefixAdmin}/users/create`
       method="POST"
       enctype="multipart/form-data"
     )
@@ -61,11 +61,11 @@ block main
           upload-image-preview
         )
       div(class="form-group")
-        label(for="role_id") Nhóm quyền
-        select(name="role_id" id="role_id" class="form-control")
+        label(for="type_user") Loại tài khoản
+        select(name="type_user" id="type_user" class="form-control")
           option(disabled) -- Chọn --
-          each role in roles
-            option(value=role.id) #{role.title}
+            option(value="basic") Cơ bản 
+            option(value="premium") Nâng cao
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"

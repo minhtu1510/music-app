@@ -287,3 +287,33 @@ if(tablePermissions) {
   });
 }
 // Hết Phân quyền
+
+// Đổi loại tài khoản
+const listButtonChangeType = document.querySelectorAll("[button-change-type]");
+if(listButtonChangeType.length > 0) {
+  listButtonChangeType.forEach(button => {
+    button.addEventListener("click", () => {
+      const itemId = button.getAttribute("item-id");
+      const typeChange = button.getAttribute("button-change-type");
+      const path = button.getAttribute("data-path");
+      const data = {
+        id: itemId,
+        type_user: typeChange
+      };
+      fetch(path, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "success") {
+            location.reload();
+          }
+        })
+    })
+  })
+}
+// Hết Đổi loại tài khoản
