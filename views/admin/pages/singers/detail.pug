@@ -22,20 +22,12 @@ block main
         upload-image
       )
         label(for="avatar") Ảnh
-        input(
-          type="file"
-          class="form-control-file"
-          id="avatar"
-          name="avatar"
-          accept="image/*"
-          upload-image-input
-          disabled
-        )
-        img(
-          src=singer.avatar
-          class="image-preview"
-          upload-image-preview
-        )
+          br
+          img(
+            src=singer.avatar
+            class="image-preview"
+            upload-image-preview
+          )
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
@@ -58,3 +50,8 @@ block main
           disabled
         )
         label(for="statusInActive" class="form-check-label") Dừng hoạt động
+      br
+      a(
+          class="btn btn-primary"
+          href=`/${prefixAdmin}/singers`
+        ) Trở về

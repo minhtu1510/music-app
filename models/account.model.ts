@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
-const singerSchema = new mongoose.Schema(
+const accountSchema = new mongoose.Schema(
   {
     fullName: String,
+    email: String,
+    password: String,
+    token: String,
+    phone: String,
     avatar: String,
+    role_id: String,
     status: String,
+    role_title: String,
     slug: {
       type: String,
       slug: "fullName",
@@ -19,4 +25,4 @@ const singerSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-export const Singer = mongoose.model("Singer", singerSchema, "singers");
+export const Account = mongoose.model("Account", accountSchema, "accounts");
