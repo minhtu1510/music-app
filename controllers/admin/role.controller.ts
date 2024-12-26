@@ -17,9 +17,11 @@ export const create = async (req, res) => {
   });
 };
 export const createPost = async (req, res) => {
-  const role = new Role(req.body);
-  await role.save();
-  res.redirect(`/${systemConfig.prefixAdmin}/roles`);
+  if (res.locals.role.permissions.includes("roles_create")) {
+    const role = new Role(req.body);
+    await role.save();
+    res.redirect(`/${systemConfig.prefixAdmin}/roles`);
+  }
 };
 
 export const edit = async (req, res) => {
@@ -34,15 +36,17 @@ export const edit = async (req, res) => {
   });
 };
 export const editPatch = async (req, res) => {
-  const id = req.params.id;
-  await Role.updateOne(
-    {
-      _id: id,
-    },
-    req.body
-  );
-  req.flash("success", "Cập nhật thành công");
-  res.redirect(`/${systemConfig.prefixAdmin}/roles`);
+  if (res.locals.role.permissions.includes("roles_edit")) {
+    const id = req.params.id;
+    await Role.updateOne(
+      {
+        _id: id,
+      },
+      req.body
+    );
+    req.flash("success", "Cập nhật thành công");
+    res.redirect(`/${systemConfig.prefixAdmin}/roles`);
+  }
 };
 
 export const deletee = async (req: Request, res: Response) => {
@@ -52,18 +56,20 @@ export const deletee = async (req: Request, res: Response) => {
 };
 
 export const deletePatch = async (req: Request, res: Response) => {
-  await Role.updateOne(
-    {
-      _id: req.body.id,
-    },
-    {
-      deleted: true,
-    }
-  );
-  req.flash("success", "Xóa thành công!");
-  res.json({
-    code: "success",
-  });
+  if (res.locals.role.permissions.includes("roles_delete")) {
+    await Role.updateOne(
+      {
+        _id: req.body.id,
+      },
+      {
+        deleted: true,
+      }
+    );
+    req.flash("success", "Xóa thành công!");
+    res.json({
+      code: "success",
+    });
+  }
 };
 
 export const permissions = async (req, res) => {
@@ -76,19 +82,21 @@ export const permissions = async (req, res) => {
   });
 };
 export const permissionsPatch = async (req, res) => {
-  for (const item of req.body) {
-    await Role.updateOne(
-      {
-        _id: item.id,
-        deleted: false,
-      },
-      {
-        permissions: item.permissions,
-      }
-    );
+  if (res.locals.role.permissions.includes("roles_permissions")) {
+    for (const item of req.body) {
+      await Role.updateOne(
+        {
+          _id: item.id,
+          deleted: false,
+        },
+        {
+          permissions: item.permissions,
+        }
+      );
+    }
+    req.flash("success", "Cập nhật thành công!");
+    res.json({
+      code: "success",
+    });
   }
-  req.flash("success", "Cập nhật thành công!");
-  res.json({
-    code: "success",
-  });
 };

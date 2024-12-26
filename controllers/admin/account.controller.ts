@@ -74,48 +74,54 @@ export const create = async (req: Request, res: Response) => {
   });
 };
 export const createPost = async (req: Request, res: Response) => {
-  req.body.password = md5(req.body.password);
-  req.body.token = generateHelper(30);
+  if (res.locals.role.permissions.includes("accounts_create")) {
+    req.body.password = md5(req.body.password);
+    req.body.token = generateHelper(30);
 
-  const account = new Account(req.body);
-  await account.save();
-  res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
+    const account = new Account(req.body);
+    await account.save();
+    res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
+  }
 };
 
 export const changeStatus = async (req: Request, res: Response) => {
-  const id = req.body.id;
-  const status = req.body.status;
-  await Account.updateOne(
-    {
-      _id: id,
-    },
-    {
-      status: status,
-    }
-  );
-  req.flash("success", "Đổi trạng thái thành công!");
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công",
-  });
+  if (res.locals.role.permissions.includes("accounts_edit")) {
+    const id = req.body.id;
+    const status = req.body.status;
+    await Account.updateOne(
+      {
+        _id: id,
+      },
+      {
+        status: status,
+      }
+    );
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
 };
 
 export const changeMulti = async (req: Request, res: Response) => {
-  const ids = req.body.ids;
-  const status = req.body.status;
-  await Account.updateMany(
-    {
-      _id: ids,
-    },
-    {
-      status: status,
-    }
-  );
-  req.flash("success", "Đổi trạng thái thành công!");
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công",
-  });
+  if (res.locals.role.permissions.includes("accounts_edit")) {
+    const ids = req.body.ids;
+    const status = req.body.status;
+    await Account.updateMany(
+      {
+        _id: ids,
+      },
+      {
+        status: status,
+      }
+    );
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
 };
 
 export const edit = async (req, res) => {
@@ -133,15 +139,17 @@ export const edit = async (req, res) => {
   });
 };
 export const editPatch = async (req, res) => {
-  await Account.updateOne(
-    {
-      _id: req.params.id,
-      deleted: false,
-    },
-    req.body
-  );
-  req.flash("success", "Cập nhật thành công!");
-  res.redirect(`back`);
+  if (res.locals.role.permissions.includes("accounts_edit")) {
+    await Account.updateOne(
+      {
+        _id: req.params.id,
+        deleted: false,
+      },
+      req.body
+    );
+    req.flash("success", "Cập nhật thành công!");
+    res.redirect(`back`);
+  }
 };
 
 export const deletee = async (req: Request, res: Response) => {
@@ -151,35 +159,39 @@ export const deletee = async (req: Request, res: Response) => {
 };
 
 export const deletePatch = async (req: Request, res: Response) => {
-  await Account.updateOne(
-    {
-      _id: req.body.id,
-    },
-    {
-      deleted: true,
-    }
-  );
-  req.flash("success", "Xóa thành công!");
-  res.json({
-    code: "success",
-    message: "Xóa thành công !!!",
-  });
+  if (res.locals.role.permissions.includes("accounts_delete")) {
+    await Account.updateOne(
+      {
+        _id: req.body.id,
+      },
+      {
+        deleted: true,
+      }
+    );
+    req.flash("success", "Xóa thành công!");
+    res.json({
+      code: "success",
+      message: "Xóa thành công !!!",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
 };
 
 export const detail = async (req, res) => {
-  const account = await Account.findOne({
-    _id: req.params.id,
-    deleted: false,
-  });
-  const role = await Role.findOne({
-    _id: account.role_id,
-    deleted: false,
-  });
-  res.render("admin/pages/accounts/detail", {
-    pageTitle: "Chi tiết tài khoản quản trị",
-    role: role,
-    account: account,
-  });
+  if (res.locals.role.permissions.includes("accounts_view")) {
+    const account = await Account.findOne({
+      _id: req.params.id,
+      deleted: false,
+    });
+    const role = await Role.findOne({
+      _id: account.role_id,
+      deleted: false,
+    });
+    res.render("admin/pages/accounts/detail", {
+      pageTitle: "Chi tiết tài khoản quản trị",
+      role: role,
+      account: account,
+    });
+  }
 };
 
 export const changePassword = async (req, res) => {
@@ -193,15 +205,17 @@ export const changePassword = async (req, res) => {
   });
 };
 export const changePasswordPatch = async (req, res) => {
-  await Account.updateOne(
-    {
-      _id: req.params.id,
-      deleted: false,
-    },
-    {
-      password: md5(req.body.password),
-    }
-  );
-  req.flash("success", "Cập nhật mật khẩu thành công!");
-  res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
+  if (res.locals.role.permissions.includes("accounts_edit")) {
+    await Account.updateOne(
+      {
+        _id: req.params.id,
+        deleted: false,
+      },
+      {
+        password: md5(req.body.password),
+      }
+    );
+    req.flash("success", "Cập nhật mật khẩu thành công!");
+    res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
+  }
 };

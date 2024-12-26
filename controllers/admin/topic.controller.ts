@@ -52,40 +52,45 @@ export const index = async (req: Request, res: Response) => {
 };
 
 export const changeStatus = async (req: Request, res: Response) => {
-  const id = req.body.id;
-  const status = req.body.status;
-  await Topic.updateOne(
-    {
-      _id: id,
-    },
-    {
-      status: status,
-    }
-  );
+  if (res.locals.role.permissions.includes("topics_edit")) {
+    const id = req.body.id;
+    const status = req.body.status;
+    await Topic.updateOne(
+      {
+        _id: id,
+      },
+      {
+        status: status,
+      }
+    );
 
-  req.flash("success", "Đổi trạng thái thành công!");
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công",
-  });
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  }
+  req.flash("succes", "Không có quyền truy cập");
 };
 
 export const changeMulti = async (req: Request, res: Response) => {
-  const ids = req.body.ids;
-  const status = req.body.status;
-  await Topic.updateMany(
-    {
-      _id: ids,
-    },
-    {
-      status: status,
-    }
-  );
-  req.flash("success", "Đổi trạng thái thành công!");
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công",
-  });
+  if (res.locals.role.permissions.includes("topics_edit")) {
+    const ids = req.body.ids;
+    const status = req.body.status;
+    await Topic.updateMany(
+      {
+        _id: ids,
+      },
+      {
+        status: status,
+      }
+    );
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
 };
 
 export const edit = async (req: Request, res: Response) => {
@@ -103,16 +108,18 @@ export const edit = async (req: Request, res: Response) => {
 };
 
 export const editPatch = async (req: Request, res: Response) => {
-  const id = req.params.id;
+  if (res.locals.role.permissions.includes("topics_edit")) {
+    const id = req.params.id;
 
-  await Topic.updateOne(
-    {
-      _id: id,
-    },
-    req.body
-  );
-  req.flash("success", "Cập nhật thành công!");
-  res.redirect("back");
+    await Topic.updateOne(
+      {
+        _id: id,
+      },
+      req.body
+    );
+    req.flash("success", "Cập nhật thành công!");
+    res.redirect("back");
+  }
 };
 
 export const create = async (req: Request, res: Response) => {
@@ -131,7 +138,6 @@ export const createPost = async (req: Request, res: Response) => {
   }
   req.flash("error", "Không có quyền tạo mới");
   res.redirect(`/${systemConfig.prefixAdmin}/topics`);
-
 };
 
 export const deletee = async (req: Request, res: Response) => {
@@ -141,28 +147,32 @@ export const deletee = async (req: Request, res: Response) => {
 };
 
 export const deletePatch = async (req: Request, res: Response) => {
-  await Topic.updateOne(
-    {
-      _id: req.body.id,
-    },
-    {
-      deleted: true,
-    }
-  );
-  req.flash("success", "Xóa thành công!");
-  res.json({
-    code: "success",
-    message: "Xóa thành công !!!",
-  });
+  if (res.locals.role.permissions.includes("topics_delete")) {
+    await Topic.updateOne(
+      {
+        _id: req.body.id,
+      },
+      {
+        deleted: true,
+      }
+    );
+    req.flash("success", "Xóa thành công!");
+    res.json({
+      code: "success",
+      message: "Xóa thành công !!!",
+    });
+  }
 };
 
 export const detail = async (req: Request, res: Response) => {
-  const topic = await Topic.findOne({
-    _id: req.params.id,
-  });
+  if (res.locals.role.permissions.includes("topics_view")) {
+    const topic = await Topic.findOne({
+      _id: req.params.id,
+    });
 
-  res.render("admin/pages/topics/detail", {
-    pageTitle: "Chi tiết ca sĩ",
-    topic: topic,
-  });
+    res.render("admin/pages/topics/detail", {
+      pageTitle: "Chi tiết ca sĩ",
+      topic: topic,
+    });
+  }
 };

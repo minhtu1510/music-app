@@ -70,12 +70,14 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const createPost = async (req: Request, res: Response) => {
-  req.body.avatar = req.body.avatar[0];
-  req.body.audio = req.body.audio[0];
-  const song = new Song(req.body);
-  await song.save();
-  req.flash("success", "Tạo thành công!");
-  res.redirect(`/${systemConfig.prefixAdmin}/songs`);
+  if (res.locals.role.permissions.includes("songs_create")) {
+    req.body.avatar = req.body.avatar[0];
+    req.body.audio = req.body.audio[0];
+    const song = new Song(req.body);
+    await song.save();
+    req.flash("success", "Tạo thành công!");
+    res.redirect(`/${systemConfig.prefixAdmin}/songs`);
+  }
 };
 
 export const edit = async (req: Request, res: Response) => {
@@ -101,58 +103,64 @@ export const edit = async (req: Request, res: Response) => {
 };
 
 export const editPatch = async (req: Request, res: Response) => {
-  const id = req.params.id;
-  if (req.body.avatar) {
-    req.body.avatar = req.body.avatar[0];
-  }
+  if (res.locals.role.permissions.includes("songs_edit")) {
+    const id = req.params.id;
+    if (req.body.avatar) {
+      req.body.avatar = req.body.avatar[0];
+    }
 
-  if (req.body.audio) {
-    req.body.audio = req.body.audio[0];
+    if (req.body.audio) {
+      req.body.audio = req.body.audio[0];
+    }
+    await Song.updateOne(
+      {
+        _id: id,
+      },
+      req.body
+    );
+    req.flash("success", "Cập nhật thành công!");
+    res.redirect("back");
   }
-  await Song.updateOne(
-    {
-      _id: id,
-    },
-    req.body
-  );
-  req.flash("success", "Cập nhật thành công!");
-  res.redirect("back");
 };
 
 export const changeStatus = async (req: Request, res: Response) => {
-  const id = req.body.id;
-  const status = req.body.status;
-  await Song.updateOne(
-    {
-      _id: id,
-    },
-    {
-      status: status,
-    }
-  );
-  req.flash("success", "Đổi trạng thái thành công!");
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công",
-  });
+  if (res.locals.role.permissions.includes("songs_edit")) {
+    const id = req.body.id;
+    const status = req.body.status;
+    await Song.updateOne(
+      {
+        _id: id,
+      },
+      {
+        status: status,
+      }
+    );
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
 };
 
 export const changeMulti = async (req: Request, res: Response) => {
-  const ids = req.body.ids;
-  const status = req.body.status;
-  await Song.updateMany(
-    {
-      _id: ids,
-    },
-    {
-      status: status,
-    }
-  );
-  req.flash("success", "Đổi trạng thái thành công!");
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công",
-  });
+  if (res.locals.role.permissions.includes("songs_edit")) {
+    const ids = req.body.ids;
+    const status = req.body.status;
+    await Song.updateMany(
+      {
+        _id: ids,
+      },
+      {
+        status: status,
+      }
+    );
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
 };
 
 export const deletee = async (req: Request, res: Response) => {
@@ -162,22 +170,25 @@ export const deletee = async (req: Request, res: Response) => {
 };
 
 export const deletePatch = async (req: Request, res: Response) => {
-  await Song.updateOne(
-    {
-      _id: req.body.id,
-    },
-    {
-      deleted: true,
-    }
-  );
-  req.flash("success", "Xóa thành công!");
-  res.json({
-    code: "success",
-    message: "Xóa thành công !!!",
-  });
+  if (res.locals.role.permissions.includes("songs_delete")) {
+    await Song.updateOne(
+      {
+        _id: req.body.id,
+      },
+      {
+        deleted: true,
+      }
+    );
+    req.flash("success", "Xóa thành công!");
+    res.json({
+      code: "success",
+      message: "Xóa thành công !!!",
+    });
+  } else req.flash("error", "Không có quyền này");
 };
 
 export const detail = async (req: Request, res: Response) => {
+  if (res.locals.role.permissions.includes("songs_view")) {
   const song = await Song.findOne({
     _id: req.params.id,
   });
@@ -194,4 +205,4 @@ export const detail = async (req: Request, res: Response) => {
     topic: topic,
     singer: singer,
   });
-};
+};}
