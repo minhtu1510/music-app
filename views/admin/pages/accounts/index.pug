@@ -62,6 +62,8 @@ block main
                     th Nhóm quyền
                     th Email
                     th Trạng thái
+                    th Tạo bởi
+                    th Cập nhật bởi
                     th Hành động
                 tbody
                 each item, index in records
@@ -97,6 +99,12 @@ block main
                             button-change-status="active"
                             data-path=`/${prefixAdmin}/accounts/change-status`
                             ) Dừng hoạt động
+                    td
+                        div #{item.createdByFullName}
+                        div #{item.createdAtFormat}
+                    td
+                        div #{item.updatedByFullName}
+                        div #{item.updatedAtFormat}
                     td
                         a(
                         class="btn btn-secondary btn-sm"

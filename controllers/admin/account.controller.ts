@@ -8,6 +8,7 @@ import { Song } from "../../models/song.model";
 import { Singer } from "../../models/singer.model";
 import { Topic } from "../../models/topic.model";
 import { findSourceMap } from "module";
+import moment from "moment";
 import unidecode from "unidecode";
 export const index = async (req: Request, res: Response) => {
   const find: Record<string, any> = {
@@ -49,6 +50,32 @@ export const index = async (req: Request, res: Response) => {
   // Hết Phân trang
   const records = await Account.find(find).limit(limitSingers).skip(skip);
   for (const item of records) {
+    //Tạo bởi
+    const infoCreated = await Account.findOne({
+      _id: item.createdBy,
+    });
+    if (infoCreated) {
+      item.createdByFullName = infoCreated.fullName;
+    } else {
+      item.createdByFullName = "";
+    }
+    if (item.createdAt) {
+      item.createdAtFormat = moment(item.createdAt).format("HH:mm - DD/MM/YY");
+    }
+    // Cập nhật bởi
+    const infoUpdated = await Account.findOne({
+      _id: item.updatedBy,
+    });
+    if (infoUpdated) {
+      item.updatedByFullName = infoUpdated.fullName;
+    } else {
+      item.updatedByFullName = "";
+    }
+    if (item.updatedAt) {
+      item.updatedAtFormat = moment(item.updatedAt).format("HH:mm - DD/MM/YY");
+    }
+  }
+  for (const item of records) {
     const role = await Role.findOne({
       _id: item.role_id,
       deleted: false,
@@ -77,6 +104,8 @@ export const createPost = async (req: Request, res: Response) => {
   if (res.locals.role.permissions.includes("accounts_create")) {
     req.body.password = md5(req.body.password);
     req.body.token = generateHelper(30);
+    req.body.createdBy = res.locals.user.id;
+    req.body.createdAt = new Date();
 
     const account = new Account(req.body);
     await account.save();
@@ -94,6 +123,8 @@ export const changeStatus = async (req: Request, res: Response) => {
       },
       {
         status: status,
+        updatedBy: res.locals.user.id,
+        updatedAt: new Date(),
       }
     );
     req.flash("success", "Đổi trạng thái thành công!");
@@ -114,6 +145,8 @@ export const changeMulti = async (req: Request, res: Response) => {
       },
       {
         status: status,
+        updatedBy: res.locals.user.id,
+        updatedAt: new Date(),
       }
     );
     req.flash("success", "Đổi trạng thái thành công!");
@@ -140,6 +173,8 @@ export const edit = async (req, res) => {
 };
 export const editPatch = async (req, res) => {
   if (res.locals.role.permissions.includes("accounts_edit")) {
+    (req.body.updatedBy = res.locals.user.id),
+      (req.body.updatedAt = new Date());
     await Account.updateOne(
       {
         _id: req.params.id,
@@ -213,9 +248,16 @@ export const changePasswordPatch = async (req, res) => {
       },
       {
         password: md5(req.body.password),
+        updatedBy: res.locals.user.id,
+        updatedAt: new Date(),
       }
     );
     req.flash("success", "Cập nhật mật khẩu thành công!");
     res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
   }
+};
+export const myAccount = async (req: Request, res: Response) => {
+  res.render("admin/pages/accounts/my-account", {
+    pageTitle: "Thông tin cá nhân",
+  });
 };

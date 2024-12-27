@@ -194,5 +194,20 @@ block main
             td(class="text-center")
               input(type="checkbox" data-id=item.id)
         //- Hết tài khoản user
+        //-Cai dat chung
+        tr
+          td(colspan="4")
+            b Cài đặt chung
+        tr(data-name="settings_view")
+          td Xem
+          each item in records
+            td(class="text-center")
+              input(type="checkbox" data-id=item.id)
+        tr(data-name="settings_edit")
+          td Sửa
+          each item in records
+            td(class="text-center")
+              input(type="checkbox" data-id=item.id)
+        //-het cai dat chung
   -else
     .forbidden Không có quyền truy cập

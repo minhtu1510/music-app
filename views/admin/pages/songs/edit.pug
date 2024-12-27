@@ -45,6 +45,23 @@ block main
                 value=item.id
                 selected=(item.id == song.singerId ? true : false)
               ) #{item.fullName}
+        div(class="form-group")
+          label(for="type_song") Loại tài khoản
+          select(
+            name="type_song"
+            id="type_songr"
+            class="form-control"
+            required
+          )
+            option(value="" disabled selected) -- Chọn loại tài khoản --
+            option(
+              value="premium"
+              selected=(song.type_song=="premium" ? true : false)
+            ) Premium
+            option(
+              value="free"
+              selected=(song.type_song=="free" ? true : false)
+            ) Miễn phí          
         div(
           class="form-group"
           upload-image

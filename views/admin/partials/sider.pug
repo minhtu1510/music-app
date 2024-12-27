@@ -25,5 +25,6 @@
       -if(role.permissions.includes("users_view"))
         li
           a(href=`/${prefixAdmin}/users`) Tài khoản user
-      li
-        a(href=`/${prefixAdmin}/settings/general`) Cài đặt chung
+      -if(role.permissions.includes("settings_view"))
+        li
+          a(href=`/${prefixAdmin}/settings/general-hihi`) Cài đặt chung

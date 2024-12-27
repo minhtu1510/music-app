@@ -10,6 +10,7 @@ router.patch("/change-status", controller.changeStatus);
 router.patch("/change-multi", controller.changeMulti);
 router.patch("/delete", controller.deletePatch);
 router.delete("/delete", controller.deletee);
+router.get("/my-account", controller.myAccount);
 router.post(
   "/create",
   upload.single("avatar"),

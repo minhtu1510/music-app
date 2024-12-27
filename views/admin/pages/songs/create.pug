@@ -38,6 +38,17 @@ block main
             option(value="" disabled selected) -- Chọn ca sĩ --
             each item in singers
               option(value=item.id) #{item.fullName}
+        div(class="form-group")
+          label(for="type_song") Loại bài hát
+          select(
+            name="type_song"
+            id="type_song"
+            class="form-control"
+            required
+          )
+            option(value="" disabled selected) -- Chọn loại bài hát --
+            option(value="premium") Premium
+            option(value="Free") Miễn phí
         div(
           class="form-group"
           upload-image

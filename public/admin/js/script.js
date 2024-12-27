@@ -317,3 +317,33 @@ if(listButtonChangeType.length > 0) {
   })
 }
 // Hết Đổi loại tài khoản
+
+// Đổi loại bài hát
+const listButtonChangeTypeSong = document.querySelectorAll("[button-change-type-song]");
+if(listButtonChangeTypeSong.length > 0) {
+  listButtonChangeTypeSong.forEach(button => {
+    button.addEventListener("click", () => {
+      const itemId = button.getAttribute("item-id");
+      const typeChange = button.getAttribute("button-change-type-song");
+      const path = button.getAttribute("data-path");
+      const data = {
+        id: itemId,
+        type_song: typeChange
+      };
+      fetch(path, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "success") {
+            location.reload();
+          }
+        })
+    })
+  })
+}
+// Hết Đổi loại bài hát

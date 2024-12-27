@@ -4,6 +4,8 @@ import { Singer } from "../../models/singer.model";
 import { Topic } from "../../models/topic.model";
 import { systemConfig } from "../../config/system";
 import unidecode from "unidecode";
+import moment from "moment";
+import { Account } from "../../models/account.model";
 export const index = async (req: Request, res: Response) => {
   const find: Record<string, any> = {
     deleted: false,
@@ -44,6 +46,32 @@ export const index = async (req: Request, res: Response) => {
   // Hết Phân trang
 
   const songs = await Song.find(find).limit(limitSongs).skip(skip);
+  for (const item of songs) {
+    //Tao boi
+    const infoCreated = await Account.findOne({
+      _id: item.createdBy,
+    });
+    if (infoCreated) {
+      item.createdByFullName = infoCreated.fullName;
+    } else {
+      item.createdByFullName = "";
+    }
+    if (item.createdAt) {
+      item.createdAtFormat = moment(item.createdAt).format("HH:mm - DD/MM/YY");
+    }
+    //Cap nhat boi
+    const infoUpdated = await Account.findOne({
+      _id: item.updatedBy,
+    });
+    if (infoUpdated) {
+      item.updatedByFullName = infoUpdated.fullName;
+    } else {
+      item.updatedByFullName = "";
+    }
+    if (item.updatedAt) {
+      item.updatedAtFormat = moment(item.updatedAt).format("HH:mm - DD/MM/YY");
+    }
+  }
 
   res.render("admin/pages/songs/index", {
     pageTitle: "Quản lý bài hát",
@@ -73,6 +101,8 @@ export const createPost = async (req: Request, res: Response) => {
   if (res.locals.role.permissions.includes("songs_create")) {
     req.body.avatar = req.body.avatar[0];
     req.body.audio = req.body.audio[0];
+    req.body.createdBy = res.locals.user.id;
+    req.body.createdAt = new Date();
     const song = new Song(req.body);
     await song.save();
     req.flash("success", "Tạo thành công!");
@@ -104,6 +134,8 @@ export const edit = async (req: Request, res: Response) => {
 
 export const editPatch = async (req: Request, res: Response) => {
   if (res.locals.role.permissions.includes("songs_edit")) {
+    (req.body.updatedBy = res.locals.user.id),
+      (req.body.updatedAt = new Date());
     const id = req.params.id;
     if (req.body.avatar) {
       req.body.avatar = req.body.avatar[0];
@@ -133,6 +165,8 @@ export const changeStatus = async (req: Request, res: Response) => {
       },
       {
         status: status,
+        updatedBy: res.locals.user.id,
+        updatedAt: new Date(),
       }
     );
     req.flash("success", "Đổi trạng thái thành công!");
@@ -153,6 +187,8 @@ export const changeMulti = async (req: Request, res: Response) => {
       },
       {
         status: status,
+        updatedBy: res.locals.user.id,
+        updatedAt: new Date(),
       }
     );
     req.flash("success", "Đổi trạng thái thành công!");
@@ -177,6 +213,8 @@ export const deletePatch = async (req: Request, res: Response) => {
       },
       {
         deleted: true,
+        deletedBy: res.locals.user.id,
+        deletedAt: new Date(),
       }
     );
     req.flash("success", "Xóa thành công!");
@@ -189,20 +227,43 @@ export const deletePatch = async (req: Request, res: Response) => {
 
 export const detail = async (req: Request, res: Response) => {
   if (res.locals.role.permissions.includes("songs_view")) {
-  const song = await Song.findOne({
-    _id: req.params.id,
-  });
-  const singer = await Singer.findOne({
-    _id: song.singerId,
-  });
-  const topic = await Topic.findOne({
-    _id: song.topicId,
-  });
+    const song = await Song.findOne({
+      _id: req.params.id,
+    });
+    const singer = await Singer.findOne({
+      _id: song.singerId,
+    });
+    const topic = await Topic.findOne({
+      _id: song.topicId,
+    });
 
-  res.render("admin/pages/songs/detail", {
-    pageTitle: "Chi tiết bài hát",
-    song: song,
-    topic: topic,
-    singer: singer,
-  });
-};}
+    res.render("admin/pages/songs/detail", {
+      pageTitle: "Chi tiết bài hát",
+      song: song,
+      topic: topic,
+      singer: singer,
+    });
+  }
+};
+
+export const changeType = async (req: Request, res: Response) => {
+  if (res.locals.role.permissions.includes("songs_edit")) {
+    const id = req.body.id;
+    const type = req.body.type_song;
+    await Song.updateOne(
+      {
+        _id: id,
+      },
+      {
+        type_song: type,
+        updatedBy: res.locals.user.id,
+        updatedAt: new Date(),
+      }
+    );
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
+};

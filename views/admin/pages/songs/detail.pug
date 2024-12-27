@@ -40,6 +40,17 @@ block main
             value=singer.fullName
             readonly
           )
+          div(class="form-group")
+            label(for="singer") Loại bài hát
+            input(
+              type="text"
+              class="form-control"
+              id="singer"
+              name="singer"
+              required
+              value=song.type_song
+              readonly
+            )
         div(class="form-group")
           label(for="title") Lượt yêu thích
           input(

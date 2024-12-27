@@ -60,10 +60,13 @@ block main
                 th STT
                 th Hình ảnh
                 th Tiêu đề
+                th Loại bài hát
                 //- th Ca sĩ
                 //- th Chủ đề
                 //- th Vị trí
                 th Trạng thái
+                th Tạo bởi 
+                th Cập nhật bởi
                 th Hành động
             tbody
               each item, index in songs
@@ -82,20 +85,45 @@ block main
                       height="auto"
                     )
                   td #{item.title}
+                  td
+                    if (item.type_song === "premium")
+                      button(
+                        class="badge badge-danger"
+                        item-id=item.id
+                        button-change-type-song="free"
+                        data-path=`/${prefixAdmin}/songs/change-type`
+                      ) Premium
+                    else
+                      button(
+                        class="badge badge-success"
+                        item-id=item.id
+                        button-change-type-song="premium"
+                        data-path=`/${prefixAdmin}/songs/change-type`
+                      ) Miễn phí
                   //- td Dữ liệu ca sĩ
                   //- td Dữ liệu chủ đề
                   //- td Dữ liệu vị trí
                   td
                     if (item.status === "active")
-                      a(
-                        href="javascript:;"
+                      button(
                         class="badge badge-success"
+                        item-id=item.id
+                        button-change-status="inactive"
+                        data-path=`/${prefixAdmin}/songs/change-status`
                       ) Hoạt động
                     else
-                      a(
-                        href="javascript:;"
+                      button(
                         class="badge badge-danger"
+                        item-id=item.id
+                        button-change-status="active"
+                        data-path=`/${prefixAdmin}/songs/change-status`
                       ) Dừng hoạt động
+                  td
+                    div #{item.createdByFullName}
+                    div #{item.createdAtFormat}
+                  td
+                    div #{item.updatedByFullName}
+                    div #{item.updatedAtFormat}
                   td
                     a(
                       class="btn btn-secondary btn-sm"
@@ -123,6 +151,5 @@ block main
         if(currentPage < totalPage)
           li(class="page-item")
             button(class="page-link" button-pagination=currentPage+1) Kế tiếp
-
   -else 
-  .forbidden Không có quyền truy cập
+    .forbidden Không có quyền truy cập
