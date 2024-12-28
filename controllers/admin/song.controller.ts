@@ -6,10 +6,17 @@ import { systemConfig } from "../../config/system";
 import unidecode from "unidecode";
 import moment from "moment";
 import { Account } from "../../models/account.model";
+import { Role } from "../../models/role.model";
 export const index = async (req: Request, res: Response) => {
   const find: Record<string, any> = {
     deleted: false,
   };
+  const role = await Role.findOne({
+    _id: res.locals.user.role_id,
+  });
+  if (role.title != "Quản trị viên") {
+    find.createdBy = res.locals.user.id;
+  }
 
   //Lọc theo trạng thái
   if (req.query.status) {
@@ -98,15 +105,19 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const createPost = async (req: Request, res: Response) => {
-  if (res.locals.role.permissions.includes("songs_create")) {
-    req.body.avatar = req.body.avatar[0];
-    req.body.audio = req.body.audio[0];
-    req.body.createdBy = res.locals.user.id;
-    req.body.createdAt = new Date();
-    const song = new Song(req.body);
-    await song.save();
-    req.flash("success", "Tạo thành công!");
-    res.redirect(`/${systemConfig.prefixAdmin}/songs`);
+  try {
+    if (res.locals.role.permissions.includes("songs_create")) {
+      req.body.avatar = req.body.avatar[0];
+      req.body.audio = req.body.audio[0];
+      req.body.createdBy = res.locals.user.id;
+      req.body.createdAt = new Date();
+      const song = new Song(req.body);
+      await song.save();
+      req.flash("success", "Tạo thành công!");
+      res.redirect(`/${systemConfig.prefixAdmin}/songs`);
+    }
+  } catch (error) {
+    req.flash("error", error);
   }
 };
 

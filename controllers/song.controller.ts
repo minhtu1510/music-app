@@ -15,6 +15,7 @@ export const index = async (req: Request, res: Response) => {
     deleted: false,
     status: "active",
   });
+  console.log(topic);
 
   const songs = await Song.find({
     topicId: topic.id,
