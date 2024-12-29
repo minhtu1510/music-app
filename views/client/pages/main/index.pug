@@ -1,0 +1,71 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/box-intro.pug
+block main 
+    .row 
+        .col-12
+            .dataSection1
+                .col-6.mb-3
+                    div(class="dataSection1__intro" premium)
+                        .dataSection1__title
+                            .dataSection1__title--main Nhạc EDM  
+                            .dataSection1__title--sub   
+                            |Top 100 Nhạc Electronic/Dance Âu Mỹ là danh sách 100 ca khúc hot nhất hiện tại của thể loại Top 100 Nhạc Electronic/Dance Âu Mỹ
+                        .dataSection1__image 
+                            img(src="/images/image_dataSection1.png", alt="")
+                .col-3.mb-3
+                    .dataSection1__content
+                        .dataSection1__items--title Bài hát nổi bật
+                        .dataSection1__item--list
+                            each song in songLikes
+                                div(class="dataSection1__item" song-id=song.id)
+                                    .dataSection1__item--intro  
+                                        img(src=song.avatar, alt="") 
+                                        .dataSection1__item--title 
+                                            .dataSection1__item--nameSong #{song.title}
+                                            .dataSection1__item--singer #{song.singerFullName}
+                                            .dataSection1__item--count #{song.like} lượt like
+                                    .dataSection1__buttons
+                                        div(class="dataSection1__button dataSection1__button--play" song-id=song.id onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(song.singerFullName)})`)
+                                            <i class="fa-solid fa-play"></i>    
+                                        //- div(class="dataSection1__button" onClick=`handlePlayAudio(event,${song})`) 
+                                            <i class="fa-solid fa-play"></i>
+                                        .dataSection1__button <i class="fa-regular fa-heart"></i>
+                            //- .dataSection1__item
+                            //-     .dataSection1__item--intro  
+                            //-         img(src="/images/demo.png", alt="") 
+                            //-         .dataSection1__item--title 
+                            //-             .dataSection1__item--nameSong Cô Phòng
+                            //-             .dataSection1__item--singer Hồ Quang Hiếu
+                            //-             .dataSection1__item--count 24500 lượt nghe
+                            //-     .dataSection1__buttons 
+                            //-         .dataSection1__button <i class="fa-solid fa-play"></i>
+                            //-         .dataSection1__button <i class="fa-regular fa-heart"></i>
+            .dataSection2 
+                .row
+                    .col-12
+                        +box-head("Danh mục nổi bật")
+                .row 
+                    each topic in topics.slice(0,4)
+                        .col-3.mb-3
+                            a(href=`/topics/${topic.slug}`)
+                                div(class="singer topic")         
+                                    img(src=topic.avatar alt=topic.title)
+                                    div(class="singer-body")
+                                        h5(class="singer-title") #{topic.title}
+        
+            .dataSection3
+                .row
+                    .col-12
+                        +box-head("Ca sĩ nổi bật")
+                .row 
+                    each singer in singers.slice(0,4)
+                        .col-3.mb-3
+                            a(href=`/singers/${singer.slug}`)
+                                div(class="singer")         
+                                    img(src=singer.avatar alt=singer.fullName)
+                                    div(class="singer-body")
+                                        h5(class="singer-title") #{singer.fullName}
+
+
+

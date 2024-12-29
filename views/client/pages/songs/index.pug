@@ -1,0 +1,58 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/box-intro.pug
+block main
+  +box-intro(
+        "/images/Lead-image.png",
+        "Nhạc Trẻ",
+        "Top 100 Nhạc Trẻ là danh sách 100 ca khúc hot nhất hiện tại của thể loại Nhạc Trẻ, được Zing MP3 tự động tổng hợp dựa trên thông tin số liệu lượt nghe và lượt chia  sẻ của từng bài hát trên phiên bản web và phiên bản Mobile. Dữ liệu sẽ được lấy trong 30 ngày gần nhất và được cập nhật liên tục."
+  )
+  .row
+    .col-12
+      +box-head(pageTitle)
+    
+  .row
+    each song in songs
+      .col-6.mb-3
+        div(class="song-item" active_song={song})
+          div(class="inner-image" type_song = `${song.type_song}` )
+            a(href= `/songs/detail/${song.slug}` )
+              img(src=song.avatar)
+            //- if song.type_song !== "premium"
+            //-   a(href= `/songs/detail/${song.slug}` )
+            //-     img(src=song.avatar)
+            //- else 
+            //-   img(src=song.avatar onclick = "handClick()")    
+          div(class="inner-content")
+            div(class="inner-title" type_song = `${song.type_song}` )
+              a(href=`/songs/detail/${song.slug}` ) #{song.title}
+              //- if song.type_song !== "premium"
+              //-   a(href=`/songs/detail/${song.slug}` ) #{song.title}
+              //- else 
+              //-   span(onclick = "handClick()") #{song.title}
+            div(class="inner-singer") <i class="fa-solid fa-microphone-lines"></i> #{song.singerFullName}
+            div(class="inner-like") <i class="fa-solid fa-thumbs-up"></i> #{song.like}
+            div(class="inner-time") <i class="fa-regular fa-clock"></i> Hôm nay
+          div(        
+            class=`flag-premium ${song.type_song=="premium" ? "active" : ""}`) Premium
+
+
+//- block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head(pageTitle)
+        
+    .row
+      each song in songs
+        .col-6.mb-3
+          div(class="song-item")
+            div(class="inner-image")
+              a(href=`/songs/detail/${song.slug}`)
+                img(src=song.avatar)
+            div(class="inner-content")
+              div(class="inner-title")
+                a(href=`/songs/detail/${song.slug}`) #{song.title}
+              div(class="inner-singer") <i class="fa-solid fa-microphone-lines"></i> #{song.singerFullName}
+              div(class="inner-like") <i class="fa-solid fa-thumbs-up"></i> #{song.like}
+              div(class="inner-time") <i class="fa-regular fa-clock"></i> Hôm nay
