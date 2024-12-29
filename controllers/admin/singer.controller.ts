@@ -55,39 +55,43 @@ export const index = async (req: Request, res: Response) => {
 };
 
 export const changeStatus = async (req: Request, res: Response) => {
-  const id = req.body.id;
-  const status = req.body.status;
-  await Singer.updateOne(
-    {
-      _id: id,
-    },
-    {
-      status: status,
-    }
-  );
-  req.flash("success", "Đổi trạng thái thành công!");
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công",
-  });
+  if (res.locals.role.permissions.includes("singers_edit")) {
+    const id = req.body.id;
+    const status = req.body.status;
+    await Singer.updateOne(
+      {
+        _id: id,
+      },
+      {
+        status: status,
+      }
+    );
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
 };
 
 export const changeMulti = async (req: Request, res: Response) => {
-  const ids = req.body.ids;
-  const status = req.body.status;
-  await Singer.updateMany(
-    {
-      _id: ids,
-    },
-    {
-      status: status,
-    }
-  );
-  req.flash("success", "Đổi trạng thái thành công!");
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công",
-  });
+  if (res.locals.role.permissions.includes("singers_edit")) {
+    const ids = req.body.ids;
+    const status = req.body.status;
+    await Singer.updateMany(
+      {
+        _id: ids,
+      },
+      {
+        status: status,
+      }
+    );
+    req.flash("success", "Đổi trạng thái thành công!");
+    res.json({
+      code: "success",
+      message: "Đổi trạng thái thành công",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
 };
 
 export const edit = async (req: Request, res: Response) => {
@@ -105,16 +109,18 @@ export const edit = async (req: Request, res: Response) => {
 };
 
 export const editPatch = async (req: Request, res: Response) => {
-  const id = req.params.id;
+  if (res.locals.role.permissions.includes("singers_edit")) {
+    const id = req.params.id;
 
-  await Singer.updateOne(
-    {
-      _id: id,
-    },
-    req.body
-  );
-  req.flash("success", "Cập nhật thành công!");
-  res.redirect("back");
+    await Singer.updateOne(
+      {
+        _id: id,
+      },
+      req.body
+    );
+    req.flash("success", "Cập nhật thành công!");
+    res.redirect("back");
+  }
 };
 
 export const create = async (req: Request, res: Response) => {
@@ -124,10 +130,12 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const createPost = async (req: Request, res: Response) => {
-  const singer = new Singer(req.body);
-  await singer.save();
-  req.flash("success", "Tạo thành công!");
-  res.redirect(`/${systemConfig.prefixAdmin}/singers`);
+  if (res.locals.role.permissions.includes("singers_create")) {
+    const singer = new Singer(req.body);
+    await singer.save();
+    req.flash("success", "Tạo thành công!");
+    res.redirect(`/${systemConfig.prefixAdmin}/singers`);
+  }
 };
 
 export const deletee = async (req: Request, res: Response) => {
@@ -137,6 +145,33 @@ export const deletee = async (req: Request, res: Response) => {
 };
 
 export const deletePatch = async (req: Request, res: Response) => {
+  if (res.locals.role.permissions.includes("singers_delete")) {
+    await Singer.updateOne(
+      {
+        _id: req.body.id,
+      },
+      {
+        deleted: true,
+      }
+    );
+    req.flash("success", "Xóa thành công!");
+    res.json({
+      code: "success",
+    });
+  } else req.flash("error", "Không có quyền truy cập");
+};
+
+export const detail = async (req: Request, res: Response) => {
+  if (res.locals.role.permissions.includes("singers_view")) {
+    const singer = await Singer.findOne({
+      _id: req.params.id,
+    });
+
+    res.render("admin/pages/singers/detail", {
+      pageTitle: "Chi tiết ca sĩ",
+      singer: singer,
+    });
+  }
   await Singer.updateOne(
     {
       _id: req.body.id,
