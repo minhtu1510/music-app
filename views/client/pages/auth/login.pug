@@ -1,0 +1,20 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/box-intro.pug
+include ../../mixins/box-item.pug
+block main
+    .login 
+        .login-title Đăng nhập tài khoản
+        form.form(action="")
+            .form__item
+                .form__title
+                    label(for="email") Email
+                    .form__title--required *
+                input(type="text" name="email" placeholder="Ví dụ: Levana@gmail.com")
+            .form__item
+                .form__title
+                    label(for="password") Password
+                    .form__title--required *
+                input(type="text" name="password")
+            button Đăng nhập
+
