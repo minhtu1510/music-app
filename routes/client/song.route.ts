@@ -19,5 +19,4 @@ router.patch("/listen/:id", controller.listenPatch);
 
 router.get("/:slugTopic", controller.index);
 
-// router.get("/play/:type", controller.getSong)
 export const songsRoute = router;

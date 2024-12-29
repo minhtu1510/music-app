@@ -10,8 +10,10 @@ router.get("/", controller.index);
 router.get("/create", controller.create);
 router.patch("/change-status", controller.changeStatus);
 router.patch("/change-multi", controller.changeMulti);
+router.patch("/change-type", controller.changeType);
 router.patch("/delete", controller.deletePatch);
 router.delete("/delete", controller.deletee);
+router.get("/detail/:id", controller.detail);
 router.post(
   "/create",
   upload.fields([

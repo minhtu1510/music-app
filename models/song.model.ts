@@ -8,6 +8,19 @@ const songSchema = new mongoose.Schema(
     description: String,
     singerId: String,
     topicId: String,
+    createdBy: String,
+    createdAt: Date,
+    createdByFullName: String,
+    createdAtFormat: String,
+    updatedBy: String,
+    updatedAt: Date,
+    updatedByFullName: String,
+    updatedAtFormat: String,
+    deletedBy: String,
+    deletedAt: Date,
+    deletedByFullName: String,
+    deletedAtFormat: String,
+    type_song: String,
     like: {
       type: Number,
       default: 0,
@@ -28,8 +41,6 @@ const songSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    deletedAt: Date,
-    type_song: String
   },
   {
     timestamps: true,

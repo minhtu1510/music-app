@@ -1,0 +1,154 @@
+extends ../../layouts/default.pug
+block main
+  -if(role.permissions.includes("songs_view"))
+    h1(class="mb-4") #{pageTitle}
+    form(
+        action=`/${prefixAdmin}/songs/edit/${song.id}?_method=PATCH`
+        method="POST"
+        enctype="multipart/form-data"
+      )
+        div(class="form-group")
+          label(for="title") Tiêu đề
+          input(
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            required
+            value=song.title
+            readonly
+          )
+        div(class="form-group")
+          label(for="topic") Chủ đề
+          input(
+            type="text"
+            class="form-control"
+            id="topic"
+            name="topic"
+            required
+            value=topic.title
+            readonly
+          )
+        div(class="form-group")
+          label(for="singer") Ca sĩ
+          input(
+            type="text"
+            class="form-control"
+            id="singer"
+            name="singer"
+            required
+            value=singer.fullName
+            readonly
+          )
+          div(class="form-group")
+            label(for="singer") Loại bài hát
+            input(
+              type="text"
+              class="form-control"
+              id="singer"
+              name="singer"
+              required
+              value=song.type_song
+              readonly
+            )
+        div(class="form-group")
+          label(for="title") Lượt yêu thích
+          input(
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            required
+            value=song.like
+            readonly
+          )
+        div(class="form-group")
+          label(for="title") Lượt nghe
+          input(
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            required
+            value=song.listen
+            readonly
+          )
+        div(
+          class="form-group"
+          upload-image
+        )
+          label(for="avatar") Ảnh
+          input(
+            type="file"
+            class="form-control-file"
+            id="avatar"
+            name="avatar"
+            accept="image/*"
+            upload-image-input
+            disabled
+          )
+          img(
+            src=song.avatar
+            class="image-preview"
+            upload-image-preview
+          )
+        div(
+          class="form-group"
+          upload-audio
+        )
+          label(for="audio") File âm thanh
+          input(
+            type="file"
+            class="form-control-file"
+            id="audio"
+            name="audio"
+            accept="audio/*"
+            upload-audio-input
+            disabled
+          )
+          audio(controls upload-audio-play)
+            source(src=song.audio)
+        div(class="form-group")
+          label(for="lyrics") Lời bài hát
+          textarea(
+            class="form-control"
+            id="lyrics"
+            name="lyrics"
+            rows="15"
+            readonly
+          ) #{song.lyrics}
+        div(class="form-group")
+          label(for="desc") Mô tả
+          textarea(
+            type="text"
+            class="form-control"
+            id="desc"
+            name="description"
+            rows="5"
+            textarea-mce
+            readonly
+          ) #{song.description}
+        div(class="form-group form-check form-check-inline")
+          input(
+            type="radio"
+            class="form-check-input"
+            id="statusActive"
+            name="status"
+            value="active"
+            checked=(song.status == "active" ? true : false)
+            disabled
+          )
+          label(for="statusActive" class="form-check-label") Hoạt động
+        div(class="form-group form-check form-check-inline")
+          input(
+            type="radio"
+            class="form-check-input"
+            id="statusInActive"
+            name="status"
+            value="inactive"
+            checked=(song.status == "inactive" ? true : false)
+            disabled
+          )
+          label(for="statusInActive" class="form-check-label") Dừng hoạt động
+  -else
+    .forbidden Không có quyền truy cập

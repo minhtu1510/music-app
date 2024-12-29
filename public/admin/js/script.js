@@ -239,3 +239,111 @@ if(alertMessage) {
   }, 3000);
 }
 // End alert-message
+
+// Phân quyền
+const tablePermissions = document.querySelector("[table-permissions]");
+if(tablePermissions) {
+  const buttonSubmit = document.querySelector("[button-submit]");
+  buttonSubmit.addEventListener("click", () => {
+    const dataFinal = [];
+    const listElementRoleId = document.querySelectorAll("[role-id]");
+    listElementRoleId.forEach(elementRoleId => {
+      const roleId = elementRoleId.getAttribute("role-id");
+      const permissions = [];
+      const listInputChecked = document.querySelectorAll(`input[data-id="${roleId}"]:checked`);
+      listInputChecked.forEach(input => {
+        const tr = input.closest(`tr[data-name]`);
+        const name = tr.getAttribute("data-name");
+        permissions.push(name);
+      })
+      dataFinal.push({
+        id: roleId,
+        permissions: permissions
+      });
+    })
+    const path = buttonSubmit.getAttribute("data-path");
+    fetch(path, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PATCH",
+      body: JSON.stringify(dataFinal)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if(data.code == "success") {
+          location.reload();
+        }
+      })
+  })
+  // Hiển thị mặc định
+  let dataPermissions = tablePermissions.getAttribute("table-permissions");
+  dataPermissions = JSON.parse(dataPermissions);
+  dataPermissions.forEach(item => {
+    item.permissions.forEach(permission => {
+      const input = document.querySelector(`tr[data-name="${permission}"] input[data-id="${item._id}"]`);
+      input.checked = true;
+    })
+  });
+}
+// Hết Phân quyền
+
+// Đổi loại tài khoản
+const listButtonChangeType = document.querySelectorAll("[button-change-type]");
+if(listButtonChangeType.length > 0) {
+  listButtonChangeType.forEach(button => {
+    button.addEventListener("click", () => {
+      const itemId = button.getAttribute("item-id");
+      const typeChange = button.getAttribute("button-change-type");
+      const path = button.getAttribute("data-path");
+      const data = {
+        id: itemId,
+        type_user: typeChange
+      };
+      fetch(path, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "success") {
+            location.reload();
+          }
+        })
+    })
+  })
+}
+// Hết Đổi loại tài khoản
+
+// Đổi loại bài hát
+const listButtonChangeTypeSong = document.querySelectorAll("[button-change-type-song]");
+if(listButtonChangeTypeSong.length > 0) {
+  listButtonChangeTypeSong.forEach(button => {
+    button.addEventListener("click", () => {
+      const itemId = button.getAttribute("item-id");
+      const typeChange = button.getAttribute("button-change-type-song");
+      const path = button.getAttribute("data-path");
+      const data = {
+        id: itemId,
+        type_song: typeChange
+      };
+      fetch(path, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "success") {
+            location.reload();
+          }
+        })
+    })
+  })
+}
+// Hết Đổi loại bài hát
