@@ -1,0 +1,39 @@
+div(class="play play-audio")
+    .container
+        audio( class="inner-audio" src="/")  
+        .play__wrap 
+            .play__name 
+                .play__image 
+                    //- img(src=img, alt="Ảnh bài hát")
+                    img(src="/", alt="Ảnh bài hát" class="inner-image")
+                .play__title 
+                    div(class="play__title-main inner-title") co p
+                    div(class= "play__title-sub inner-singer")  nghe si
+            .play__music
+                .buttons 
+                    div(class="button-back" onClick="handleClickPreSong()")
+                        <i class="fa-solid fa-backward-step"></i> 
+                    div(class="button-play" onClick="handlePlay()")
+                        <i class="fa-solid fa-pause btn-click btn-pause"></i>
+                        <i class="fa-solid fa-play btn-click btn-play"></i>
+                    div(class="button-next" onClick="handleClickNextSong()")
+                        <i class="fa-solid fa-forward-step"></i>
+                .play__time 
+                    //- <div class="inner-current"></div>
+                    input(
+                        type="range" 
+                        min=0
+                        max=0
+                        defaultValue=0
+                        class="range-sm inner-total"
+                        onChange="handleChangeTime(event)")
+            .play__volume
+                <i class="fa-solid fa-volume-high"></i>
+                input(
+                    type="range" 
+                    min=0
+                    max=100
+                    defaultValue=80
+                    class="inner-total"
+                    onChange="handleChangeVolume(event)"
+                )

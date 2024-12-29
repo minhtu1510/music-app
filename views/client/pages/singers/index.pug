@@ -1,0 +1,16 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+  .row
+      .col-12
+        +box-head(pageTitle)
+  .row 
+    each singer in singers
+        .col-3.mb-3
+            a(href=`/singers/${singer.slug}`)
+                div(class="singer")         
+                    img(src=singer.avatar alt=singer.fullName)
+                    div(class="singer-body")
+                        h5(class="singer-title") #{singer.fullName}
+                        //-  p(class="singer-text") #{singer.slug}

@@ -1,6 +1,63 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/box-item.pug
 block main
+  .singer-detail
+    .row
+      .col-12
+        .inner-title #{song.title}
+        .inner-actions
+          div(class="inner-action inner-time")
+            <i class="fa-regular fa-clock"></i> 20/10/2023
+          div(class="inner-action inner-singer")
+            <i class="fa-solid fa-microphone-lines"></i> #{singer.fullName}
+          div(class="inner-action inner-topic")
+            <i class="fa-solid fa-music"></i> #{topic.title}
+          div(class="inner-action inner-like" button-like=song.id)
+            <i class="fa-regular fa-thumbs-up"></i> 
+            <span style="margin-right:2px;">#{song.like}</span> 
+            | thích
+          div(class="inner-action inner-listen")
+            <i class="fa-solid fa-headphones"></i>
+            <span style="margin-right: 2px;">#{song.listen}</span>
+            | lượt nghe
+          div(class="inner-action inner-heart" +(song.favorite ? "active":"")
+          button-favorite=song.id)
+            <i class="fa-regular fa-heart"></i> Bài hát yêu thích
+        .inner-play
+          .inner-avatar
+            img(src=song.avatar)
+          .inner-audio
+            div(id="aplayer" data-song=song data-singer=singer)
+        .inner-desc
+          .inner-label Mô tả
+          .inner-text
+            | !{song.description}
+        .inner-desc
+          .inner-label Lời bài hát
+          .inner-text
+            | !{song.lyrics}
+      +box-item(
+        "/images/Lead-image.png",
+        "Cô Phòng",
+        "Hồ Quang Hiếu, Huỳnh Văn",
+        "4:32"
+      )
+  //- .song-categories 
+  //-   .row
+  //-     .col-12
+  //-       .song-category_item 
+  //-         .song-category_item--title 
+  //-           <i class="fa-solid fa-play"></i>
+  //-           img(src="/images/Lead-image.png", alt="Ảnh bài hát")
+  //-           .song-category_item--title-main Cô Phòng
+  //-         .song-category_item--singer Hồ Quang Hiếu, Huỳnh Văn
+  //-         .song-category_item--buttons 
+  //-           .inner-time 4:32
+  //-           .inner-heart <i class="fa-regular fa-heart"></i>
+
+
+//- block main
   .singer-detail
     .container.my-3
       .row

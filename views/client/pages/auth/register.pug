@@ -1,0 +1,25 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/box-intro.pug
+include ../../mixins/box-item.pug
+block main
+    .register
+        .register-title Đăng ký tài khoản
+        form.form(action="")
+            .form__item
+                .form__title
+                    label(for="fullName") Họ Tên
+                    .form__title--required *
+                input(type="text" name="fullName")
+            .form__item
+                .form__title
+                    label(for="email") Email
+                    .form__title--required *
+                input(type="text" name="email")
+            .form__item
+                .form__title
+                    label(for="password") Mật khẩu
+                    .form__title--required *
+                input(type="text" name="password")
+            button.btn Đăng ký
+

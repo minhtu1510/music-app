@@ -3,19 +3,18 @@ import { Song } from "../models/song.model";
 import { Topic } from "../models/topic.model";
 import { Singer } from "../models/singer.model";
 import { FavoriteSong } from "../models/favorite-song.model";
-import { existsSync } from "fs";
 import unidecode from "unidecode";
 import { title } from "process";
 
 export const index = async (req: Request, res: Response) => {
   const slugTopic: string = req.params.slugTopic;
-
+  console.log(slugTopic)
   const topic = await Topic.findOne({
     slug: slugTopic,
     deleted: false,
     status: "active",
   });
-  console.log(topic);
+  console.log(topic)
 
   const songs = await Song.find({
     topicId: topic.id,
@@ -46,7 +45,6 @@ export const detail = async (req: Request, res: Response) => {
     deleted: false,
     status: "active",
   });
-
   const singer = await Singer.findOne({
     _id: song.singerId,
     deleted: false,
@@ -76,7 +74,34 @@ export const detail = async (req: Request, res: Response) => {
     singer: singer,
   });
 };
+// export const detailPlay = async (req: Request, res: Response) => {
+//   const slugSong: string = req.params.slugSong;
 
+//   const song = await Song.findOne({
+//     slug: slugSong,
+//     deleted: false,
+//     status: "active",
+//   });
+
+//   const singer = await Singer.findOne({
+//     _id: song.singerId,
+//     deleted: false,
+//     status: "active",
+//   });
+
+//   const topic = await Topic.findOne({
+//     _id: song.topicId,
+//     deleted: false,
+//     status: "active",
+//   });
+
+//   res.render("client/partials/play", {
+//     pageTitle: "Chi tiết bài hát",
+//     song: song,
+//     topic: topic,
+//     singer: singer,
+//   });
+// };
 export const likePatch = async (req: Request, res: Response) => {
   const { id, status } = req.body;
   const song = await Song.findOne({
@@ -216,7 +241,7 @@ export const search = async (req: Request, res: Response) => {
   }
 
   if (type == "result") {
-    res.render("client/pages/songs/search", {
+    res.render("client/pages/partials/search", {
       pageTitle: `Kết quả tìm kiếm :${keyword}`,
       keyword: keyword,
       songs: songs,
@@ -254,3 +279,31 @@ export const listenPatch = async (req: Request, res: Response) => {
   });
 };
 
+// export const getSong = async (req: Request, res: Response) => {
+//   const slugSong: string = req.params.slugSong;
+
+//   const song = await Song.findOne({
+//     slug: slugSong,
+//     deleted: false,
+//     status: "active",
+//   });
+
+//   const singer = await Singer.findOne({
+//     _id: song.singerId,
+//     deleted: false,
+//     status: "active",
+//   });
+
+//   const topic = await Topic.findOne({
+//     _id: song.topicId,
+//     deleted: false,
+//     status: "active",
+//   });
+
+//   res.render("client/partials/play", {
+//     pageTitle: "Play bài hát",
+//     song: song,
+//     topic: topic,
+//     singer: singer,
+//   });
+// };

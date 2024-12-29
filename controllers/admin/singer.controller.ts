@@ -172,4 +172,16 @@ export const detail = async (req: Request, res: Response) => {
       singer: singer,
     });
   }
+  await Singer.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      deleted: true,
+    }
+  );
+  req.flash("success", "Xóa thành công!");
+  res.json({
+    code: "success",
+  });
 };
