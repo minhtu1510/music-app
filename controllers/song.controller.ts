@@ -5,16 +5,17 @@ import { Singer } from "../models/singer.model";
 import { FavoriteSong } from "../models/favorite-song.model";
 import unidecode from "unidecode";
 import { title } from "process";
+import moment from "moment";
 
 export const index = async (req: Request, res: Response) => {
   const slugTopic: string = req.params.slugTopic;
-  console.log(slugTopic)
+  console.log(slugTopic);
   const topic = await Topic.findOne({
     slug: slugTopic,
     deleted: false,
     status: "active",
   });
-  console.log(topic)
+  console.log(topic);
 
   const songs = await Song.find({
     topicId: topic.id,
@@ -45,6 +46,10 @@ export const detail = async (req: Request, res: Response) => {
     deleted: false,
     status: "active",
   });
+  const sameSong = await Song.find({
+    _id: { $ne: song.id },
+    singerId: song.singerId,
+  });
   const singer = await Singer.findOne({
     _id: song.singerId,
     deleted: false,
@@ -59,17 +64,24 @@ export const detail = async (req: Request, res: Response) => {
 
   const exsitSongFavorite = await FavoriteSong.findOne({
     songId: song.id,
-    //user:res.locals.user.id
+    userId: res.locals.users.id,
   });
   if (exsitSongFavorite) {
     song["favorite"] = true;
   } else {
     song["favorite"] = false;
   }
+  const exsitSongLike = song.like.includes(res.locals.users.id);
+  if (exsitSongLike) {
+    song["liked"] = true;
+  } else {
+    song["liked"] = false;
+  }
 
   res.render("client/pages/songs/detail", {
     pageTitle: "Chi tiết bài hát",
     song: song,
+    sameSong: sameSong,
     topic: topic,
     singer: singer,
   });
@@ -103,39 +115,23 @@ export const detail = async (req: Request, res: Response) => {
 //   });
 // };
 export const likePatch = async (req: Request, res: Response) => {
-  const { id, status } = req.body;
-  const song = await Song.findOne({
-    _id: id,
-    deleted: false,
-    status: "active",
-  });
+  const { id, status, userId } = req.body;
+  const song = await Song.findOneAndUpdate(
+    {
+      _id: id,
+      deleted: false,
+      status: "active",
+    },
+    status === "like"
+      ? { $push: { like: userId } } // Thêm userId vào mảng like
+      : { $pull: { like: userId } }, // Xóa userId khỏi mảng like
+    { new: true } // Trả về tài liệu sau khi cập nhật
+  );
+
   if (song) {
-    let updateLike = song.like;
-    switch (status) {
-      case "like":
-        updateLike++;
-        break;
-      case "dislike":
-        updateLike--;
-        break;
-
-      default:
-        break;
-    }
-    await Song.updateOne(
-      {
-        _id: id,
-        deleted: false,
-        status: "active",
-      },
-      {
-        like: updateLike,
-      }
-    );
-
     res.json({
       code: "success",
-      like: updateLike,
+      like: song.like.length, // Trả về số lượng like ngay lập tức
     });
   } else {
     res.json({
@@ -145,7 +141,8 @@ export const likePatch = async (req: Request, res: Response) => {
 };
 
 export const favoritePatch = async (req: Request, res: Response) => {
-  const { id } = req.body;
+  const id = req.body.songId;
+  const userId = req.body.userId;
   const song = await Song.findOne({
     _id: id,
     deleted: false,
@@ -154,16 +151,23 @@ export const favoritePatch = async (req: Request, res: Response) => {
   if (song) {
     const existSong = await FavoriteSong.findOne({
       songId: id,
+      userId: userId,
     });
     if (existSong) {
       await FavoriteSong.deleteOne({
         songId: id,
+        userId: userId,
       });
     } else {
       const record = new FavoriteSong({
         songId: id,
+        userId: userId,
       });
       await record.save();
+      req.flash("success", "Đã thêm bài hát yêu thích");
+      res.json({
+        code: "success",
+      });
     }
     //   await Song.updateOne(
     //     {
@@ -189,7 +193,7 @@ export const favoritePatch = async (req: Request, res: Response) => {
 };
 
 export const favorite = async (req: Request, res: Response) => {
-  const songs = await FavoriteSong.find({});
+  const songs = await FavoriteSong.find({ userId: res.locals.users.id });
   for (const song of songs) {
     const infoSong = await Song.findOne({
       _id: song.songId,
@@ -201,6 +205,9 @@ export const favorite = async (req: Request, res: Response) => {
     song["avatar"] = infoSong.avatar;
     song["singerFullName"] = infoSinger.fullName;
     song["slug"] = infoSong.slug;
+    song["createdAtFormat"] = moment("2024-12-28T16:34:52.981+00:00").format(
+      "DD/MM/YYYY"
+    );
   }
   res.render("client/pages/songs/favorite", {
     pageTitle: "Bài hát yêu thích",

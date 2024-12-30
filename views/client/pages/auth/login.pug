@@ -5,7 +5,7 @@ include ../../mixins/box-item.pug
 block main
     .login 
         .login-title Đăng nhập tài khoản
-        form.form(action="")
+        form.form(action="/auth/login" method="POST")
             .form__item
                 .form__title
                     label(for="email") Email
