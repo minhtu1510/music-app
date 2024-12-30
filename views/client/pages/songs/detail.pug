@@ -28,7 +28,7 @@ block main
           .inner-avatar
             img(src=song.avatar)
           .inner-audio
-            div(id="aplayer" data-song=song data-singer=singer)
+            div(id="aplayer" data-song=song data-singer=singer onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer.fullName)})`)
         .inner-desc
           .inner-label Mô tả
           .inner-text

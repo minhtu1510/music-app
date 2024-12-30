@@ -4,15 +4,13 @@ extends ../../layouts/default.pug
 block main 
     .row
         .col-12
-            div(class="listmusic" play-list)
+            div(class = "listmusic" play-list)
                 .playlist__header
                     .playlist__header--title Playlist 
-                    .playlist__buttons 
-                        .playlist__button--all Tất cả
-                        .playlist__button--mine Của tôi
                 .playlist__content 
                     .create-playlist-new
-                        <i class="fa-solid fa-plus"></i>
+                        div(class="create-btn-playlist" onclick="handleCreatePlaylist()")
+                            <i class="fa-solid fa-plus"></i>
                         .create-playlist-new--title Tạo playlist mới
                     .playlist-old
                         img(src="/images/img-playlist.png", alt="") 

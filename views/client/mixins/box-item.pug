@@ -1,13 +1,13 @@
-mixin box-item(img="", title="", singer="", time="4:32")
+mixin box-item(song="", singer="")
     .col-12
         .box-items__category
             .mb-3
                 .box-item__category 
-                    .box-item__category--title 
-                        <i class="fa-solid fa-play"></i>
-                        img(src=img, alt="Ảnh bài hát")
-                        .box-item__category--title-main #{title}
+                    .box-item__category--title
+                        div(class="box-item__category--title--btnPlay" onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`)
+                            <i class="fa-solid fa-play"></i>
+                        img(src=song.avatar, alt="Ảnh bài hát")
+                        .box-item__category--title-main #{song.title}
                     .box-item__category--singer #{singer}
                     .box-item__category--buttons 
-                        .inner-time #{time}
                         .inner-heart <i class="fa-regular fa-heart"></i>

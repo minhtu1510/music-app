@@ -9,11 +9,11 @@ block main
       .col-6.mb-3
         div(class="song-item")
           div(class="inner-image")
-            a(href=`/songs/detail/${song.songId}`)
+            a(href=`/songs/detail/${song.slug}`)
               img(src=song.avatar)
           div(class="inner-content")
             div(class="inner-title")
-              a(href=`/songs/detail/${song.songId}`) #{song.title}
+              a(href=`/songs/detail/${song.slug}`) #{song.title}
             div(class="inner-singer") <i class="fa-solid fa-microphone-lines"></i> #{song.singerFullName}
             div(class="inner-heart active" button-favorite=song.songId)
               <i class="fa-regular fa-heart"></i> Yêu thích

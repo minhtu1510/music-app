@@ -14,7 +14,6 @@ block main
         .col-12
             each song in songs 
                 +box-item(
-                    song.avatar,
-                    song.title,
+                    song,
                     singer.fullName
                 )

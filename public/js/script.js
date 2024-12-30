@@ -381,5 +381,63 @@ handleClickPreSong = () => {
 
 //Hết Chay Audio
 
+//Hiện thông báo tạo playlist
+handleCreatePlaylist = () => {
+  const modal = document.createElement("div");
+  modal.setAttribute("class", "modal-create-playlist");
+  modal.innerHTML =`
+      <div class="modal-main"> 
+        <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
+        <div class="modal-wrap">
+          <div class="modal-title">Tạo playlist mới</div>
+          <input type="text" placeholder="Nhập tên playlist...">
+          <button>Tạo mới</button>
+        </div>
+          
+      </div>
+      <div class="bg-modal"></div>
+  `;
+  body.appendChild(modal);
+  console.log(modal);
+  const close_btn = document.querySelector(".modal-create-playlist .modal-btn");
+  close_btn.addEventListener("click" , () => {
+    body.removeChild(modal);
+  })
+}
+//Hết Hiện thông báo tạo playlist
+//Thêm bài hát vào playlist
+handleAddSongPlaylist = () => {
+  const modal = document.createElement("div");
+  modal.setAttribute("class", "modal-add-playlist");
+  modal.innerHTML =`
+      <div class="modal-main"> 
+        <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
+        <div class="modal-wrap">  
+          <input type="text" placeholder="Nhập tên playlist...">
+          <div class="modal-playlist">
+            <div class="modal-create-new-playlist" onclick="handleCreatePlaylist()">
+              <i class="fa-solid fa-plus"></i>
+              <div class="modal-item--title"> Tạo playlist mới
+              </div>
+            </div>
+            <div class="modal-add-old-playlist">
+              <i class="fa-solid fa-icons"></i>
+              <div class="modal-item--title"> Nhạc học tập
+              </div>
+            </div>
+          </div>
+          
+        </div>
+          
+      </div>
+      <div class="bg-modal"></div>
+  `;
+  body.appendChild(modal);
+  console.log(modal);
+  const close_btn = document.querySelector(".modal-add-playlist .modal-btn");
+  close_btn.addEventListener("click" , () => {
+    body.removeChild(modal);
+  })
+}
+//Hết Thêm bài hát vào playlist
 
-// console.log("")
