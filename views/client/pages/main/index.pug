@@ -48,7 +48,7 @@ block main
                 .row 
                     each topic in topics.slice(0,4)
                         .col-3.mb-3
-                            a(href=`/topics/${topic.slug}`)
+                            a(href=`/songs/${topic.slug}`)
                                 div(class="singer topic")         
                                     img(src=topic.avatar alt=topic.title)
                                     div(class="singer-body")

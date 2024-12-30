@@ -17,18 +17,28 @@
                     <i class="fa-solid fa-microphone-lines"></i>
                     | Ca sĩ
             li 
-                a(href="/songs/favorite")
-                    <i class="fa-solid fa-heart"></i>
-                    | Bài hát yêu thích
-            li 
-                a(href="#")
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    | Đăng xuất
-            li 
-                a(href="/auth/login")
-                    <i class="fa-solid fa-user"></i>
-                    | Đăng nhập
-            li 
-                a(href="/auth/register")
-                    <i class="fa-solid fa-user-plus"></i>
-                    | Đăng ký
+                a(href="/playlists")
+                    <i class="fa-solid fa-music"></i>
+                    | Playlist
+            -if (users)
+                li 
+                    a(href="/songs/favorite")
+                        <i class="fa-solid fa-heart"></i>
+                        | Bài hát yêu thích
+                li 
+                    a(href="/auth/profile")
+                        <i class="fa-solid fa-user"></i>
+                        | Tài khoản
+                li
+                    a(href="/auth/logout")
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        | Đăng xuất
+            -else
+                li 
+                    a(href="/auth/login")
+                        <i class="fa-solid fa-user"></i>
+                        | Đăng nhập
+                li 
+                    a(href="/auth/register")
+                        <i class="fa-solid fa-user-plus"></i>
+                        | Đăng ký

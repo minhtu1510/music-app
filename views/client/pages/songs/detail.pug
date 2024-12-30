@@ -13,22 +13,23 @@ block main
             <i class="fa-solid fa-microphone-lines"></i> #{singer.fullName}
           div(class="inner-action inner-topic")
             <i class="fa-solid fa-music"></i> #{topic.title}
-          div(class="inner-action inner-like" button-like=song.id)
+          div(class="inner-action inner-like " +(song.liked ? "active":"")
+           button-like=song.id user-id=users.id)
             <i class="fa-regular fa-thumbs-up"></i> 
-            <span style="margin-right:2px;">#{song.like}</span> 
+            <span style="margin-right:2px;">#{song.like.length}</span> 
             | thích
           div(class="inner-action inner-listen")
             <i class="fa-solid fa-headphones"></i>
             <span style="margin-right: 2px;">#{song.listen}</span>
             | lượt nghe
-          div(class="inner-action inner-heart" +(song.favorite ? "active":"")
-          button-favorite=song.id)
+          div(class="inner-action inner-heart " +(song.favorite ? "active":"")
+          button-favorite=song.id user-id=users.id)
             <i class="fa-regular fa-heart"></i> Bài hát yêu thích
         .inner-play
           .inner-avatar
             img(src=song.avatar)
           .inner-audio
-            div(id="aplayer" data-song=song data-singer=singer)
+            div(id="aplayer" data-song=song data-singer=singer data-same-song=sameSong)
         .inner-desc
           .inner-label Mô tả
           .inner-text
@@ -37,12 +38,7 @@ block main
           .inner-label Lời bài hát
           .inner-text
             | !{song.lyrics}
-      +box-item(
-        "/images/Lead-image.png",
-        "Cô Phòng",
-        "Hồ Quang Hiếu, Huỳnh Văn",
-        "4:32"
-      )
+
   //- .song-categories 
   //-   .row
   //-     .col-12

@@ -22,8 +22,7 @@ const songSchema = new mongoose.Schema(
     deletedAtFormat: String,
     type_song: String,
     like: {
-      type: Number,
-      default: 0,
+      type: Array,
     },
     listen: {
       type: Number,
