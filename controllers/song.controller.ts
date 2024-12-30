@@ -35,6 +35,7 @@ export const index = async (req: Request, res: Response) => {
   res.render("client/pages/songs/index", {
     pageTitle: "Danh sách bài hát",
     songs: songs,
+    topic: topic,
   });
 };
 
@@ -61,23 +62,25 @@ export const detail = async (req: Request, res: Response) => {
     deleted: false,
     status: "active",
   });
-
-  const exsitSongFavorite = await FavoriteSong.findOne({
-    songId: song.id,
-    userId: res.locals.users.id,
-  });
-  if (exsitSongFavorite) {
-    song["favorite"] = true;
-  } else {
-    song["favorite"] = false;
-  }
-  const exsitSongLike = song.like.includes(res.locals.users.id);
-  if (exsitSongLike) {
-    song["liked"] = true;
-  } else {
-    song["liked"] = false;
-  }
-
+  if (res.locals.users) {
+    const exsitSongFavorite = await FavoriteSong.findOne({
+      songId: song.id,
+      userId: res.locals.users.id,
+    });
+    if (exsitSongFavorite) {
+      song["favorite"] = true;
+    } else {
+      song["favorite"] = false;
+    }
+  } else song["favorite"] = false;
+  if (res.locals.users) {
+    const exsitSongLike = song.like.includes(res.locals.users.id);
+    if (exsitSongLike) {
+      song["liked"] = true;
+    } else {
+      song["liked"] = false;
+    }
+  } else song["liked"] = false;
   res.render("client/pages/songs/detail", {
     pageTitle: "Chi tiết bài hát",
     song: song,
@@ -115,80 +118,84 @@ export const detail = async (req: Request, res: Response) => {
 //   });
 // };
 export const likePatch = async (req: Request, res: Response) => {
-  const { id, status, userId } = req.body;
-  const song = await Song.findOneAndUpdate(
-    {
-      _id: id,
-      deleted: false,
-      status: "active",
-    },
-    status === "like"
-      ? { $push: { like: userId } } // Thêm userId vào mảng like
-      : { $pull: { like: userId } }, // Xóa userId khỏi mảng like
-    { new: true } // Trả về tài liệu sau khi cập nhật
-  );
+  if (req.cookies.tokenUser) {
+    const { id, status, userId } = req.body;
+    const song = await Song.findOneAndUpdate(
+      {
+        _id: id,
+        deleted: false,
+        status: "active",
+      },
+      status === "like"
+        ? { $push: { like: userId } } // Thêm userId vào mảng like
+        : { $pull: { like: userId } }, // Xóa userId khỏi mảng like
+      { new: true } // Trả về tài liệu sau khi cập nhật
+    );
 
-  if (song) {
-    res.json({
-      code: "success",
-      like: song.like.length, // Trả về số lượng like ngay lập tức
-    });
-  } else {
-    res.json({
-      code: "error",
-    });
+    if (song) {
+      res.json({
+        code: "success",
+        like: song.like.length, // Trả về số lượng like ngay lập tức
+      });
+    } else {
+      res.json({
+        code: "error",
+      });
+    }
   }
 };
 
 export const favoritePatch = async (req: Request, res: Response) => {
-  const id = req.body.songId;
-  const userId = req.body.userId;
-  const song = await Song.findOne({
-    _id: id,
-    deleted: false,
-    status: "active",
-  });
-  if (song) {
-    const existSong = await FavoriteSong.findOne({
-      songId: id,
-      userId: userId,
+  if (req.cookies.tokenUser) {
+    const id = req.body.songId;
+    const userId = req.body.userId;
+    const song = await Song.findOne({
+      _id: id,
+      deleted: false,
+      status: "active",
     });
-    if (existSong) {
-      await FavoriteSong.deleteOne({
+    if (song) {
+      const existSong = await FavoriteSong.findOne({
         songId: id,
         userId: userId,
       });
-    } else {
-      const record = new FavoriteSong({
-        songId: id,
-        userId: userId,
-      });
-      await record.save();
-      req.flash("success", "Đã thêm bài hát yêu thích");
-      res.json({
-        code: "success",
-      });
-    }
-    //   await Song.updateOne(
-    //     {
-    //       _id: id,
-    //       deleted: false,
-    //       status: "active",
-    //     },
-    //     {
-    //       like: updateLike,
-    //     }
-    //   );
+      if (existSong) {
+        await FavoriteSong.deleteOne({
+          songId: id,
+          userId: userId,
+        });
+      } else {
+        const record = new FavoriteSong({
+          songId: id,
+          userId: userId,
+        });
+        await record.save();
+        req.flash("success", "Đã thêm bài hát yêu thích");
+        res.json({
+          code: "success",
+        });
+      }
+      //   await Song.updateOne(
+      //     {
+      //       _id: id,
+      //       deleted: false,
+      //       status: "active",
+      //     },
+      //     {
+      //       like: updateLike,
+      //     }
+      //   );
 
-    //   res.json({
-    //     code: "success",
-    //     like: updateLike,
-    //   });
-    // } else {
-    //   res.json({
-    //     code: "error",
-    //   });
-    // }
+      //   res.json({
+      //     code: "success",
+      //     like: updateLike,
+      //   });
+      // } else {
+      //   res.json({
+      //     code: "error",
+      //   });
+      // }
+    }
   }
 };
 
