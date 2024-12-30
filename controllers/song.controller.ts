@@ -279,31 +279,9 @@ export const listenPatch = async (req: Request, res: Response) => {
   });
 };
 
-// export const getSong = async (req: Request, res: Response) => {
-//   const slugSong: string = req.params.slugSong;
+export const playlist = async (req: Request, res: Response) => {
 
-//   const song = await Song.findOne({
-//     slug: slugSong,
-//     deleted: false,
-//     status: "active",
-//   });
-
-//   const singer = await Singer.findOne({
-//     _id: song.singerId,
-//     deleted: false,
-//     status: "active",
-//   });
-
-//   const topic = await Topic.findOne({
-//     _id: song.topicId,
-//     deleted: false,
-//     status: "active",
-//   });
-
-//   res.render("client/partials/play", {
-//     pageTitle: "Play bài hát",
-//     song: song,
-//     topic: topic,
-//     singer: singer,
-//   });
-// };
+  res.render("client/pages/songs/playlist", {
+    pageTitle: "Playlist"
+  });
+};
