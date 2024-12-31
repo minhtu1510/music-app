@@ -409,8 +409,15 @@ li {
   margin-left: 20px;
 }
 
+.inner-right--header {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .inner-main {
-  height: 3000px;
+  height: 1000px;
   /* background-color: white;
   color: black; */
   margin-bottom: 40px;
@@ -482,6 +489,7 @@ li {
   margin-bottom: 30px;
   height: 52px;
   position: relative;
+  flex: 1;
 }
 
 .search i {
@@ -497,9 +505,9 @@ li {
   outline: none;
 }
 
-.search i {
+/* .search i {
   margin-right: 20px;
-}
+} */
 
 .play {
   position: fixed;
@@ -796,7 +804,7 @@ li {
 
 .inner-list .inner-item {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 
 }
 
@@ -1403,6 +1411,11 @@ li {
   margin-bottom: 3px;
 }
 
+.listmusic .playlist-old {
+  display: flex;
+  gap: 30px;
+}
+
 .listmusic .playlist-old img {
   width: 130px;
   height: 120px;
@@ -1418,12 +1431,18 @@ li {
 .listmusic .playlist-old-name-playlist {
   font-size: 14px;
   font-weight: 700;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .listmusic .playlist-old-name-creater {
   font-size: 14px;
   font-weight: 500;
   color: #dddddd90;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 /*end Playlist*/
@@ -1511,6 +1530,12 @@ li {
 
 }
 
+.modal-add-playlist .modal-add-old-playlist-list {
+  display: flex;
+  flex-direction: column;
+  flex: 20px;
+}
+
 .modal-add-playlist .modal-add-old-playlist {
   display: flex;
   gap: 10px;
@@ -1526,6 +1551,320 @@ li {
 .modal-add-playlist .modal-item--title {
   font-size: 14px;
   font-weight: 500;
+
 }
 
 /*Hết Thêm bài hát vào playlist*/
+
+/*
+Tạo thông báo
+*/
+.list-alert {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: fixed;
+  top: 30px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.alert {
+  display: flex;
+  gap: 20px;
+  background-color: #ddd;
+  padding: 12px 20px;
+  color: white;
+  font-size: 18px;
+  justify-content: space-between;
+  width: 250px;
+  border-radius: 8px;
+  z-index: 9999;
+}
+
+.alert--success {
+  background-color: #63C800;
+}
+
+.alert--error {
+  background-color: #C91E00;
+}
+
+.alert-close {
+  cursor: pointer;
+}
+
+.alert-close:hover {
+  color: #C91E00;
+}
+
+.alert--hidden {
+  display: none;
+}
+
+/*registerPremium */
+.registerPremium {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registerPremium form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 350px;
+  background-color: #50401C;
+  justify-content: flex-start;
+
+}
+
+.registerPremium .registerPremium__info {
+  margin-left: 10px;
+}
+
+.registerPremium button {
+  background-color: #D1A543;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  padding: 2px 3px;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+  width: 280px;
+}
+
+.registerPremium .registerPremium__title {
+
+  display: flex;
+  gap: 3px;
+}
+
+.registerPremium .registerPremium__title--main {
+  font-size: 30px;
+  font-weight: 700;
+
+}
+
+.registerPremium .registerPremium__title--sub {
+  font-size: 15px;
+  font-weight: 700;
+  /* width: 100px;
+  height: 20px; */
+  background-color: white;
+  color: #D1A543;
+  padding: 5px;
+  height: 23px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  border-radius: 5px;
+
+}
+
+.registerPremium .registerPremium__des {
+  font-size: 14px;
+  font-weight: 500;
+  color: #dddddda4;
+}
+
+.registerPremium .registerPremium__price {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.registerPremium .registerPremium__privilege {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: flex-start;
+  margin-bottom: 30px;
+}
+
+.registerPremium .registerPremium__privilege--title {
+  font-size: 16px;
+  font-weight: 600;
+  padding-top: 20px;
+  border-top: 1px solid #dddd;
+  width: 270px;
+}
+
+.registerPremium .registerPremium__privilege--items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+}
+
+.registerPremium .registerPremium__privilege--item {
+  display: flex;
+  gap: 5px;
+
+}
+
+.registerPremium .registerPremium__privilege--item i {
+  color: #F57F20;
+
+}
+
+.registerPremium .registerPremium__privilege--item-title {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/*End registerPremium */
+/*Nâng cấp tài khoản và tài khoản*/
+.account {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  position: relative;
+}
+
+.account img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #D1A543;
+  outline: 0;
+  cursor: pointer;
+}
+
+.account .boostAccount button {
+  background-color: #8742C3;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  padding: 3px 3px;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+  width: 160px;
+}
+
+.modal-info-account {
+  position: absolute;
+  top: 40px;
+  right: 0;
+}
+
+.account-wrap {
+  display: flex;
+  gap: 10px;
+  background-color: #32234C;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.account-wrap .account-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.account-wrap img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  outline: 0;
+  border: 0;
+}
+
+.account-wrap .account-title {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.account-wrap .account-title-type {
+  padding: 2px;
+  background-color: #A1A1A1;
+  border-radius: 5px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+}
+
+.account-wrap button {
+  background-color: #47395D;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  padding: 2px 3px;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+  width: 160px;
+
+}
+
+.account-wrap button:hover {
+  background-color: #F57F20;
+}
+
+/*Hết Nâng cấp tài khoản và tài khoản*/
+/*Search*/
+.inner-list {
+  gap: 0px;
+}
+
+.box-search .inner-suggest {
+  border: 0;
+}
+
+.inner-item {
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  border-bottom: 1px solid #dddddd88;
+  align-items: center;
+  background-color: #212121;
+}
+
+.inner-item .inner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-decoration: none;
+}
+
+.inner-item .inner-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+
+}
+
+.inner-item .inner-singer {
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  text-decoration: none;
+
+}
+
+/*Hết Search*/

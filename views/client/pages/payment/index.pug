@@ -2,9 +2,38 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/box-intro.pug
 include ../../mixins/box-item.pug
+
 block main
-    .login 
-        .login-title Music Premium
+    .registerPremium 
         form.form(action="/payment" method="POST")
+            .registerPremium__info
+                .registerPremium__title
+                    .registerPremium__title--main Tech.28
+                    .registerPremium__title--sub Premium
+                .registerPremium__des Toàn bộ đặc quyền Plus cùng kho nhạc Premium 
+                .registerPremium__price Chỉ từ 13.000đ/tháng
             button Đăng ký gói
+            .registerPremium__privilege
+                .registerPremium__privilege--title Đặc quyền đặc biệt 
+                .registerPremium__privilege--items 
+                    .registerPremium__privilege--item 
+                        .registerPremium__privilege--item-icon <i class="fa-solid fa-check"></i>
+                        .registerPremium__privilege--item-title Kho nhạc Premium
+                    .registerPremium__privilege--item 
+                        .registerPremium__privilege--item-icon <i class="fa-solid fa-check"></i>
+                        .registerPremium__privilege--item-title Nghe nhạc không quảng cáo
+                    .registerPremium__privilege--item 
+                        .registerPremium__privilege--item-icon <i class="fa-solid fa-check"></i>
+                        .registerPremium__privilege--item-title Nghe và tải nhạc Lossless
+                    .registerPremium__privilege--item 
+                        .registerPremium__privilege--item-icon <i class="fa-solid fa-check"></i>
+                        .registerPremium__privilege--item-title Lưu trữ nhạc không giới hạn
+                    .registerPremium__privilege--item 
+                        .registerPremium__privilege--item-icon <i class="fa-solid fa-check"></i>
+                        .registerPremium__privilege--item-title Tính năng nghe nhạc nâng cao
+                    .registerPremium__privilege--item 
+                        .registerPremium__privilege--item-icon <i class="fa-solid fa-check"></i>
+                        .registerPremium__privilege--item-title Khả năng mở rộng Upload
+
+
 
