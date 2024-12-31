@@ -11,8 +11,9 @@ block main
                         div(class="create-btn-playlist" onclick="handleCreatePlaylist()")
                             <i class="fa-solid fa-plus"></i>
                         .create-playlist-new--title Tạo playlist mới
-                    .playlist-old
-                        img(src="/images/img-playlist.png", alt="") 
-                        .playlist-old--title 
-                            .playlist-old-name-playlist Nhạc học tập  
-                            .playlist-old-name-creater  Thao  
+                    div(class="playlist-old" playlistOld)
+                        each playlist in playlists           
+                            .playlist-old--title
+                                img(src="/images/img-playlist.png", alt="")  
+                                .playlist-old-name-playlist #{playlist.title}  
+                                .playlist-old-name-creater  #{userName} 
