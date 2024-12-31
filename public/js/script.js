@@ -284,7 +284,6 @@ handleClickPremium = () => {
 // khi click audio
 handlePlayAudio = (event, song, singer) => {
   const audio = song.audio;
-
   const elementAudio = document.querySelector(".play-audio");
   //hiện play
   elementAudio.classList.add("begin");
@@ -338,8 +337,32 @@ handlePlayAudio = (event, song, singer) => {
     if (songItem) {
       songItem?.classList.add("active");
     }
+    //set mode cho localStorage
+
+
+    // localStorage.setItem("mode", "active");
+    // const songData ={
+    //   song,
+    //   singer
+    // }
+    // localStorage.setItem("currentSong", JSON.stringify(songData));
+
+
   }
 };
+//kiểm tra localStorage
+// document.addEventListener("DOMContentLoaded", () => {
+//   const currentMode = localStorage.getItem("mode");
+
+//   if (currentMode === "active") {
+//     const currentSong = JSON.parse(localStorage.getItem("currentSong"));
+//     handlePlayAudio(event,currentSong.song, currentSong.singer)
+//   }else{
+//     elementAudio.classList.remove("begin");
+//   }
+// });
+//Hết kiểm tra localStorage
+
 handlePlay = () => {
   //nut play/pause
   const elementAudio = document.querySelector(".play-audio");
@@ -403,3 +426,63 @@ if (alertMessage) {
   }, 3000);
 }
 // End alert-message
+
+//Hiện thông báo tạo playlist
+handleCreatePlaylist = () => {
+  const modal = document.createElement("div");
+  modal.setAttribute("class", "modal-create-playlist");
+  modal.innerHTML =`
+      <div class="modal-main"> 
+        <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
+        <div class="modal-wrap">
+          <div class="modal-title">Tạo playlist mới</div>
+          <input type="text" placeholder="Nhập tên playlist...">
+          <button>Tạo mới</button>
+        </div>
+          
+      </div>
+      <div class="bg-modal"></div>
+  `;
+  body.appendChild(modal);
+  console.log(modal);
+  const close_btn = document.querySelector(".modal-create-playlist .modal-btn");
+  close_btn.addEventListener("click" , () => {
+    body.removeChild(modal);
+  })
+}
+//Hết Hiện thông báo tạo playlist
+//Thêm bài hát vào playlist
+handleAddSongPlaylist = () => {
+  const modal = document.createElement("div");
+  modal.setAttribute("class", "modal-add-playlist");
+  modal.innerHTML =`
+      <div class="modal-main"> 
+        <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
+        <div class="modal-wrap">  
+          <input type="text" placeholder="Nhập tên playlist...">
+          <div class="modal-playlist">
+            <div class="modal-create-new-playlist" onclick="handleCreatePlaylist()">
+              <i class="fa-solid fa-plus"></i>
+              <div class="modal-item--title"> Tạo playlist mới
+              </div>
+            </div>
+            <div class="modal-add-old-playlist">
+              <i class="fa-solid fa-icons"></i>
+              <div class="modal-item--title"> Nhạc học tập
+              </div>
+            </div>
+          </div>
+          
+        </div>
+          
+      </div>
+      <div class="bg-modal"></div>
+  `;
+  body.appendChild(modal);
+  console.log(modal);
+  const close_btn = document.querySelector(".modal-add-playlist .modal-btn");
+  close_btn.addEventListener("click" , () => {
+    body.removeChild(modal);
+  })
+}
+//Hết Thêm bài hát vào playlist

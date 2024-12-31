@@ -15,7 +15,7 @@ block main
     each song in songs
       .col-6.mb-3
         div(class="song-item" active_song={song})
-          div(class="inner-image" type_song = `${song.type_song}` )
+          div(class="inner-image" type_song = `${song.type_song}`  onClick=song.type_song !="premium" ?`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(song.singerFullName)})`: undefined)
             a(href= `/songs/detail/${song.slug}` )
               img(src=song.avatar)
             //- if song.type_song !== "premium"
@@ -25,7 +25,7 @@ block main
             //-   img(src=song.avatar onclick = "handClick()")    
           div(class="inner-content")
             div(class="inner-title" type_song = `${song.type_song}` )
-              a(href=`/songs/detail/${song.slug}` ) #{song.title}
+              a(href=`/songs/detail/${song.slug}` onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(song.singerFullName)})`) #{song.title}
               //- if song.type_song !== "premium"
               //-   a(href=`/songs/detail/${song.slug}` ) #{song.title}
               //- else 
