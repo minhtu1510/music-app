@@ -9,7 +9,7 @@ const playlistSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-export const FavoriteSong = mongoose.model(
+export const Playlist = mongoose.model(
   "Playlist",
   playlistSchema,
   "playlists"

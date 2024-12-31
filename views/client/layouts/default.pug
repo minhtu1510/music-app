@@ -21,12 +21,15 @@ html
     //- include ../partials/header.pug
     //- block main
     //- include ../partials/footer.pug
+    .list-alert
     .container
       .inner-wrap 
         .inner-left
           include ../partials/sider.pug
         .inner-right
-          include ../partials/search.pug
+          .inner-right--header
+            include ../partials/search.pug
+            include ../partials/account.pug
           .inner-main 
             block main 
     include ../partials/play.pug      
