@@ -685,9 +685,9 @@ li {
 }
 
 .aplayer .aplayer-info .aplayer-music .aplayer-title {
-  color: white;
+  color: black;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /*het Chi tiet bai hat*/
@@ -711,6 +711,7 @@ li {
   display: flex;
   gap: 12px;
   align-items: center;
+  width: 200px;
 }
 
 .box-item__category .box-item__category--title i {
@@ -1185,6 +1186,17 @@ li {
   align-items: center;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .modal-main {
   width: 450px;
 
@@ -1330,3 +1342,190 @@ li {
 /* End Range */
 
 /*end Audio*/
+
+/*Playlist*/
+
+
+.listmusic .playlist__header {
+  display: flex;
+  border-bottom: 1px solid #dddddd70;
+}
+
+.listmusic .playlist__header--title {
+  font-size: 30px;
+  font-weight: 700;
+  /* border-right: 1px solid #dddddd70;
+  padding-right: 30px; */
+}
+
+.listmusic .playlist__buttons {
+  display: flex;
+  gap: 30px;
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left: 30px;
+}
+
+.listmusic .playlist__buttons.active {
+  border-bottom: 1px solid #7c00c8;
+}
+
+.listmusic .playlist__content {
+  margin-top: 20px;
+  display: flex;
+  gap: 25px;
+}
+
+.listmusic .create-playlist-new {
+  border: 1px solid #dddddd70;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+}
+
+.listmusic .create-playlist-new {
+  display: flex;
+  flex-direction: column;
+}
+
+.listmusic .create-playlist-new i {
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 3px;
+}
+
+.listmusic .playlist-old img {
+  width: 130px;
+  height: 120px;
+  border-radius: 5px;
+}
+
+.listmusic .playlist-old--title {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.listmusic .playlist-old-name-playlist {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.listmusic .playlist-old-name-creater {
+  font-size: 14px;
+  font-weight: 500;
+  color: #dddddd90;
+}
+
+/*end Playlist*/
+
+/*Tạo playlist*/
+.modal-create-playlist {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-create-playlist input {
+  background-color: #a389b9;
+  border-radius: 10px;
+  padding: 4px 6px;
+  outline: 0;
+  border: 0;
+}
+
+.modal-create-playlist button {
+  background-color: #8B45CA;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  padding: 2px 3px;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+}
+
+/*end modal*/
+
+
+/*Hết Tạo playlist*/
+/* Thêm bài hát vào playlist*/
+.modal-add-playlist {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-add-playlist .modal-playlist {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-add-playlist input {
+  background-color: #a389b9;
+  border-radius: 10px;
+  padding: 4px 6px;
+  outline: 0;
+  border: 0;
+}
+
+.modal-add-playlist .modal-create-new-playlist {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.modal-add-playlist .modal-create-new-playlist i {
+  border-radius: 5px;
+  background-color: #A767B1;
+  color: white;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.modal-add-playlist .modal-add-old-playlist {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.modal-add-playlist .modal-add-old-playlist i {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.modal-add-playlist .modal-item--title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/*Hết Thêm bài hát vào playlist*/

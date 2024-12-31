@@ -11,6 +11,9 @@ router.patch("/favorite", controller.favoritePatch);
 
 router.get("/favorite", controller.favorite);
 
+// router.get("/playlist", controller.playlist);
+
+
 router.get("/search/:type", controller.search);
 
 router.patch("/listen/:id", controller.listenPatch);

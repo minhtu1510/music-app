@@ -222,6 +222,9 @@ export const favorite = async (req: Request, res: Response) => {
   });
 };
 
+
+
+
 export const search = async (req: Request, res: Response) => {
   const type = req.params.type;
   const keyword = `${req.query.keyword}`;

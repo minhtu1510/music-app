@@ -1,0 +1,18 @@
+extends ../../layouts/default.pug
+
+block main 
+    .row
+        .col-12
+            div(class = "listmusic" play-list)
+                .playlist__header
+                    .playlist__header--title Playlist 
+                .playlist__content 
+                    .create-playlist-new
+                        div(class="create-btn-playlist" onclick="handleCreatePlaylist()")
+                            <i class="fa-solid fa-plus"></i>
+                        .create-playlist-new--title Tạo playlist mới
+                    .playlist-old
+                        img(src="/images/img-playlist.png", alt="") 
+                        .playlist-old--title 
+                            .playlist-old-name-playlist Nhạc học tập  
+                            .playlist-old-name-creater  Thao  
