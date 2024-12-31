@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import flash from "connect-flash";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import PayOS = require("@payos/node");
 dotenv.config();
 //thao ơi
 import { connect } from "./config/database";

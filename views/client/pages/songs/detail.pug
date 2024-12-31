@@ -14,7 +14,7 @@ block main
           div(class="inner-action inner-topic")
             <i class="fa-solid fa-music"></i> #{topic.title}
           div(class="inner-action inner-like " +(song.liked ? "active":"")
-           button-like=song.id user-id=users.id)
+           button-like=song.id user-id=(users && users.id ? users.id : ""))
             <i class="fa-regular fa-thumbs-up"></i> 
             <span style="margin-right:2px;">#{song.like.length}</span> 
             | thích
@@ -23,7 +23,7 @@ block main
             <span style="margin-right: 2px;">#{song.listen}</span>
             | lượt nghe
           div(class="inner-action inner-heart " +(song.favorite ? "active":"")
-          button-favorite=song.id user-id=users.id)
+          button-favorite=song.id user-id=(users && users.id ? users.id : ""))
             <i class="fa-regular fa-heart"></i> Bài hát yêu thích
         .inner-play
           .inner-avatar

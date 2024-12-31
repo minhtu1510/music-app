@@ -61,36 +61,40 @@ if (buttonLike) {
   buttonLike.addEventListener("click", () => {
     const id = buttonLike.getAttribute("button-like");
     const userId = buttonLike.getAttribute("user-id");
-    let status = "";
-    if (buttonLike.classList.contains("active")) {
-      buttonLike.classList.remove("active");
-      status = "dislike";
-    } else {
-      buttonLike.classList.add("active");
-      status = "like";
-    }
-    const dataLike = {
-      id: id,
-      status: status,
-      userId: userId,
-    };
+    if (userId != "") {
+      let status = "";
+      if (buttonLike.classList.contains("active")) {
+        buttonLike.classList.remove("active");
+        status = "dislike";
+      } else {
+        buttonLike.classList.add("active");
+        status = "like";
+      }
+      const dataLike = {
+        id: id,
+        status: status,
+        userId: userId,
+      };
 
-    fetch("/songs/like", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataLike),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.code == "success") {
-          buttonLike.querySelector("span").innerHTML = data.like;
-          console.log(buttonLike.querySelector("span"));
-          console.log(data.like);
-        }
-      });
+      fetch("/songs/like", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataLike),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.code == "success") {
+            buttonLike.querySelector("span").innerHTML = data.like;
+            console.log(buttonLike.querySelector("span"));
+            console.log(data.like);
+          }
+        });
+    } else {
+      handleClickPremium();
+    }
   });
 }
 //Hết tính năng like
@@ -102,25 +106,29 @@ if (listbuttonFavorite.length > 0) {
     buttonFavorite.addEventListener("click", () => {
       const id = buttonFavorite.getAttribute("button-favorite");
       const userId = buttonFavorite.getAttribute("user-id");
-      buttonFavorite.classList.toggle("active");
-      const dataLike = {
-        songId: id,
-        userId: userId,
-      };
+      if (userId != "") {
+        buttonFavorite.classList.toggle("active");
+        const dataLike = {
+          songId: id,
+          userId: userId,
+        };
 
-      fetch("/songs/favorite", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataLike),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "success") {
-            console.log("Đã thêm bài hát vào danh sách yêu thích");
-          }
-        });
+        fetch("/songs/favorite", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dataLike),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.code == "success") {
+              console.log("Đã thêm bài hát vào danh sách yêu thích");
+            }
+          });
+      } else {
+        handleClickPremium();
+      }
     });
   });
 }
