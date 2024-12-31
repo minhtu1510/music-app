@@ -1,0 +1,10 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/box-intro.pug
+include ../../mixins/box-item.pug
+block main
+    .login 
+        .login-title Music Premium
+        form.form(action="/payment" method="POST")
+            button Đăng ký gói
+

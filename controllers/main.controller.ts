@@ -9,11 +9,25 @@ export const index = async (req: Request, res: Response) => {
     const singers = await Singer.find({
         deleted: false,
     });
-    const songLikes = await Song.find({
-        deleted: false,
-        status: "active",
-    }).sort({ like: -1 })
-        .limit(3);
+    const songLikes = await Song.aggregate([
+      {
+        $match: {
+          deleted: false,
+          status: "active",
+        },
+      },
+      {
+        $addFields: {
+          likeCount: { $size: "$like" }, // Tính số phần tử trong mảng "like"
+        },
+      },
+      {
+        $sort: { likeCount: -1 }, // Sắp xếp theo số phần tử giảm dần
+      },
+      {
+        $limit: 3, // Lấy 3 bài hát đầu tiên
+      },
+    ]);
     for (const songLike of songLikes) {
         const infoSinger = await Singer.findOne({
             _id: songLike.singerId,

@@ -5,7 +5,7 @@ include ../../mixins/box-item.pug
 block main
     .register
         .register-title Đăng ký tài khoản
-        form.form(action="")
+        form.form(action="/auth/register" method="POST")
             .form__item
                 .form__title
                     label(for="fullName") Họ Tên

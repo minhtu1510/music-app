@@ -24,7 +24,7 @@ block main
                                         .dataSection1__item--title 
                                             .dataSection1__item--nameSong #{song.title}
                                             .dataSection1__item--singer #{song.singerFullName}
-                                            .dataSection1__item--count #{song.like} lượt like
+                                            .dataSection1__item--count #{song.like.length} lượt like
                                     .dataSection1__buttons
                                         div(class="dataSection1__button dataSection1__button--play" song-id=song.id onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(song.singerFullName)})`)
                                             <i class="fa-solid fa-play"></i>    
