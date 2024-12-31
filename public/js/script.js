@@ -30,6 +30,15 @@ if (aplayer) {
     autoplay: true,
   });
   const avatar = document.querySelector(".singer-detail .inner-avatar");
+  const imgDetail = document.querySelector("[img-detail]");
+
+  ap.on("listswitch", async function () {
+    // Lấy danh sách bài hát
+    const audios = await ap.list.audios; // Đây là danh sách bài hát
+    const index = await ap.list.index;
+    // Lấy bài hát hiện tại // Sử dụng index của bài hát được chuyển
+    imgDetail.src = audios[index].cover;
+  });
   ap.on("play", function () {
     avatar.style.animationPlayState = "running";
   });
@@ -38,8 +47,8 @@ if (aplayer) {
     avatar.style.animationPlayState = "paused";
   });
 
-  ap.on("ended", function () {
-    fetch(`/songs/listen/${dataSong._id}`, {
+  ap.on("ended", (data) => {
+    fetch(`/songs/listen/${data._id}`, {
       method: "PATCH",
     })
       .then((res) => res.json())
@@ -347,15 +356,12 @@ handlePlayAudio = (event, song, singer) => {
     }
     //set mode cho localStorage
 
-
     // localStorage.setItem("mode", "active");
     // const songData ={
     //   song,
     //   singer
     // }
     // localStorage.setItem("currentSong", JSON.stringify(songData));
-
-
   }
 };
 //kiểm tra localStorage

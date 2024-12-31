@@ -22,11 +22,12 @@ block main
                                     .dataSection1__item--intro  
                                         img(src=song.avatar, alt="") 
                                         .dataSection1__item--title 
-                                            .dataSection1__item--nameSong #{song.title}
+                                            a(class="dataSection1__item--nameSong" href= `/songs/detail/${song.slug}`) #{song.title}
                                             .dataSection1__item--singer #{song.singerFullName}
                                             .dataSection1__item--count #{song.like.length} lượt like
                                     .dataSection1__buttons
-                                        div(class="dataSection1__button dataSection1__button--play" song-id=song.id onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(song.singerFullName)})`)
+                                        div(class="dataSection1__button dataSection1__button--play" song-id=song.id 
+                                            onClick=(users&&users.type_user=="premium")||(song.type_song=="free")?`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(song.singerFullName)})`:`handleClickPremium()`)
                                             <i class="fa-solid fa-play"></i>    
                                         //- div(class="dataSection1__button" onClick=`handlePlayAudio(event,${song})`) 
                                             <i class="fa-solid fa-play"></i>
