@@ -113,7 +113,7 @@ export const forgotPasswordPost = async (req: Request, res: Response) => {
     const text = `Mã xác thực của bạn là <b>${otp}</b>. Mã OTP có hiệu lực trong vòng 5 phút, vui lòng không cung cấp mã OTP cho bất kỳ ai.`;
     sendMail(email, subject, text);
   }
-  res.redirect(`/user/password/otp?email=${email}`);
+  res.redirect(`/auth/password/otp?email=${email}`);
 };
 export const otpPassword = async (req: Request, res: Response) => {
   const email = req.query.email;
