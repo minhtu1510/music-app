@@ -8,20 +8,20 @@ html
     link(rel="stylesheet", href="/css/style.css")
     
   body
-    - if (messages.success)
-      div(
-        class="alert alert-success alert-message"
-        alert-message
-      ) #{messages.success}
-    - if (messages.error)
-      div(
-        class="alert alert-danger alert-message"
-        alert-message
-      ) #{messages.error}
     //- include ../partials/header.pug
     //- block main
     //- include ../partials/footer.pug
     .list-alert
+      - if (messages.success)
+        div(
+          class="alert alert-success alert-message"
+          alert-message
+        ) #{messages.success}
+      - if (messages.error)
+        div(
+          class="alert alert-danger alert-message"
+          alert-message
+        ) #{messages.error}
     .container
       .inner-wrap 
         .inner-left
