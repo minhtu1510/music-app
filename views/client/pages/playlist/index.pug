@@ -13,7 +13,8 @@ block main
                         .create-playlist-new--title Tạo playlist mới
                     div(class="playlist-old" playlistOld)
                         each playlist in playlists           
-                            .playlist-old--title
+                            div(class="playlist-old--title")
+                            a(href="/playlist/detail")
                                 img(src="/images/img-playlist.png", alt="")  
-                                .playlist-old-name-playlist #{playlist.title}  
-                                .playlist-old-name-creater  #{userName} 
+                            .playlist-old-name-playlist #{playlist.title}  
+                            .playlist-old-name-creater  #{userName} 
