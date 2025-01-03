@@ -490,6 +490,8 @@ li {
   height: 52px;
   position: relative;
   flex: 1;
+  border: 0;
+
 }
 
 .search i {
@@ -879,6 +881,12 @@ li {
   padding: 14px 16px;
 }
 
+.login .buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .form button {
   background-color: #00ADEF;
   height: 40px;
@@ -887,6 +895,53 @@ li {
   border: 0;
   cursor: pointer;
   color: #EFEEE0;
+}
+
+.login .login-google {
+  background-color: white;
+  height: 40px;
+  width: 400px;
+  border-radius: 6px;
+  border: 0;
+  cursor: pointer;
+  color: black;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.login .login-google:hover {
+  background-color: black;
+  height: 40px;
+  width: 400px;
+  border-radius: 6px;
+  border: 0;
+  cursor: pointer;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.login .buttons img {
+  width: 25px;
+  height: 25px;
+}
+
+.login .form__forgetPassword {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.login .form__forgetPassword:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /*het form */
@@ -1483,9 +1538,42 @@ li {
 }
 
 /*end modal*/
+/*Chỉnh sửa playlist*/
+.modal-edit-playlist {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.modal-edit-playlist input {
+  background-color: #a389b9;
+  border-radius: 10px;
+  padding: 4px 6px;
+  outline: 0;
+  border: 0;
+}
 
-/*Hết Tạo playlist*/
+.modal-edit-playlist button {
+  background-color: #8B45CA;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  padding: 2px 3px;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+}
+
+/*Hết chỉnh sửa playlist*/
 /* Thêm bài hát vào playlist*/
 .modal-add-playlist {
   position: fixed;
@@ -1758,6 +1846,7 @@ Tạo thông báo
   position: absolute;
   top: 40px;
   right: 0;
+  z-index: 9999;
 }
 
 .account-wrap {
@@ -1846,7 +1935,11 @@ Tạo thông báo
   display: flex;
   flex-direction: column;
   gap: 5px;
-  text-decoration: none;
+  text-decoration: none !important;
+}
+
+.inner-item .inner-info:hover {
+  text-decoration: none !important;
 }
 
 .inner-item .inner-title {
@@ -1864,7 +1957,170 @@ Tạo thông báo
   gap: 5px;
   align-items: center;
   text-decoration: none;
+  color: #0A67FF;
 
 }
 
 /*Hết Search*/
+/*detail-playlist*/
+.playlist-detail {
+  display: flex;
+  gap: 10px;
+}
+
+.playlist-detail .playlist-detail__image {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.playlist-detail .playlist-detail__image img {
+  width: 280px;
+  height: 280px;
+}
+
+.playlist-detail .playlist-detail__image--info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.playlist-detail__image--title {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  gap: 5px;
+}
+
+.playlist-detail__image--title i {
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.playlist-detail__image--user {
+  font-size: 13px;
+  font-weight: 500;
+  color: #dddddd;
+}
+
+.playlist-detail .playlist-detail__image--play button {
+  background-color: #8B45CA;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  padding: 5px 3px;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+  width: 180px;
+  text-transform: uppercase;
+}
+
+.playlist-detail__image--other i {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid #dddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+
+}
+
+
+.playlist-detail__image--other .modal-message-other {
+  position: absolute;
+  top: 320px;
+  left: 170px;
+  background-color: #493961;
+}
+
+.modal-message-other .modal-message-other__wrap {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.modal-message-other .modal-message-other__wrap button {
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+  color: #ddd;
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+
+}
+
+.modal-message-other .modal-message-other__wrap button:hover {
+  background-color: #584672;
+
+}
+
+.modal-message-other .modal-message-other__wrap i {
+  margin-right: 10px;
+  border: 0;
+}
+
+.playlist-detail__song {
+  width: 60%;
+}
+
+.playlist-detail__songOfPlaylist--title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: #dddd;
+
+}
+
+.playlist-detail__songOfPlaylist--title-music {
+  width: 200px;
+}
+
+.playlist-detail .box-item__category--title {
+  position: relative;
+
+}
+
+.playlist-detail .box-item__category:hover {
+  background-color: #2F2739;
+
+}
+
+.playlist-detail .box-item__category:hover .box-item__category--title--btnPlay {
+  display: block;
+  color: white;
+
+}
+
+.playlist-detail .box-item__category--title--btnPlay {
+  position: absolute;
+  top: 10px;
+  /* bottom: 0;
+  right: 0; */
+  left: 42px;
+  display: none;
+}
+
+.playlist-detail .box-item__category--title--btnPlay i {
+  color: #dddddd;
+}
+
+.playlist-detail__songSuggest--title {
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/*Hết detail-playlist*/

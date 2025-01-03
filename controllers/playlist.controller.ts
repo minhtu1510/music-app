@@ -65,3 +65,20 @@ export const addSongPlaylist = async (req: Request, res: Response) => {
     }
 
 };
+
+export const detail = async (req: Request, res: Response) => {
+    const userId = res.locals.users.id
+    const playlists = await Playlist.find(
+        {
+            userId: userId
+        }
+    )
+    const user = await User.findOne({
+        _id: userId
+    })
+    res.render("client/pages/playlist/detail", {
+        pageTitle: "Bài hát yêu thích",
+        playlists: playlists,
+        userName: user.fullName
+    });
+};
