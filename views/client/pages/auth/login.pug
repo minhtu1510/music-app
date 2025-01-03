@@ -10,13 +10,13 @@ block main
                 .form__title
                     label(for="email") Email
                     .form__title--required *
-                input(type="email" name="email" placeholder="Ví dụ: Levana@gmail.com")
+                input(type="email" name="email" placeholder="Ví dụ: Levana@gmail.com" required)
             .form__item
                 .form__title
                     label(for="password") Password
                     .form__title--required *
-                input(type="password" name="password")
-            a(href="#" class="form__forgetPassword") Quên mật khẩu
+                input(type="password" name="password" required)
+            a(href="/auth/password/forgot" class="form__forgetPassword") Quên mật khẩu
             .buttons
                 button Đăng nhập
                 button(class="login-google") 
