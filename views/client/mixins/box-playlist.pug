@@ -1,0 +1,31 @@
+mixin box-song-playlist(song="", singer="", time="")
+    .col-12
+        .box-items__category
+            .mb-3
+                .box-item__category 
+                    .box-item__category--title
+                        <i class="fa-solid fa-bars-progress"></i>
+                        div(class="box-item__category--title--btnPlay" onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`)
+                            <i class="fa-solid fa-play"></i>
+                        img(src="/images/img-playlist.png", alt="Ảnh bài hát")
+                        .box-item__category--title-main Phản bội chính mình
+                            //- #{song.title}
+                    .box-item__category--singer #{singer}
+                    .box-item__category--buttons 
+                        .inner-heart <i class="fa-regular fa-heart"></i>
+                        .inner-time #{time}
+mixin box-song-suggest-playlist(song="", singer="", time="")
+    .col-12
+        .box-items__category
+            .mb-3
+                .box-item__category 
+                    .box-item__category--title
+                        <i class="fa-solid fa-music"></i>
+                        div(class="box-item__category--title--btnPlay" onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`)
+                            <i class="fa-solid fa-play"></i>
+                        img(src=song.avatar, alt="Ảnh bài hát")
+                        .box-item__category--title-main #{song.title}
+                    .box-item__category--singer #{singer}
+                    .box-item__category--buttons 
+                        .inner-heart <i class="fa-regular fa-heart"></i>
+                        .inner-time #{time}
