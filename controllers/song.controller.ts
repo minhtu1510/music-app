@@ -9,13 +9,13 @@ import moment from "moment";
 
 export const index = async (req: Request, res: Response) => {
   const slugTopic: string = req.params.slugTopic;
-  console.log(slugTopic);
+  // console.log(slugTopic);
   const topic = await Topic.findOne({
     slug: slugTopic,
     deleted: false,
     status: "active",
   });
-  console.log(topic);
+  // console.log(topic);
 
   const songs = await Song.find({
     topicId: topic.id,
