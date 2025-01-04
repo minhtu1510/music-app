@@ -659,7 +659,7 @@ accountClick.addEventListener("click", () => {
     modalAccount.innerHTML = `
       <div class="account-wrap">
         <div class="account-info">
-          <img src="images/img-avatar.jpg" alt="ảnh">
+          <img src=${user.avatar} alt="ảnh">
           <div class="account-title">
             <div class="account-title--name">${user.fullName}</div>
             <div class="account-title-type">${user.type_user}</div>

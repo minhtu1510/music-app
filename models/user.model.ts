@@ -5,8 +5,12 @@ const userSchema = new mongoose.Schema(
     email: String,
     password: String,
     token: String,
+    avatar: {
+      type: String,
+      default:
+        "http://res.cloudinary.com/dimlzdbay/image/upload/v1736007630/kv5ct122jzq8mcubnmjs.jpg",
+    },
     phone: String,
-    avatar: String,
     status: String,
     type_user: String,
     slug: {

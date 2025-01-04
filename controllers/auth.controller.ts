@@ -161,3 +161,8 @@ export const resetPasswordPost = async (req: Request, res: Response) => {
   req.flash("success", "Đổi mật khẩu thành công!");
   res.redirect("/");
 };
+export const profile = async (req: Request, res: Response) => {
+  res.render("client/pages/auth/profile", {
+    pageTitle: "Thông tin tài khoản",
+  });
+};
