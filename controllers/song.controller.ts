@@ -6,6 +6,7 @@ import { FavoriteSong } from "../models/favorite-song.model";
 import unidecode from "unidecode";
 import { title } from "process";
 import moment from "moment";
+import { User } from "../models/user.model";
 
 export const index = async (req: Request, res: Response) => {
   const slugTopic: string = req.params.slugTopic;
@@ -229,9 +230,6 @@ export const favorite = async (req: Request, res: Response) => {
   });
 };
 
-
-
-
 export const search = async (req: Request, res: Response) => {
   const type = req.params.type;
   const keyword = `${req.query.keyword}`;
@@ -331,3 +329,12 @@ export const listenPatch = async (req: Request, res: Response) => {
 //     singer: singer,
 //   });
 // };
+
+export const checkPremium = async (req: Request, res: Response) => {
+  // Giả sử user không phải premium
+  if (res.locals.users && res.locals.users.type_user == "premium") {
+    res.json({ isAllowed: true });
+  } else {
+    res.json({ isAllowed: false });
+  }
+};

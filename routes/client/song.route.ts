@@ -10,6 +10,8 @@ router.patch("/like", controller.likePatch);
 router.patch("/favorite", controller.favoritePatch);
 
 router.get("/favorite", controller.favorite);
+router.post("/check-premium", controller.checkPremium);
+
 
 // router.get("/playlist", controller.playlist);
 
