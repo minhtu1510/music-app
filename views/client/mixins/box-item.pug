@@ -4,7 +4,7 @@ mixin box-item(song="", singer="")
             .mb-3
                 .box-item__category 
                     .box-item__category--title
-                        div(class="box-item__category--title--btnPlay" onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`)
+                        div(class="box-item__category--title--btnPlay" onClick=(users&&users.type_user=="premium")||(song.type_song=="free")?`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`:`handleCheckPremium(event,${JSON.stringify(users)})`)
                             <i class="fa-solid fa-play"></i>
                         img(src=song.avatar, alt="Ảnh bài hát")
                         .box-item__category--title-main #{song.title}

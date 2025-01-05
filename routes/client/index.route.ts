@@ -1,4 +1,5 @@
 import { Express } from "express";
+import { Request, Response } from "express";
 import { topicsRoute } from "./topic.route";
 import { songsRoute } from "./song.route";
 import { settingMiddleware } from "../../middlewares/client/setting.middleware";
@@ -17,10 +18,15 @@ export const routesClient = (app: Express) => {
 
   app.use("/playlist", infoUser, playlistRoute);
 
-
   app.use("/songs", songsRoute);
   app.use("/singers", singersRoute);
   app.use("/auth", authRoute);
   app.use("/payment", paymentRoute);
   app.use("/", mainRoute);
+  // app.get("*", (req: Request, res: Response) => {
+  //   res.render("client/pages/errors/404", {
+  //     pageTitle: "404 Not Found",
+  //   });
+  // });
 };
+

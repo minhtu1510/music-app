@@ -1,6 +1,7 @@
 .account 
     .boostAccount 
-        button(button-upgrade) Nâng cấp tài khoản 
+        -if(!users || users.type_user=="basic")
+            button(onclick=`handleCheckPremium(event,${JSON.stringify(users)})`) Nâng cấp tài khoản 
     -if (users)
         .avatarAccount 
             img(src=users.avatar alt="" user=users)

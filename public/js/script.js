@@ -47,8 +47,8 @@ if (aplayer) {
     avatar.style.animationPlayState = "paused";
   });
 
-  ap.on("ended", (data) => {
-    fetch(`/songs/listen/${data._id}`, {
+  ap.on("ended", async function () {
+    fetch(`/songs/listen/${dataSong._id}`, {
       method: "PATCH",
     })
       .then((res) => res.json())
@@ -258,8 +258,9 @@ const body = document.querySelector(".inner-main");
 //       });
 //     }
 // }
-handleCheckPremium = (event, type_song) => {
-  if (type_song === "premium") {
+
+handleCheckPremium = (event, users) => {
+  if ((users && users.type_user == "basic") || !users) {
     event.preventDefault();
     const modal_pro = document.createElement("div");
     modal_pro.setAttribute("class", "modal_pro");
@@ -271,9 +272,8 @@ handleCheckPremium = (event, type_song) => {
           <div class="modal-title">Muốn nghe full bản nhạc</div>
           <div class="modal-title--sub1">Nâng cấp gói premium chỉ từ 13.000đ</div>
           <div class="modal-title--sub2">Tặng bạn thêm nhiều đặc quyền khác hấp dẫn khác.</div>
-          <button onclick="handleClickPremium()">Khám phá ngay</button>
+          <button id="btn-check-premium" >Khám phá ngay</button>
         </div>
-        
       </div>
       <div class="bg-modal"></div>
     `;
@@ -282,6 +282,14 @@ handleCheckPremium = (event, type_song) => {
     const close_btn = document.querySelector(".modal_pro .modal-btn");
     close_btn.addEventListener("click", () => {
       body.removeChild(modal_pro);
+    });
+    const btnCheck = document.querySelector("#btn-check-premium");
+    btnCheck.addEventListener("click", () => {
+      if (users) {
+        window.location.href = "http://localhost:3000/payment";
+      } else {
+        handleClickPremium();
+      }
     });
   }
 };
@@ -326,8 +334,7 @@ handleClickPremium = () => {
           <img src="/images/image_login.png" alt="ảnh">
           <div class="modal-title">Đăng nhập vào tài khoản</div>
           <a href="/auth/login">Đăng nhập</a>
-        </div>
-          
+        </div>   
       </div>
       <div class="bg-modal"></div>
   `;
@@ -648,37 +655,49 @@ if (accountClick) {
       const modalAccount = document.createElement("div");
       modalAccount.setAttribute("class", "modal-info-account");
       modalAccount.innerHTML = `
-        <div class="account-wrap">
-          <div class="account-info">
-            <img src=${user.avatar} alt="ảnh">
-            <div class="account-title">
-              <div class="account-title--name">${user.fullName}</div>
-              <div class="account-title-type">${user.type_user}</div>
-                
-            </div>
+      <div class="account-wrap">
+        <div class="account-info">
+          <img src=${user.avatar} alt="ảnh">
+          <div class="account-title">
+            <div class="account-title--name">${user.fullName}</div>
+            <div class="account-title-type">${user.type_user}</div>
           </div>
-          <button>Nâng cấp tài khoản</button>
         </div>
-      `;
+        <button id="btn-update">Nâng cấp tài khoản</button>
+      </div>
+    `;
       account.appendChild(modalAccount);
+      const btnCheck = document.querySelector("#btn-update");
+      btnCheck.addEventListener("click", () => {
+        window.location.href = "http://localhost:3000/payment";
+      });
     } else {
       account.removeChild(modalAccount);
     }
   });
 }
+
 //Hết Account
 //Search
 const input = document.querySelector(".search .form-group input");
 const searchBox = document.querySelector(".search .inner-list");
-
-input.addEventListener("blur", () => {
-  searchBox.style.display = "none";
-});
-input.addEventListener("click", () => {
-  searchBox.style.display = "block";
-  searchBox.focus();
-});
+if (input) {
+  input.addEventListener("blur", () => {
+    searchBox.style.display = "none";
+  });
+  input.addEventListener("click", () => {
+    searchBox.style.display = "block";
+    searchBox.focus();
+  });
+}
 //Hết Search
+
+//Chuyển url
+handleUrl = (event, url) => {
+  window.location.href = url;
+};
+
+//hết chuyển url
 
 // Đổi màu tab đang chọn
 const currentPath = window.location.pathname;

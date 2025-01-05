@@ -3,6 +3,7 @@ const router = express.Router();
 
 // import * as controller from "../../controllers/auth.controller";
 import * as controller from "../../controllers/auth.controller";
+import { requireAuth } from "../../middlewares/client/user.middleware";
 router.get("/login", controller.login);
 router.post("/login", controller.loginPost);
 router.get("/register", controller.register);
@@ -14,5 +15,6 @@ router.get("/password/otp", controller.otpPassword);
 router.post("/password/otp", controller.otpPasswordPost);
 router.get("/password/reset", controller.resetPassword);
 router.post("/password/reset", controller.resetPasswordPost);
+router.get("/profile", requireAuth, controller.profile);
 
 export const authRoute = router;
