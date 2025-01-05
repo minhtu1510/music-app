@@ -81,13 +81,17 @@ export const detail = async (req: Request, res: Response) => {
       song["liked"] = false;
     }
   } else song["liked"] = false;
-  res.render("client/pages/songs/detail", {
-    pageTitle: "Chi tiết bài hát",
-    song: song,
-    sameSong: sameSong,
-    topic: topic,
-    singer: singer,
-  });
+  if (song.type_song == "free" || res.locals.users.type_user == "premium") {
+    res.render("client/pages/songs/detail", {
+      pageTitle: "Chi tiết bài hát",
+      song: song,
+      sameSong: sameSong,
+      topic: topic,
+      singer: singer,
+    });
+  } else {
+    res.redirect("/");
+  }
 };
 // export const detailPlay = async (req: Request, res: Response) => {
 //   const slugSong: string = req.params.slugSong;
