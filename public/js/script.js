@@ -708,3 +708,13 @@ if (tab) {
   tab.classList.add("current-tab");
 }
 // Hết đổi màu tab đang chọn
+
+// Đăng nhập google
+const googleBtn = document.querySelector(".login-google");
+if (googleBtn) {
+  console.log(googleBtn);
+  googleBtn.addEventListener("click", (e) => {
+    console.log((window.location.href = "/auth/google"));
+  });
+}
+// Hết đăng nhập google
