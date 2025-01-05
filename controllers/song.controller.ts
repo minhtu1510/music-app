@@ -81,7 +81,10 @@ export const detail = async (req: Request, res: Response) => {
       song["liked"] = false;
     }
   } else song["liked"] = false;
-  if (song.type_song == "free" || res.locals.users.type_user == "premium") {
+  if (
+    song.type_song == "free" ||
+    (res.locals.users && res.locals.users.type_user == "premium")
+  ) {
     res.render("client/pages/songs/detail", {
       pageTitle: "Chi tiết bài hát",
       song: song,
