@@ -14,7 +14,7 @@ block main
                     div(class="playlist-old" playlistOld)
                         each playlist in playlists           
                             div(class="playlist-old--title")
-                            a(href="/playlist/detail")
-                                img(src="/images/img-playlist.png", alt="")  
-                            .playlist-old-name-playlist #{playlist.title}  
-                            .playlist-old-name-creater  #{userName} 
+                                a(href=`/playlist/detail/${playlist.title}`)
+                                    img(src="/images/img-playlist.png", alt="")  
+                                    .playlist-old-name-playlist #{playlist.title}  
+                                    .playlist-old-name-creater  #{userName} 

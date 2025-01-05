@@ -23,4 +23,6 @@ export const routesClient = (app: Express) => {
   app.use("/auth", authRoute);
   app.use("/payment", paymentRoute);
   app.use("/", mainRoute);
+
+
 };

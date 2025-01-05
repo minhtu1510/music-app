@@ -10,26 +10,30 @@ block main
                         img(src="/images/img-playlist.png", alt="")
                     .playlist-detail__image--info 
                         .playlist-detail__image--title 
-                            .playlist-detail__image--title-main Ok 
+                        div(class="playlist-detail__image--title-main" title=playlist.title) #{playlist.title} 
                             div(class="playlist-detail__image--title-btnEdit" onclick="handleEditPlaylist()") <i class="fa-solid fa-pen"></i>    
-                        .playlist-detail__image--user Tạo bởi Minh Tú
+                        .playlist-detail__image--user Tạo bởi #{userName}
                     .playlist-detail__image--play 
-                        button <i class="fa-solid fa-play"></i> Tiếp tục phát
-                    div(class="playlist-detail__image--other" ) <i class="fa-solid fa-ellipsis"></i>
+                        button(class="btnPlaySongInPlaylist" onclick="handlePlaySongInPlaylist()") 
+                            <i class="fa-solid fa-play"></i> Tiếp tục phát
+                    div(class="playlist-detail__image--other" playlist-id= playlist._id) <i class="fa-solid fa-ellipsis"></i>
                 .playlist-detail__song 
                     .playlist-detail__songOfPlaylist
                         .col-12 
                             .playlist-detail__songOfPlaylist--title  
                                 .playlist-detail__songOfPlaylist--title-music Bài hát  
                                 .playlist-detail__songOfPlaylist--title-name Ca sĩ
-                                .playlist-detail__songOfPlaylist--title-time Thời gian 
-                        .playlist-detail__songOfPlaylist--list 
-                            .playlist-detail__songOfPlaylist--song 
-                                +box-song-playlist("Phản bội chính mình", "Quan AP","4:32")
-                    .playlist-detail__songSuggest 
-                        .playlist-detail__songSuggest--title Bài hát gợi ý 
-                        .playlist-detail__songSuggest--item 
-                            +box-song-suggest-playlist("Phản bội chính mình", "Quan AP","4:32")
+                                .playlist-detail__songOfPlaylist--title-time Yêu thích
+                        .playlist-detail__songOfPlaylist--list        
+                            each song in songOfPlaylist 
+                                +box-song-playlist(song, song.singerFullName,playlist)
+                .playlist-detail__songSuggest 
+                    .playlist-detail__songSuggest--title Bài hát gợi ý 
+                    .playlist-detail__songSuggest--item 
+                        each songtopic in songWithTopic
+                            +box-song-suggest-playlist(songtopic, songtopic.singerFullName,playlist)
+                        each songlike in songLikes
+                            +box-song-suggest-playlist(songlike, songlike.singerFullName,playlist)
 
                     
                               

@@ -1,20 +1,23 @@
-mixin box-song-playlist(song="", singer="", time="")
+mixin box-song-playlist(song="", singer="", playlist="")
     .col-12
         .box-items__category
             .mb-3
                 .box-item__category 
                     .box-item__category--title
-                        <i class="fa-solid fa-bars-progress"></i>
+                        div(class="box-item__category--title-btn-delete" onClick=`handleDisplayButtonDelete(event)`)
+                            <i class="fa-solid fa-bars-progress"></i>
                         div(class="box-item__category--title--btnPlay" onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`)
                             <i class="fa-solid fa-play"></i>
-                        img(src="/images/img-playlist.png", alt="Ảnh bài hát")
-                        .box-item__category--title-main Phản bội chính mình
+                        img(src=song.avatar, alt="Ảnh bài hát")
+                        .box-item__category--title-main #{song.title}
                             //- #{song.title}
                     .box-item__category--singer #{singer}
                     .box-item__category--buttons 
                         .inner-heart <i class="fa-regular fa-heart"></i>
                         .inner-time #{time}
-mixin box-song-suggest-playlist(song="", singer="", time="")
+                        div(class="inner-icon-trash" onClick=`handleDeleteSongPlaylist('${song._id}', '${playlist._id}')`)
+                            <i class="fa-solid fa-trash-can"></i>
+mixin box-song-suggest-playlist(song="", singer="", playlist="")
     .col-12
         .box-items__category
             .mb-3
@@ -29,3 +32,6 @@ mixin box-song-suggest-playlist(song="", singer="", time="")
                     .box-item__category--buttons 
                         .inner-heart <i class="fa-regular fa-heart"></i>
                         .inner-time #{time}
+                        div(class="inner-icon-add" onClick=`handleAddSong(${JSON.stringify(playlist._id)}, '/playlist/addSong/${song._id}' )`)
+                            <i class="fa-solid fa-plus"></i>
+
