@@ -3,7 +3,7 @@ extends ../../layouts/default.pug
 block main 
     .row
         .col-12
-            div(class = "listmusic" play-list)
+            div(class="listmusic" play-list)
                 .playlist__header
                     .playlist__header--title Playlist 
                 .playlist__content 
@@ -13,7 +13,7 @@ block main
                         .create-playlist-new--title Tạo playlist mới
                     div(class="playlist-old" playlistOld)
                         each playlist in playlists           
-                            div(class="playlist-old--title")
+                            div(class="playlist-old--title" playlistId=playlist._id)
                                 a(href=`/playlist/detail/${playlist.title}`)
                                     img(src="/images/img-playlist.png", alt="")  
                                     .playlist-old-name-playlist #{playlist.title}  

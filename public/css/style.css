@@ -417,10 +417,11 @@ li {
 }
 
 .inner-main {
-  height: 1000px;
+  height: 1500px;
   /* background-color: white;
   color: black; */
   margin-bottom: 40px;
+  padding-bottom: 50px;
 }
 
 /*end container*/
@@ -1496,6 +1497,7 @@ li {
 .listmusic .playlist-old {
   display: flex;
   gap: 30px;
+  overflow: hidden;
 }
 
 .listmusic .playlist-old img {
@@ -1507,8 +1509,14 @@ li {
 .listmusic .playlist-old--title {
   display: flex;
   flex-direction: column;
-  margin-top: 5px;
+  /* margin-top: 5px; */
 }
+
+/* .listmusic .playlist-old--title:hover {
+  border: 1px solid #dddd;
+  border-radius: 5px;
+
+} */
 
 .listmusic .playlist-old-name-playlist {
   font-size: 14px;
@@ -1516,6 +1524,8 @@ li {
   width: 100px;
   overflow: hidden;
   white-space: nowrap;
+  padding-bottom: 6px;
+  margin-left: 3px;
 }
 
 .listmusic .playlist-old-name-creater {
@@ -2249,3 +2259,9 @@ Tạo thông báo
 }
 
 /*Hết Kiểm tra muốn xóa khỏi playlist không*/
+/*chuyển màu khi bài hát đang chạy*/
+.playlist-detail .playlist-detail__songOfPlaylist--list .col-12.active .box-item__category {
+  background-color: #2F2739;
+}
+
+/*Hết chuyển màu khi bài hát đang chạy*/

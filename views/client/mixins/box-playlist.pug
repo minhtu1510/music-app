@@ -1,6 +1,6 @@
 mixin box-song-playlist(song="", singer="", playlist="")
-    .col-12
-        .box-items__category
+    div(class="col-12" song-id-main=song._id songImg=song.avatar playlistId=playlist._id)    
+        div(class="box-items__category" song=song singer=singer)
             .mb-3
                 .box-item__category 
                     .box-item__category--title
