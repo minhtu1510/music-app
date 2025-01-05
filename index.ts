@@ -6,19 +6,16 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import PayOS = require("@payos/node");
 dotenv.config();
-import "./helpers/passport";
 
 import { connect } from "./config/database";
 connect();
-
-import { Topic } from "./models/topic.model";
 import { routesClient } from "./routes/client/index.route";
 import { routesAdmin } from "./routes/admin/index.route";
 import { systemConfig } from "./config/system";
 
 import methodOverride from "method-override";
 import path from "path";
-import passport = require("passport");
+import passport from "./helpers/passport";
 
 const app: Express = express();
 const port: number = 3000;

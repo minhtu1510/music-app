@@ -1,4 +1,4 @@
-import passport from "passport";
+const passport = require("passport");
 import { User } from "../models/user.model";
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
@@ -20,7 +20,7 @@ passport.use(
       clientID: process.env.googleClientID,
       clientSecret: process.env.googleClientSecret,
       callbackURL: "http://localhost:3000/auth/google/callback",
-      proxy: true,
+      // proxy: true,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -28,14 +28,14 @@ passport.use(
         if (existingUser) {
           return done(null, existingUser);
         }
-
-        const user = await new User({
+        const user = new User({
           googleId: profile.id,
           email: profile.emails[0].value,
           fullName: profile.name.familyName + " " + profile.name.givenName,
-        }).save();
-
-        done(null, user);
+        });
+        console.log(user);
+        await user.save();
+        return done(null, user);
       } catch (err) {
         console.log("loi");
         done(err, null);
@@ -43,3 +43,5 @@ passport.use(
     }
   )
 );
+
+export default passport
