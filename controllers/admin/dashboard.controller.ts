@@ -65,7 +65,7 @@ export const index = async (req: Request, res: Response) => {
   // Hết bài hát
   else {
     const songs = await Song.find({}, { listen: 1 });
-    console.log(songs);
+    // console.log(songs);
     // Truy cập giá trị tổng từ kết quả
     const totalListen = songs.reduce(
       (sum, song) => sum + (song.listen || 0),

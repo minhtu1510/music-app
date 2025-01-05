@@ -47,7 +47,7 @@ if (aplayer) {
     avatar.style.animationPlayState = "paused";
   });
 
-  ap.on("ended", async function() {
+  ap.on("ended", async function () {
     fetch(`/songs/listen/${dataSong._id}`, {
       method: "PATCH",
     })
@@ -182,33 +182,30 @@ if (boxSearch) {
 }
 //Hết gợi ý tìm kiếm
 //THÔNG BÁO
-var alertFunc = (content = null, time = 3000, type = "alert--success") =>{
-  if(content){
-      const newAlert = document.createElement("div");
-      
-      newAlert.setAttribute("class",`alert ${type}`);
-      newAlert.innerHTML = `
+var alertFunc = (content = null, time = 3000, type = "alert--success") => {
+  if (content) {
+    const newAlert = document.createElement("div");
+
+    newAlert.setAttribute("class", `alert ${type}`);
+    newAlert.innerHTML = `
           <div class="alert-content">${content}</div>
           <div class="alert-close"><i class="fa-solid fa-xmark"></i></div>
-      `
-      var listAlert = document.querySelector(".list-alert");
-      if(listAlert){
-          listAlert.appendChild(newAlert);
-      
-          const alertClose = newAlert.querySelector(".alert-close");
-          alertClose.addEventListener("click", () => {
-              listAlert.removeChild(newAlert);
-          })
-          console.log(listAlert)
-          setTimeout(()=>{
-              listAlert.removeChild(newAlert);  
-          },time); 
+      `;
+    var listAlert = document.querySelector(".list-alert");
+    if (listAlert) {
+      listAlert.appendChild(newAlert);
 
-      }
-      
+      const alertClose = newAlert.querySelector(".alert-close");
+      alertClose.addEventListener("click", () => {
+        listAlert.removeChild(newAlert);
+      });
+      console.log(listAlert);
+      setTimeout(() => {
+        listAlert.removeChild(newAlert);
+      }, time);
+    }
   }
-
-}
+};
 //premium
 
 function handlePremium(event, isPremium) {
@@ -242,14 +239,14 @@ const body = document.querySelector(".inner-main");
 //       const modal = document.createElement("div");
 //       modal.setAttribute("class", "modal_login");
 //       modal.innerHTML = `
-//         <div class="modal-main"> 
+//         <div class="modal-main">
 //           <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
 //           <div class="modal-wrap">
 //             <img src="/images/image_login.png" alt="ảnh">
 //             <div class="modal-title">Đăng nhập vào tài khoản</div>
 //             <a href="/auth/login">Đăng nhập</a>
 //           </div>
-          
+
 //         </div>
 //         <div class="bg-modal"></div>
 //       `;
@@ -261,6 +258,7 @@ const body = document.querySelector(".inner-main");
 //       });
 //     }
 // }
+
 handleCheckPremium = (event, users) => {
   if ((users && users.type_user == "basic") || !users) {
     event.preventDefault();
@@ -663,9 +661,7 @@ accountClick.addEventListener("click", () => {
           <div class="account-title">
             <div class="account-title--name">${user.fullName}</div>
             <div class="account-title-type">${user.type_user}</div>
-              
           </div>
-        </div>
         <button id="btn-update">Nâng cấp tài khoản</button>
       </div>
     `;
@@ -679,23 +675,33 @@ accountClick.addEventListener("click", () => {
   }
 });
 
-
 //Hết Account
 //Search
 const input = document.querySelector(".search .form-group input");
 const searchBox = document.querySelector(".search .inner-list");
 
-input.addEventListener('blur', ()=>{
+input.addEventListener("blur", () => {
   searchBox.style.display = "none";
-})
-input.addEventListener('click', () => {
-  searchBox.style.display = 'block';
-  searchBox.focus(); 
+});
+input.addEventListener("click", () => {
+  searchBox.style.display = "block";
+  searchBox.focus();
 });
 //Hết Search
+
 //Chuyển url
-handleUrl=(event, url)=>{
-  window.location.href=url
-}
+handleUrl = (event, url) => {
+  window.location.href = url;
+};
 
 //hết chuyển url
+
+// Đổi màu tab đang chọn
+const currentPath = window.location.pathname;
+const tab = document.querySelector(
+  `.sider .sider-menu li a[href="${currentPath}"]`
+);
+if (tab) {
+  tab.classList.add("current-tab");
+}
+// Hết đổi màu tab đang chọn
