@@ -9,13 +9,13 @@ import moment from "moment";
 
 export const index = async (req: Request, res: Response) => {
   const slugTopic: string = req.params.slugTopic;
-  console.log(slugTopic);
+  // console.log(slugTopic);
   const topic = await Topic.findOne({
     slug: slugTopic,
     deleted: false,
     status: "active",
   });
-  console.log(topic);
+  // console.log(topic);
 
   const songs = await Song.find({
     topicId: topic.id,
@@ -81,13 +81,20 @@ export const detail = async (req: Request, res: Response) => {
       song["liked"] = false;
     }
   } else song["liked"] = false;
-  res.render("client/pages/songs/detail", {
-    pageTitle: "Chi tiết bài hát",
-    song: song,
-    sameSong: sameSong,
-    topic: topic,
-    singer: singer,
-  });
+  if (
+    song.type_song == "free" ||
+    (res.locals.users && res.locals.users.type_user == "premium")
+  ) {
+    res.render("client/pages/songs/detail", {
+      pageTitle: "Chi tiết bài hát",
+      song: song,
+      sameSong: sameSong,
+      topic: topic,
+      singer: singer,
+    });
+  } else {
+    res.redirect("/");
+  }
 };
 // export const detailPlay = async (req: Request, res: Response) => {
 //   const slugSong: string = req.params.slugSong;

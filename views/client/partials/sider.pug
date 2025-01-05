@@ -1,6 +1,6 @@
 .sider 
     .sider-logo 
-        a(href="#") 
+        a(href="/") 
             img(src="/images/Logo_music_app.svg", alt="logo")
     nav.sider-menu 
         ul 
@@ -8,7 +8,7 @@
                 a(href="/")
                     <i class="fa-solid fa-house"></i>
                     | Trang chủ
-            li 
+            li
                 a(href="/topics")
                     <i class="fa-solid fa-music"></i>
                     | Danh mục bài hát
@@ -16,7 +16,6 @@
                 a(href="/singers")
                     <i class="fa-solid fa-microphone-lines"></i>
                     | Ca sĩ
-            
             -if (users)
                 li
                     a(href="/playlist")

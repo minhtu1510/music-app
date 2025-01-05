@@ -30,7 +30,7 @@ export const payment = async (req: Request, res: Response) => {
 };
 //https://504f-113-185-49-36.ngrok-free.app/receive-hook
 export const receiveHook = async (req: Request, res: Response) => {
-  console.log(req.body);
+  // console.log(req.body);
   if (req.body.data.desc == "success") {
     await User.updateOne(
       {

@@ -1,4 +1,5 @@
 import { Express } from "express";
+import { Request, Response } from "express";
 import { dashboardRoute } from "./dashboard.route";
 import { topicRoute } from "./topic.route";
 import { songRoute } from "./song.route";
@@ -23,5 +24,10 @@ export const routesAdmin = (app: Express) => {
   app.use(`/${path}/settings`, requireAuth, settingRoute);
   app.use(`/${path}/auth`, authRoute);
   app.use(`/${path}/upload`, uploadRoute);
+  app.get("*", (req: Request, res: Response) => {
+    res.render("client/pages/errors/404", {
+      pageTitle: "404 Not Found",
+    });
+  });
 };
 

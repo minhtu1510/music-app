@@ -15,8 +15,8 @@ block main
     each song in songs
       .col-6.mb-3
         div(class="song-item" active_song={song})
-          div(class="inner-image" type_song = `${song.type_song}`  onClick=song.type_song !="premium" ?undified: `handleCheckPremium(event, ${JSON.stringify(song.type_song)})` )
-            a(href= `/songs/detail/${song.slug}`)
+          div(class="inner-image" type_song = `${song.type_song}` )
+            a(onClick=(users&&users.type_user=="premium")||(song.type_song=="free")?`handleUrl(event,${JSON.stringify(`http://localhost:3000/songs/detail/${song.slug}`)})`:`handleCheckPremium(event,${JSON.stringify(users)})` )
               img(src=song.avatar)
             //- if song.type_song !== "premium"
             //-   a(href= `/songs/detail/${song.slug}` )
@@ -25,7 +25,7 @@ block main
             //-   img(src=song.avatar onclick = "handClick()")    
           div(class="inner-content")
             div(class="inner-title" type_song = `${song.type_song}` )
-              a(href=`/songs/detail/${song.slug}` onClick=song.type_song !="premium" ?undified: `handleCheckPremium(event, ${JSON.stringify(song.type_song)})`) #{song.title}
+              a(onClick=(users&&users.type_user=="premium")||(song.type_song=="free")?`handleUrl(event,${JSON.stringify(`http://localhost:3000/songs/detail/${song.slug}`)})`:`handleCheckPremium(event,${JSON.stringify(users)})`) #{song.title}
               //- if song.type_song !== "premium"
               //-   a(href=`/songs/detail/${song.slug}` ) #{song.title}
               //- else 

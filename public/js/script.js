@@ -47,8 +47,8 @@ if (aplayer) {
     avatar.style.animationPlayState = "paused";
   });
 
-  ap.on("ended", (data) => {
-    fetch(`/songs/listen/${data._id}`, {
+  ap.on("ended", async function () {
+    fetch(`/songs/listen/${dataSong._id}`, {
       method: "PATCH",
     })
       .then((res) => res.json())
@@ -182,33 +182,30 @@ if (boxSearch) {
 }
 //Hết gợi ý tìm kiếm
 //THÔNG BÁO
-var alertFunc = (content = null, time = 3000, type = "alert--success") =>{
-  if(content){
-      const newAlert = document.createElement("div");
-      
-      newAlert.setAttribute("class",`alert ${type}`);
-      newAlert.innerHTML = `
+var alertFunc = (content = null, time = 3000, type = "alert--success") => {
+  if (content) {
+    const newAlert = document.createElement("div");
+
+    newAlert.setAttribute("class", `alert ${type}`);
+    newAlert.innerHTML = `
           <div class="alert-content">${content}</div>
           <div class="alert-close"><i class="fa-solid fa-xmark"></i></div>
-      `
-      var listAlert = document.querySelector(".list-alert");
-      if(listAlert){
-          listAlert.appendChild(newAlert);
-      
-          const alertClose = newAlert.querySelector(".alert-close");
-          alertClose.addEventListener("click", () => {
-              listAlert.removeChild(newAlert);
-          })
-          console.log(listAlert)
-          setTimeout(()=>{
-              listAlert.removeChild(newAlert);  
-          },time); 
+      `;
+    var listAlert = document.querySelector(".list-alert");
+    if (listAlert) {
+      listAlert.appendChild(newAlert);
 
-      }
-      
+      const alertClose = newAlert.querySelector(".alert-close");
+      alertClose.addEventListener("click", () => {
+        listAlert.removeChild(newAlert);
+      });
+      console.log(listAlert);
+      setTimeout(() => {
+        listAlert.removeChild(newAlert);
+      }, time);
+    }
   }
-
-}
+};
 //premium
 
 function handlePremium(event, isPremium) {
@@ -242,14 +239,14 @@ const body = document.querySelector(".inner-main");
 //       const modal = document.createElement("div");
 //       modal.setAttribute("class", "modal_login");
 //       modal.innerHTML = `
-//         <div class="modal-main"> 
+//         <div class="modal-main">
 //           <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
 //           <div class="modal-wrap">
 //             <img src="/images/image_login.png" alt="ảnh">
 //             <div class="modal-title">Đăng nhập vào tài khoản</div>
 //             <a href="/auth/login">Đăng nhập</a>
 //           </div>
-          
+
 //         </div>
 //         <div class="bg-modal"></div>
 //       `;
@@ -261,8 +258,9 @@ const body = document.querySelector(".inner-main");
 //       });
 //     }
 // }
-handleCheckPremium = (event, type_song)=> {
-  if (type_song === "premium") {
+
+handleCheckPremium = (event, users) => {
+  if ((users && users.type_user == "basic") || !users) {
     event.preventDefault();
     const modal_pro = document.createElement("div");
     modal_pro.setAttribute("class", "modal_pro");
@@ -274,9 +272,8 @@ handleCheckPremium = (event, type_song)=> {
           <div class="modal-title">Muốn nghe full bản nhạc</div>
           <div class="modal-title--sub1">Nâng cấp gói premium chỉ từ 13.000đ</div>
           <div class="modal-title--sub2">Tặng bạn thêm nhiều đặc quyền khác hấp dẫn khác.</div>
-          <button onclick="handleClickPremium()">Khám phá ngay</button>
+          <button id="btn-check-premium" >Khám phá ngay</button>
         </div>
-        
       </div>
       <div class="bg-modal"></div>
     `;
@@ -286,8 +283,16 @@ handleCheckPremium = (event, type_song)=> {
     close_btn.addEventListener("click", () => {
       body.removeChild(modal_pro);
     });
+    const btnCheck = document.querySelector("#btn-check-premium");
+    btnCheck.addEventListener("click", () => {
+      if (users) {
+        window.location.href = "http://localhost:3000/payment";
+      } else {
+        handleClickPremium();
+      }
+    });
   }
-}
+};
 // const song_title = document.querySelectorAll(".song-item .inner-title");
 // song_title.forEach((item) => {
 //   item.addEventListener("click", (event) => {
@@ -297,7 +302,7 @@ handleCheckPremium = (event, type_song)=> {
 //       const modal_pro = document.createElement("div");
 //       modal_pro.setAttribute("class", "modal_pro");
 //       modal_pro.innerHTML = `
-//         <div class="modal-main"> 
+//         <div class="modal-main">
 //           <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
 //           <div class="modal-wrap">
 //             <img src="/images/image_login.png" alt="ảnh">
@@ -306,7 +311,7 @@ handleCheckPremium = (event, type_song)=> {
 //             <div class="modal-title--sub2">Tặng bạn thêm nhiều đặc quyền khác hấp dẫn khác.</div>
 //             <button onclick="handleClickPremium()">Khám phá ngay</button>
 //           </div>
-          
+
 //         </div>
 //         <div class="bg-modal"></div>
 //       `;
@@ -329,8 +334,7 @@ handleClickPremium = () => {
           <img src="/images/image_login.png" alt="ảnh">
           <div class="modal-title">Đăng nhập vào tài khoản</div>
           <a href="/auth/login">Đăng nhập</a>
-        </div>
-          
+        </div>   
       </div>
       <div class="bg-modal"></div>
   `;
@@ -505,7 +509,7 @@ if (alertMessage) {
 handleCreatePlaylist = () => {
   const modal = document.createElement("div");
   modal.setAttribute("class", "modal-create-playlist");
-  modal.innerHTML =`
+  modal.innerHTML = `
       <div class="modal-main"> 
         <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
         <form action="/playlist" method="POST" class="modal-wrap">
@@ -519,34 +523,35 @@ handleCreatePlaylist = () => {
   `;
   body.appendChild(modal);
   const close_btn = document.querySelector(".modal-create-playlist .modal-btn");
-  close_btn.addEventListener("click" , () => {
+  close_btn.addEventListener("click", () => {
     body.removeChild(modal);
-  })
-}
+  });
+};
 //Hết Hiện thông báo tạo playlist
-
-
 //thông báo khác của playlist <chỉnh sửa - xoa>
-const clickMessageOtherPlaylist = document.querySelector(".playlist-detail__image--other");
-if(clickMessageOtherPlaylist){
+const clickMessageOtherPlaylist = document.querySelector(
+  ".playlist-detail__image--other"
+);
+if (clickMessageOtherPlaylist) {
   clickMessageOtherPlaylist.addEventListener("click", () => {
     let modalMessageOther = document.querySelector(".modal-message-other");
+
     const playlistId = clickMessageOtherPlaylist.getAttribute("playlist-id");
     if(!modalMessageOther){
+
       let modalMessageOther = document.createElement("div");
-      modalMessageOther.setAttribute("class","modal-message-other");
-      modalMessageOther.innerHTML=
-      `
+      modalMessageOther.setAttribute("class", "modal-message-other");
+      modalMessageOther.innerHTML = `
         <div class="modal-message-other__wrap">
           <button onclick="handleMessageEditPlaylist('${playlistId}')"> <i class="fa-solid fa-pen"></i>  Chỉnh sửa playlist</button>  
           <button onclick="handleRemovePlaylist('${playlistId}')"><i class="fa-solid fa-trash-can"></i> Xóa playlist</button>  
         </div>
-      `  
+      `;
       clickMessageOtherPlaylist.appendChild(modalMessageOther);
-    }else{
+    } else {
       clickMessageOtherPlaylist.removeChild(modalMessageOther);
     }
-  })
+  });
 }
 
 //hết thông báo khác của playlist <chỉnh sửa - xoa>
@@ -600,14 +605,13 @@ handleAddSongPlaylist = (event, songId) => {
   const playlistElement = document.querySelector("[playlist]");
   let playlist = playlistElement.getAttribute("playlist");
   playlist = JSON.parse(playlist);
-  console.log(playlist);
 
   const dataSection1 = document.querySelector(".dataSection1");
 
   //tạo giao diện thêm playlist
   const modal = document.createElement("div");
   modal.setAttribute("class", "modal-add-playlist");
-  let content =`
+  let content = `
       <div class="modal-main"> 
         <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
         <div class="modal-wrap">  
@@ -618,17 +622,17 @@ handleAddSongPlaylist = (event, songId) => {
               <div class="modal-item--title"> Tạo playlist mới
               </div>
             </div>
-            `
-          for (const item of playlist){
-            content+=`
+            `;
+  for (const item of playlist) {
+    content += `
             <div class="modal-add-old-playlist-list">
               <div class="modal-add-old-playlist">
                 <i class="fa-solid fa-icons"></i>
                 <div class="modal-item--title" path="/playlist/addSong/${songId}" onClick="handleAddSong('${item._id}')" >${item.title}</div>
               </div>
-            </div>`
-            }
-            content+=`
+            </div>`;
+  }
+  content += `
           </div>
           
         </div>
@@ -636,13 +640,13 @@ handleAddSongPlaylist = (event, songId) => {
       </div>
       <div class="bg-modal"></div>
   `;
-  modal.innerHTML=content
+  modal.innerHTML = content;
   body.appendChild(modal);
   const close_btn = document.querySelector(".modal-add-playlist .modal-btn");
-  close_btn.addEventListener("click" , () => {
+  close_btn.addEventListener("click", () => {
     body.removeChild(modal);
-  })
-}
+  });
+};
 
 //Hết Thêm bài hát vào playlist
 //Xóa bài hát khỏi playlist
@@ -675,47 +679,52 @@ handleDeleteSongPlaylist = (songId, playlistId) => {
 //Hết Xóa bài hát khỏi playlist
 //Account
 const accountClick = document.querySelector(".account .avatarAccount");
-accountClick.addEventListener("click" , () => {
-  const account = document.querySelector(".account");
-  
-  let modalAccount = document.querySelector(".modal-info-account");
-  if(!modalAccount){
-    const modalAccount = document.createElement("div");
-    modalAccount.setAttribute("class", "modal-info-account");
-    modalAccount.innerHTML = `
+if (accountClick) {
+  accountClick.addEventListener("click", () => {
+    const account = document.querySelector(".account");
+    const img = document.querySelector(".account .avatarAccount img");
+    let user = img.getAttribute("user");
+    user = JSON.parse(user);
+    let modalAccount = document.querySelector(".modal-info-account");
+    if (!modalAccount) {
+      const modalAccount = document.createElement("div");
+      modalAccount.setAttribute("class", "modal-info-account");
+      modalAccount.innerHTML = `
       <div class="account-wrap">
         <div class="account-info">
-          <img src="/images/img-avatar.jpg" alt="ảnh">
+          <img src=${user.avatar} alt="ảnh">
           <div class="account-title">
-            <div class="account-title--name">Thao Linh</div>
-            <div class="account-title-type">Basic</div>
-              
+            <div class="account-title--name">${user.fullName}</div>
+            <div class="account-title-type">${user.type_user}</div>
           </div>
         </div>
-        <button>Nâng cấp tài khoản</button>
+        <button id="btn-update">Nâng cấp tài khoản</button>
       </div>
-    `
-    account.appendChild(modalAccount);
+    `;
+      account.appendChild(modalAccount);
+      const btnCheck = document.querySelector("#btn-update");
+      btnCheck.addEventListener("click", () => {
+        window.location.href = "http://localhost:3000/payment";
+      });
+    } else {
+      account.removeChild(modalAccount);
+    }
+  });
+}
 
-  }else{
-    account.removeChild(modalAccount);
-
-  }
-
-
-})
 //Hết Account
 //Search
 const input = document.querySelector(".search .form-group input");
 const searchBox = document.querySelector(".search .inner-list");
-
-input.addEventListener('blur', ()=>{
-  searchBox.style.display = "none";
-})
-input.addEventListener('click', () => {
-  searchBox.style.display = 'block';
-  searchBox.focus(); 
-});
+if (input) {
+  input.addEventListener("blur", () => {
+    searchBox.style.display = "none";
+  });
+  input.addEventListener("click", () => {
+    searchBox.style.display = "block";
+    searchBox.focus();
+  });
+}
 //Hết Search
 //Hiện  chỉnh sửa playlist
 // handleEditPlaylist = (event, path) =>{
@@ -951,3 +960,21 @@ if(listSongPlaylist){
   }
 
 }
+
+//Chuyển url
+handleUrl = (event, url) => {
+  window.location.href = url;
+};
+
+//hết chuyển url
+
+// Đổi màu tab đang chọn
+const currentPath = window.location.pathname;
+const tab = document.querySelector(
+  `.sider .sider-menu li a[href="${currentPath}"]`
+);
+if (tab) {
+  tab.classList.add("current-tab");
+}
+// Hết đổi màu tab đang chọn
+

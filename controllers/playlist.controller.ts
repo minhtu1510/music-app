@@ -23,7 +23,7 @@ export const index = async (req: Request, res: Response) => {
 
 export const createPlaylist = async (req: Request, res: Response) => {
     const newTitlePlaylist = req.body.namePlaylist;
-    console.log(newTitlePlaylist);
+    // console.log(newTitlePlaylist);
     const userId = res.locals.users.id
     const newPlaylist = new Playlist({
         title: newTitlePlaylist,
@@ -50,6 +50,7 @@ export const addSongPlaylist = async (req: Request, res: Response) => {
                     $push: {
                         songId: songId
                     }
+
                 }
             )
             res.json({

@@ -10,10 +10,10 @@ export const index = async (req: Request, res: Response) => {
   const singers = await Singer.find({
     deleted: false,
   });
-  const userId = res.locals.users ? res.locals.users.id : ""
+  const userId = res.locals.users ? res.locals.users.id : "";
   const playlists = await Playlist.find({
-    userId: userId
-  })
+    userId: userId,
+  });
 
   const songLikes = await Song.aggregate([
     {
@@ -39,16 +39,14 @@ export const index = async (req: Request, res: Response) => {
       _id: songLike.singerId,
       deleted: false,
     });
-    songLike["singerFullName"] = infoSinger ? infoSinger.fullName : ""
+    songLike["singerFullName"] = infoSinger ? infoSinger.fullName : "";
   }
-
 
   res.render("client/pages/main/index", {
     pageTitle: "Trang chu",
     songLikes: songLikes,
     topics: topics,
     singers: singers,
-    playlist: playlists
-
+    playlist: playlists,
   });
 };

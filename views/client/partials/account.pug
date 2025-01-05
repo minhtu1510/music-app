@@ -1,5 +1,7 @@
 .account 
     .boostAccount 
-        button Nâng cấp tài khoản 
-    .avatarAccount 
-        img(src="/images/img-avatar.jpg", alt="")
+        -if(!users || users.type_user=="basic")
+            button(onclick=`handleCheckPremium(event,${JSON.stringify(users)})`) Nâng cấp tài khoản 
+    -if (users)
+        .avatarAccount 
+            img(src=users.avatar alt="" user=users)

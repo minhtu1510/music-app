@@ -1,0 +1,16 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head(pageTitle)
+  if (users.avatar)
+    img(src=users.avatar width="150px" class="mb-3")
+  if (users.fullName)
+    p Họ tên: <b>#{users.fullName}</b>
+  if (users.email)
+    p Email: <b>#{users.email}</b>
+  p 
+    span
+      <b>#{users.type_user === "basic" ? "Basic": "Premium"}</b>
