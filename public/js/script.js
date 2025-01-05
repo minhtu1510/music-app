@@ -334,8 +334,7 @@ handleClickPremium = () => {
           <img src="/images/image_login.png" alt="ảnh">
           <div class="modal-title">Đăng nhập vào tài khoản</div>
           <a href="/auth/login">Đăng nhập</a>
-        </div>
-          
+        </div>   
       </div>
       <div class="bg-modal"></div>
   `;
@@ -645,16 +644,17 @@ handleAddSongPlaylist = () => {
 
 //Account
 const accountClick = document.querySelector(".account .avatarAccount");
-accountClick.addEventListener("click", () => {
-  const account = document.querySelector(".account");
-  const img = document.querySelector(".account .avatarAccount img");
-  let user = img.getAttribute("user");
-  user = JSON.parse(user);
-  let modalAccount = document.querySelector(".modal-info-account");
-  if (!modalAccount) {
-    const modalAccount = document.createElement("div");
-    modalAccount.setAttribute("class", "modal-info-account");
-    modalAccount.innerHTML = `
+if (accountClick) {
+  accountClick.addEventListener("click", () => {
+    const account = document.querySelector(".account");
+    const img = document.querySelector(".account .avatarAccount img");
+    let user = img.getAttribute("user");
+    user = JSON.parse(user);
+    let modalAccount = document.querySelector(".modal-info-account");
+    if (!modalAccount) {
+      const modalAccount = document.createElement("div");
+      modalAccount.setAttribute("class", "modal-info-account");
+      modalAccount.innerHTML = `
       <div class="account-wrap">
         <div class="account-info">
           <img src=${user.avatar} alt="ảnh">
@@ -662,31 +662,34 @@ accountClick.addEventListener("click", () => {
             <div class="account-title--name">${user.fullName}</div>
             <div class="account-title-type">${user.type_user}</div>
           </div>
+        </div>
         <button id="btn-update">Nâng cấp tài khoản</button>
       </div>
     `;
-    account.appendChild(modalAccount);
-    const btnCheck = document.querySelector("#btn-update");
-    btnCheck.addEventListener("click", () => {
-      window.location.href = "http://localhost:3000/payment";
-    });
-  } else {
-    account.removeChild(modalAccount);
-  }
-});
+      account.appendChild(modalAccount);
+      const btnCheck = document.querySelector("#btn-update");
+      btnCheck.addEventListener("click", () => {
+        window.location.href = "http://localhost:3000/payment";
+      });
+    } else {
+      account.removeChild(modalAccount);
+    }
+  });
+}
 
 //Hết Account
 //Search
 const input = document.querySelector(".search .form-group input");
 const searchBox = document.querySelector(".search .inner-list");
-
-input.addEventListener("blur", () => {
-  searchBox.style.display = "none";
-});
-input.addEventListener("click", () => {
-  searchBox.style.display = "block";
-  searchBox.focus();
-});
+if (input) {
+  input.addEventListener("blur", () => {
+    searchBox.style.display = "none";
+  });
+  input.addEventListener("click", () => {
+    searchBox.style.display = "block";
+    searchBox.focus();
+  });
+}
 //Hết Search
 
 //Chuyển url
