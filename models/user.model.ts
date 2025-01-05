@@ -3,12 +3,19 @@ const userSchema = new mongoose.Schema(
   {
     fullName: String,
     email: String,
+    googleId: String,
     password: String,
     token: String,
     phone: String,
     avatar: String,
-    status: String,
-    type_user: String,
+    status: {
+      type: String,
+      default: "active",
+    },
+    type_user: {
+      type: String,
+      default: "basic",
+    },
     slug: {
       type: String,
       slug: "fullName",

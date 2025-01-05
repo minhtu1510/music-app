@@ -7,10 +7,14 @@ import {
 } from "../helpers/generate.helper";
 import { ForgotPassword } from "../models/forgot-password.model";
 import { sendMail } from "../helpers/sendMail.helper";
+import passport from "passport";
 // export const index = async (req: Request, res: Response) => {
 //   res.render("client/pages/auth/login");
 // };
 export const login = async (req: Request, res: Response) => {
+  res.render("client/pages/auth/login");
+};
+export const google = async (req: Request, res: Response) => {
   res.render("client/pages/auth/login");
 };
 export const register = async (req: Request, res: Response) => {

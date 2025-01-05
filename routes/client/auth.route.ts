@@ -3,8 +3,25 @@ const router = express.Router();
 
 // import * as controller from "../../controllers/auth.controller";
 import * as controller from "../../controllers/auth.controller";
+import passport from "passport";
+
 router.get("/login", controller.login);
 router.post("/login", controller.loginPost);
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/auth/login",
+  }),
+  (req, res) => {
+    res.redirect("/");
+  }
+);
 router.get("/register", controller.register);
 router.post("/register", controller.registerPost);
 router.get("/logout", controller.logout);

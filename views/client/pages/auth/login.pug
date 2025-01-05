@@ -3,23 +3,23 @@ include ../../mixins/box-head.pug
 include ../../mixins/box-intro.pug
 include ../../mixins/box-item.pug
 block main
-    .login 
-        .login-title Đăng nhập tài khoản
-        form.form(action="/auth/login" method="POST")
-            .form__item
-                .form__title
-                    label(for="email") Email
-                    .form__title--required *
-                input(type="email" name="email" placeholder="Ví dụ: Levana@gmail.com" required)
-            .form__item
-                .form__title
-                    label(for="password") Password
-                    .form__title--required *
-                input(type="password" name="password" required)
-            a(href="/auth/password/forgot" class="form__forgetPassword") Quên mật khẩu
-            .buttons
-                button Đăng nhập
-                button(class="login-google") 
-                    img(src="/images/google-2-removebg-preview.png", alt="")
-                    .login-google-title Đăng nhập với google
+  .login 
+    .login-title Đăng nhập tài khoản
+    form.form(action="/auth/login" method="POST")
+      .form__item
+        .form__title
+          label(for="email") Email
+          .form__title--required *
+        input(type="email" name="email" placeholder="Ví dụ: Levana@gmail.com" required)
+      .form__item
+        .form__title
+          label(for="password") Password
+          .form__title--required *
+        input(type="password" name="password" required)
+      a(href="/auth/password/forgot" class="form__forgetPassword") Quên mật khẩu
+      .buttons
+        button Đăng nhập
+        button(type="button" class="login-google") 
+          img(src="/images/google-2-removebg-preview.png" alt="")
+          .login-google-title Đăng nhập với google
 

@@ -6,7 +6,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import PayOS = require("@payos/node");
 dotenv.config();
-//thao ơi
+import "./helpers/passport";
+
 import { connect } from "./config/database";
 connect();
 
@@ -17,6 +18,7 @@ import { systemConfig } from "./config/system";
 
 import methodOverride from "method-override";
 import path from "path";
+import passport = require("passport");
 
 const app: Express = express();
 const port: number = 3000;
@@ -59,6 +61,8 @@ app.use(
     },
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
 // Middleware thêm flash messages vào locals (để Pug sử dụng)
 app.use((req, res, next) => {
@@ -70,8 +74,6 @@ app.use(methodOverride("_method"));
 
 routesClient(app);
 routesAdmin(app);
-
-
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
