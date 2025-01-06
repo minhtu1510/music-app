@@ -10,7 +10,7 @@ block main
           div(class="inner-action inner-time")
             <i class="fa-regular fa-clock"></i> 20/10/2023
           div(class="inner-action inner-singer")
-            <i class="fa-solid fa-microphone-lines"></i> #{singer.fullName}
+            <i class="fa-solid fa-microphone-lines"></i> #{song.nameSinger}
           div(class="inner-action inner-topic")
             <i class="fa-solid fa-music"></i> #{topic.title}
           div(class="inner-action inner-like " +(song.liked ? "active":"")
@@ -29,7 +29,7 @@ block main
           .inner-avatar
             img(src=song.avatar img-detail)
           .inner-audio
-            div(id="aplayer" data-song=song data-singer=singer data-same-song=sameSong)
+            div(id="aplayer" data-song=song data-singer=song.nameSinger data-same-song=sameSong)
         .inner-desc
           .inner-label Mô tả
           .inner-text

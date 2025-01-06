@@ -2,24 +2,27 @@
 const aplayer = document.querySelector("#aplayer");
 if (aplayer) {
   const dataSong = JSON.parse(aplayer.getAttribute("data-song"));
-  const dataSinger = JSON.parse(aplayer.getAttribute("data-singer"));
+  const dataSinger = aplayer.getAttribute("data-singer");
+  console.log(dataSinger);
   const datasameSong = JSON.parse(aplayer.getAttribute("data-same-song"));
   const data = [
     {
       name: dataSong.title,
-      artist: dataSinger.fullName,
+      artist: dataSinger,
       url: dataSong.audio,
       cover: dataSong.avatar,
       lrc: dataSong.lyrics,
+      type_song: dataSong.type_song,
     },
   ];
   for (item of datasameSong) {
     const tmp = {
       name: item.title,
-      artist: dataSinger.fullName,
+      artist: item.nameSinger,
       url: item.audio,
       cover: item.avatar,
       lrc: item.lyrics,
+      type_song: item.type_song,
     };
     data.push(tmp);
   }
@@ -39,15 +42,68 @@ if (aplayer) {
     // Lấy bài hát hiện tại // Sử dụng index của bài hát được chuyển
     imgDetail.src = audios[index].cover;
   });
-  ap.on("play", function () {
+  ap.on("play", async function () {
     avatar.style.animationPlayState = "running";
+    const currentIndex = await ap.list.index; // Lấy index bài hiện tại
+    const nextAudio = await ap.list.audios[currentIndex]; // Lấy bài tiếp theo
+    console.log(nextAudio);
+    if (nextAudio && nextAudio.type_song == "premium") {
+      // Kiểm tra nếu bài tiếp theo là premium
+      fetch("/songs/check-premium", {
+        method: "POST",
+        body: JSON.stringify({ song: nextAudio.name }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.isAllowed) {
+            ap.list.switch(currentIndex + 1); // Chuyển bài nếu được phép
+            ap.play();
+          } else {
+            ap.pause();
+            alertFunc(
+              "Bài hát này yêu cầu tài khoản premium!",
+              3000,
+              "alert--error"
+            );
+          }
+        });
+    } else {
+      // Chuyển bài bình thường
+      ap.play();
+    }
   });
 
   ap.on("pause", function () {
     avatar.style.animationPlayState = "paused";
   });
-
   ap.on("ended", async function () {
+    const currentIndex = await ap.list.index; // Lấy index bài hiện tại
+    const nextAudio = await ap.list.audios[currentIndex]; // Lấy bài tiếp theo
+    console.log(nextAudio);
+    if (nextAudio && nextAudio.type_song == "premium") {
+      // Kiểm tra nếu bài tiếp theo là premium
+      fetch("/songs/check-premium", {
+        method: "POST",
+        body: JSON.stringify({ song: nextAudio.name }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.isAllowed) {
+            ap.list.switch(currentIndex + 1); // Chuyển bài nếu được phép
+            ap.play();
+          } else {
+            ap.pause();
+            alertFunc(
+              "Bài hát này yêu cầu tài khoản premium!",
+              3000,
+              "alert--error"
+            );
+          }
+        });
+    } else {
+      ap.list.switch(currentIndex); // Chuyển bài bình thường
+      ap.play();
+    }
     fetch(`/songs/listen/${dataSong._id}`, {
       method: "PATCH",
     })
@@ -114,14 +170,15 @@ if (listbuttonFavorite.length > 0) {
   listbuttonFavorite.forEach((buttonFavorite) => {
     buttonFavorite.addEventListener("click", () => {
       const id = buttonFavorite.getAttribute("button-favorite");
+      console.log(id);
       const userId = buttonFavorite.getAttribute("user-id");
+
       if (userId != "") {
         buttonFavorite.classList.toggle("active");
         const dataLike = {
           songId: id,
           userId: userId,
         };
-
         fetch("/songs/favorite", {
           method: "PATCH",
           headers: {

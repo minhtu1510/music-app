@@ -9,5 +9,7 @@ router.patch("/detail/:titlePlaylist", controller.patchPlaylistTitle);
 router.delete("/detail/:titlePlaylist", controller.deletePlaylist);
 router.post("/", controller.createPlaylist);
 router.patch("/addSong/:songId", controller.addSongPlaylist);
+
 router.delete("/deleteSong/:songId", controller.deleteSongPlaylist);
+
 export const playlistRoute = router;

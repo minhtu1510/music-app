@@ -14,9 +14,10 @@ block main
           div(class="inner-content")
             div(class="inner-title")
               a(href=`/songs/detail/${song.slug}`) #{song.title}
-            div(class="inner-singer") <i class="fa-solid fa-microphone-lines"></i> #{song.singerFullName}
-            div(class="inner-heart active" button-favorite=song.songId)
-              <i class="fa-regular fa-heart"></i> Yêu thích
+            div(class="inner-singer") <i class="fa-solid fa-microphone-lines"></i> #{song.nameSinger}
+            div(class="inner-action inner-heart " +(song.favorite ? "active":"")
+               button-favorite=song.songId user-id=(users && users.id ? users.id : ""))
+              <i class="fa-regular fa-heart "></i> Yêu thích
             div(class="inner-time") <i class="fa-regular fa-clock"></i> #{song.createdAtFormat}
 
 
