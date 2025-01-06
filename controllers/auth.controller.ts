@@ -167,7 +167,18 @@ export const resetPasswordPost = async (req: Request, res: Response) => {
   res.redirect("/");
 };
 export const profile = async (req: Request, res: Response) => {
+
   res.render("client/pages/auth/profile", {
     pageTitle: "Thông tin tài khoản",
   });
+};
+export const profilePatch = async (req: Request, res: Response) => {
+  const id =req.params.id;
+
+  await User.updateOne({
+    _id:id,
+    deleted:false
+  },req.body);
+  req.flash("success", "Cập nhật danh mục thành công!");
+  res.redirect(`back`);
 };

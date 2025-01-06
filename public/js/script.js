@@ -988,3 +988,33 @@ if (googleBtn) {
 }
 // Hết đăng nhập google
 
+// Chỉnh sửa thông tin
+export const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { fullName, email, phone, address, type_user } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        fullName,
+        email,
+        phone,
+        address,
+        type_user,
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send("User not found");
+    }
+
+    res.redirect(`/users/details/${userId}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+};
+
+//Hết chỉnh sửa thông tin
