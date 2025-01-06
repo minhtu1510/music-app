@@ -23,10 +23,5 @@ export const routesClient = (app: Express) => {
   app.use("/auth", authRoute);
   app.use("/payment", paymentRoute);
   app.use("/", mainRoute);
-  // app.get("*", (req: Request, res: Response) => {
-  //   res.render("client/pages/errors/404", {
-  //     pageTitle: "404 Not Found",
-  //   });
-  // });
 };
 
