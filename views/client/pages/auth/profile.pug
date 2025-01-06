@@ -9,7 +9,7 @@ block main
           .card-body
             .d-flex.flex-column.align-items-center.text-center
               if (users.avatar)
-                img.rounded-circle(src='../images/OIP.jpg' alt='Admin' width='150')
+                img.rounded-circle(src='/../images/OIP.jpg' width='150')
               else
                 img.rounded-circle(src='/public/images/OIP.jpg' alt='Default Avatar' width='150')
               .mt-3
@@ -19,19 +19,18 @@ block main
       .col-md-8
         .card1.mb-3
           .card-body1
-            form(action='/profile', method='POST')
-              .row
-                .col-sm-3
-                  p.text-secondary.mb-1 Full Name
-                .col-sm-9.text-secondary
-                  | #{users.fullName}
-              hr
-              .row
-                .col-sm-3
-                  p.text-secondary.mb-1  Email
-                .col-sm-9.text-secondary
-                  | #{users.email}
-              hr
-              .row
-                .col-sm-12
-                  a.btn.btn-info(target='__blank' href='https://www.bootdey.com/snippets/view/profile-edit-data-and-skills') Edit
+            .row
+              .col-sm-3
+                p.text-secondary.mb-1 Full Name
+              .col-sm-9.text-secondary
+                | #{users.fullName}
+            hr
+            .row
+              .col-sm-3
+                p.text-secondary.mb-1  Email
+              .col-sm-9.text-secondary
+                | #{users.email}
+            hr
+            .row
+              .col-sm-12
+                a.btn.btn-info(target='__blank' href='https://www.bootdey.com/snippets/view/profile-edit-data-and-skills') Edit

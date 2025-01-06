@@ -166,19 +166,38 @@ export const resetPasswordPost = async (req: Request, res: Response) => {
   req.flash("success", "Đổi mật khẩu thành công!");
   res.redirect("/");
 };
+
 export const profile = async (req: Request, res: Response) => {
-
-  res.render("client/pages/auth/profile", {
-    pageTitle: "Thông tin tài khoản",
-  });
+  
+    // Trả về trang profile và gửi dữ liệu người dùng
+    res.render("client/pages/auth/profile", {
+      pageTitle: "Thông tin tài khoản",
+    });
+  
 };
-export const profilePatch = async (req: Request, res: Response) => {
-  const id =req.params.id;
 
-  await User.updateOne({
-    _id:id,
-    deleted:false
-  },req.body);
-  req.flash("success", "Cập nhật danh mục thành công!");
-  res.redirect(`back`);
+export const profilePatch = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { fullName, email } = req.body;
+
+  try {
+    const user = await User.findOne({ _id: id, deleted: false });
+
+    if (!user) {
+      req.flash("error", "Người dùng không tồn tại.");
+      return res.redirect("/auth/login");
+    }
+
+    user.fullName = fullName;
+    user.email = email;
+
+    await user.save();
+
+    req.flash("success", "Cập nhật thông tin thành công!");
+    res.redirect(`/auth/profile/${id}`);  
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Đã xảy ra lỗi khi cập nhật thông tin.");
+    res.redirect(`/auth/profile/${id}`);  
+  }
 };
