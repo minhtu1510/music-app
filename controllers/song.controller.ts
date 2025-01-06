@@ -25,12 +25,8 @@ export const index = async (req: Request, res: Response) => {
   });
 
   for (const song of songs) {
-    const infoSinger = await Singer.findOne({
-      _id: song.singerId,
-      deleted: false,
-    });
-
-    song["singerFullName"] = infoSinger ? infoSinger.fullName : "";
+    const singers = await Singer.find({ _id: { $in: song.singerId } });
+    song["nameSinger"] = singers.map((singer) => singer.fullName).join(", ");
   }
 
   res.render("client/pages/songs/index", {
@@ -48,16 +44,24 @@ export const detail = async (req: Request, res: Response) => {
     deleted: false,
     status: "active",
   });
+
+  const singers = await Singer.find({ _id: { $in: song.singerId } });
+  song["nameSinger"] = singers.map((singer) => singer.fullName).join(", ");
   const sameSong = await Song.find({
     _id: { $ne: song.id },
-    singerId: song.singerId,
+    singerId: { $in: song.singerId },
   });
+  for (const song1 of sameSong) {
+    const singers = await Singer.find({ _id: { $in: song1.singerId } });
+    song1["nameSinger"] = singers.map((singer) => singer.fullName).join(", ");
+  }
+
   const singer = await Singer.findOne({
     _id: song.singerId,
     deleted: false,
     status: "active",
   });
-
+  console.log(sameSong);
   const topic = await Topic.findOne({
     _id: song.topicId,
     deleted: false,
@@ -172,6 +176,7 @@ export const favoritePatch = async (req: Request, res: Response) => {
           songId: id,
           userId: userId,
         });
+        req.flash("success", "Đã xóa bài hát yêu thích");
       } else {
         const record = new FavoriteSong({
           songId: id,
@@ -218,11 +223,14 @@ export const favorite = async (req: Request, res: Response) => {
     });
     song["title"] = infoSong.title;
     song["avatar"] = infoSong.avatar;
-    song["singerFullName"] = infoSinger.fullName;
+    const singers = await Singer.find({ _id: { $in: infoSong.singerId } });
+    song["nameSinger"] = singers.map((singer) => singer.fullName).join(", ");
+
     song["slug"] = infoSong.slug;
     song["createdAtFormat"] = moment("2024-12-28T16:34:52.981+00:00").format(
       "DD/MM/YYYY"
     );
+    song["favorite"] = true;
   }
   res.render("client/pages/songs/favorite", {
     pageTitle: "Bài hát yêu thích",

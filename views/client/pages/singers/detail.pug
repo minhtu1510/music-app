@@ -14,6 +14,6 @@ block main
         .col-12
             each song in songs 
                 +box-item(
-                    song,
-                    singer.fullName
+                    song,song.favorite,
+                    song.nameSinger
                 )

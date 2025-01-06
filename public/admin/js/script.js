@@ -368,19 +368,19 @@ if(selectSingerInput != null){
   if(value > 0){
     let content="";
     selectSingerInput.innerHTML ="";
-    for (let i=0; i < value; i++) {
+    for (let i = 1; i <= value; i++) {
+      console.log("singerId" + JSON.stringify(i));
       content += `
       <select name="singerId" id="singer" class="form-control" required>
       <option value="" disabled selected> -- Chọn ca sĩ -- </option>
-      `
-      for(const item of singers){
+      `;
+      for (const item of singers) {
         content += `
           <option value=${item._id}>${item.fullName}</option>
-        `
+        `;
       }
-      content += `</select>`
-  ;
-  }
+      content += `</select>`;
+    }
   selectSingerInput.innerHTML = content
   console.log(selectSingerInput);
   choiceCountSingerElementParent.appendChild(selectSingerInput);

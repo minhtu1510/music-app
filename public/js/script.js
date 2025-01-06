@@ -2,12 +2,13 @@
 const aplayer = document.querySelector("#aplayer");
 if (aplayer) {
   const dataSong = JSON.parse(aplayer.getAttribute("data-song"));
-  const dataSinger = JSON.parse(aplayer.getAttribute("data-singer"));
+  const dataSinger = aplayer.getAttribute("data-singer");
+  console.log(dataSinger);
   const datasameSong = JSON.parse(aplayer.getAttribute("data-same-song"));
   const data = [
     {
       name: dataSong.title,
-      artist: dataSinger.fullName,
+      artist: dataSinger,
       url: dataSong.audio,
       cover: dataSong.avatar,
       lrc: dataSong.lyrics,
@@ -17,7 +18,7 @@ if (aplayer) {
   for (item of datasameSong) {
     const tmp = {
       name: item.title,
-      artist: dataSinger.fullName,
+      artist: item.nameSinger,
       url: item.audio,
       cover: item.avatar,
       lrc: item.lyrics,
@@ -169,14 +170,15 @@ if (listbuttonFavorite.length > 0) {
   listbuttonFavorite.forEach((buttonFavorite) => {
     buttonFavorite.addEventListener("click", () => {
       const id = buttonFavorite.getAttribute("button-favorite");
+      console.log(id);
       const userId = buttonFavorite.getAttribute("user-id");
+
       if (userId != "") {
         buttonFavorite.classList.toggle("active");
         const dataLike = {
           songId: id,
           userId: userId,
         };
-
         fetch("/songs/favorite", {
           method: "PATCH",
           headers: {
