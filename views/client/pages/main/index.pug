@@ -32,7 +32,7 @@ block main
                                             <i class="fa-solid fa-play"></i>    
                                         //- div(class="dataSection1__button" onClick=`handlePlayAudio(event,${song})`) 
                                             <i class="fa-solid fa-play"></i>
-                                        div(class="dataSection1__button" user=users onclick=(users)? `handleAddSongPlaylist()`:"handleClickPremium()" playlist=playlist song-id=song._id) <i class="fa-solid fa-plus"></i>
+                                        div(class="dataSection1__button" user=users onclick=(users)? `handleAddSongPlaylist(event, ${JSON.stringify(song._id)})`:"handleClickPremium()" playlist=playlist song-id=song._id) <i class="fa-solid fa-plus"></i>
                             //- .dataSection1__item
                             //-     .dataSection1__item--intro  
                             //-         img(src="/images/demo.png", alt="") 
