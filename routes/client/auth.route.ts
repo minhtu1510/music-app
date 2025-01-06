@@ -4,24 +4,26 @@ const router = express.Router();
 // import * as controller from "../../controllers/auth.controller";
 import * as controller from "../../controllers/auth.controller";
 import { requireAuth } from "../../middlewares/client/user.middleware";
+import passport from "passport";
 router.get("/login", controller.login);
 router.post("/login", controller.loginPost);
-// router.get(
-//   "/google",
-//   passport.authenticate("google", {
-//     scope: ["profile", "email"],
-//   })
-// );
-// router.get(
-//   "/google/callback",
-//   passport.authenticate("google", {
-//     failureRedirect: "/auth/login",
-//   }),
-//   (req, res) => {
-//     console.log(req.body);
-//     res.redirect("/");
-//   }
-// );
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/topics",
+  }),
+  (req, res) => {
+    const user: any = req.user;
+    res.cookie("tokenUser", user.token);
+    res.redirect("/auth/login");
+  }
+);
 router.get("/register", controller.register);
 router.post("/register", controller.registerPost);
 router.get("/logout", controller.logout);
