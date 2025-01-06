@@ -119,3 +119,10 @@
   font-size: 25px;
   font-weight: 700;
 }
+
+/*Chon so luong ca si*/
+.form-group .formSelectSingerFromCount {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}

@@ -347,3 +347,53 @@ if(listButtonChangeTypeSong.length > 0) {
   })
 }
 // Hết Đổi loại bài hát
+//Chọn số lượng ca sĩ
+const choiceCountSingerElement = document.querySelector("[choiceSinger]");
+const choiceCountSingerInput = choiceCountSingerElement.querySelector("input");
+choiceCountSingerInput.addEventListener("keyup", (event) => {
+const value = event.target.value;
+console.log(`value: ${value}`);
+
+const choiceCountSingerElementParent = choiceCountSingerElement.parentElement;
+//phần select
+let singers = choiceCountSingerElementParent.getAttribute("singers")
+
+singers = JSON.parse(singers);
+let selectSingerInput = document.querySelector(".formSelectSingerFromCount");
+if(selectSingerInput != null){
+  selectSingerInput.remove();
+}else if(selectSingerInput == null){
+  selectSingerInput = document.createElement("div");
+  selectSingerInput.setAttribute("class","formSelectSingerFromCount");
+  if(value > 0){
+    let content="";
+    selectSingerInput.innerHTML ="";
+    for (let i=0; i < value; i++) {
+      content += `
+      <select name="singerId" id="singer" class="form-control" required>
+      <option value="" disabled selected> -- Chọn ca sĩ -- </option>
+      `
+      for(const item of singers){
+        content += `
+          <option value=${item._id}>${item.fullName}</option>
+        `
+      }
+      content += `</select>`
+  ;
+  }
+  selectSingerInput.innerHTML = content
+  console.log(selectSingerInput);
+  choiceCountSingerElementParent.appendChild(selectSingerInput);
+  selectSingerInput.style.display = "flex";
+  }else{
+    selectSingerInput.style.display = "none";
+  }
+  if(value == ""){
+    selectSingerInput.style.display = "none";
+  }
+}
+
+
+})
+
+//Hết Chọn số lượng ca sĩ
