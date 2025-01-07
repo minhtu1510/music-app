@@ -34,13 +34,11 @@ export const index = async (req: Request, res: Response) => {
       $limit: 3, // Lấy 3 bài hát đầu tiên
     },
   ]);
-  for (const songLike of songLikes) {
-    const infoSinger = await Singer.findOne({
-      _id: songLike.singerId,
-      deleted: false,
-    });
-    songLike["singerFullName"] = infoSinger ? infoSinger.fullName : "";
+  for (const song of songLikes) {
+    const singers = await Singer.find({ _id: { $in: song.singerId } });
+    song["nameSinger"] = singers.map((singer) => singer.fullName).join(", ");
   }
+
 
   res.render("client/pages/main/index", {
     pageTitle: "Trang chu",

@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { Request, Response } from "express";
+
 import { topicsRoute } from "./topic.route";
 import { songsRoute } from "./song.route";
 import { settingMiddleware } from "../../middlewares/client/setting.middleware";

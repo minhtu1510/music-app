@@ -28,6 +28,12 @@ export const detail = async (req: Request, res: Response) => {
       deleted: false,
       status: "active",
     });
+    for (const song of songs) {
+      const singers = await Singer.find({ _id: { $in: song.singerId } });
+      song["nameSinger"] = singers.map((singer) => singer.fullName).join(", ");
+      song["favorite"] = true;
+    }
+    
 
     res.render("client/pages/singers/detail", {
       pageTitle: "Chi tiết bài hát",

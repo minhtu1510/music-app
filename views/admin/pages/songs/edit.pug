@@ -31,20 +31,25 @@ block main
                 value=item.id 
                 selected=(item.id == song.topicId ? true : false)
               ) #{item.title}
-        div(class="form-group")
+        div(class="form-group" singers=singers)
+          label(for="countSinger") Chọn số lượng ca sĩ
+          div(class="choiceCountSinger" choiceSinger) 
+            input(type="number" name="countSinger" value=song.countSinger)
           label(for="singer") Ca sĩ
-          select(
-            name="singerId"
-            id="singer"
-            class="form-control"
-            required
-          )
-            option(value="" disabled selected) -- Chọn ca sĩ --
-            each item in singers
-              option(
-                value=item.id
-                selected=(item.id == song.singerId ? true : false)
-              ) #{item.fullName}
+          div(class="formSelectSingerFromCount")
+            each item1 in song.singerId
+              select(
+                name="singerId"
+                id="singer"
+                class="form-control"
+                required
+              )
+                option(value="" disabled selected) -- Chọn ca sĩ --
+                each item in singers
+                  option(
+                    value=item.id
+                    selected=(item.id == item1 ? true : false)
+                  ) #{item.fullName}
         div(class="form-group")
           label(for="type_song") Loại tài khoản
           select(
@@ -102,7 +107,7 @@ block main
             id="lyrics"
             name="lyrics"
             rows="15"
-          ) #{song.lyrics}
+          ) !{song.lyrics}
         div(class="form-group")
           label(for="desc") Mô tả
           textarea(

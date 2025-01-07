@@ -20,8 +20,9 @@ router.get(
   }),
   (req, res) => {
     const user: any = req.user;
+    req.flash("success", "Đăng nhập thành công!");
     res.cookie("tokenUser", user.token);
-    res.redirect("/auth/login");
+    res.redirect("/");
   }
 );
 router.get("/register", controller.register);
