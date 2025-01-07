@@ -6,7 +6,7 @@ import { FavoriteSong } from "../models/favorite-song.model";
 import unidecode from "unidecode";
 import { title } from "process";
 import moment from "moment";
-
+import { Playlist } from "../models/playlist.model";
 export const index = async (req: Request, res: Response) => {
   const slugTopic: string = req.params.slugTopic;
   // console.log(slugTopic);
@@ -81,6 +81,11 @@ export const detail = async (req: Request, res: Response) => {
       song["liked"] = false;
     }
   } else song["liked"] = false;
+
+  const userId = res.locals.users ? res.locals.users.id : "";
+  const playlists = await Playlist.find({
+    userId: userId,
+  });
   if (
     song.type_song == "free" ||
     (res.locals.users && res.locals.users.type_user == "premium")
@@ -91,6 +96,7 @@ export const detail = async (req: Request, res: Response) => {
       sameSong: sameSong,
       topic: topic,
       singer: singer,
+      // playlist: playlists
     });
   } else {
     res.redirect("/");
