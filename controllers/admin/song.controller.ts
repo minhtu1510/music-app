@@ -155,6 +155,7 @@ export const editPatch = async (req: Request, res: Response) => {
     if (req.body.audio) {
       req.body.audio = req.body.audio[0];
     }
+    req.body.countSinger = Number(req.body.countSinger);
     await Song.updateOne(
       {
         _id: id,
@@ -241,8 +242,8 @@ export const detail = async (req: Request, res: Response) => {
     const song = await Song.findOne({
       _id: req.params.id,
     });
-    const singer = await Singer.findOne({
-      _id: song.singerId,
+    const singers = await Singer.find({
+      deleted: false,
     });
     const topic = await Topic.findOne({
       _id: song.topicId,
@@ -252,7 +253,7 @@ export const detail = async (req: Request, res: Response) => {
       pageTitle: "Chi tiết bài hát",
       song: song,
       topic: topic,
-      singer: singer,
+      singers: singers,
     });
   }
 };

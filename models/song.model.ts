@@ -6,7 +6,7 @@ const songSchema = new mongoose.Schema(
     title: String,
     avatar: String,
     description: String,
-    singerId: String,
+    singerId: Array,
     topicId: String,
     createdBy: String,
     createdAt: Date,
@@ -21,6 +21,7 @@ const songSchema = new mongoose.Schema(
     deletedByFullName: String,
     deletedAtFormat: String,
     type_song: String,
+    countSinger: Number,
     like: {
       type: Array,
     },

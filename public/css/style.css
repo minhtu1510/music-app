@@ -417,10 +417,11 @@ li {
 }
 
 .inner-main {
-  height: 1000px;
+  height: 1500px;
   /* background-color: white;
   color: black; */
   margin-bottom: 40px;
+  padding-bottom: 50px;
 }
 
 /*end container*/
@@ -706,10 +707,15 @@ li {
 
 /*het Chi tiet bai hat*/
 /*box-item*/
+.playlist-detail__songSuggest--item .col-12 {
+  padding-left: 40px;
+}
+
 .box-items__category {
   display: flex;
   gap: 10px;
   flex-direction: column;
+  justify-content: center;
 }
 
 .box-item__category {
@@ -746,6 +752,28 @@ li {
 .box-item__category .box-item__category--buttons {
   display: flex;
   gap: 10px;
+}
+
+.box-items__category .inner-icon-trash {
+  cursor: pointer;
+}
+
+.box-items__category .inner-icon-trash:hover {
+  color: #dddddd66;
+}
+
+.box-items__category .inner-icon-add {
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #4D9203;
+  color: white;
+  font-size: 13px;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*het box-item*/
@@ -1473,6 +1501,7 @@ li {
 .listmusic .playlist-old {
   display: flex;
   gap: 30px;
+  overflow: hidden;
 }
 
 .listmusic .playlist-old img {
@@ -1484,8 +1513,14 @@ li {
 .listmusic .playlist-old--title {
   display: flex;
   flex-direction: column;
-  margin-top: 5px;
+  /* margin-top: 5px; */
 }
+
+/* .listmusic .playlist-old--title:hover {
+  border: 1px solid #dddd;
+  border-radius: 5px;
+
+} */
 
 .listmusic .playlist-old-name-playlist {
   font-size: 14px;
@@ -1493,6 +1528,8 @@ li {
   width: 100px;
   overflow: hidden;
   white-space: nowrap;
+  padding-bottom: 6px;
+  margin-left: 3px;
 }
 
 .listmusic .playlist-old-name-creater {
@@ -1970,6 +2007,7 @@ Tạo thông báo
 .playlist-detail {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .playlist-detail .playlist-detail__image {
@@ -2043,8 +2081,8 @@ Tạo thông báo
 
 .playlist-detail__image--other .modal-message-other {
   position: absolute;
-  top: 320px;
-  left: 170px;
+  top: 316px;
+  left: 181px;
   background-color: #493961;
 }
 
@@ -2054,6 +2092,8 @@ Tạo thông báo
   font-size: 15px;
   font-weight: 500;
 }
+
+
 
 .modal-message-other .modal-message-other__wrap button {
   outline: 0;
@@ -2076,15 +2116,21 @@ Tạo thông báo
   border: 0;
 }
 
-.playlist-detail__song {
+.song-detail-wrap {
   width: 60%;
 }
+
+.playlist-detail__song {
+  flex: 1;
+}
+
 
 .playlist-detail__songOfPlaylist--title {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
   color: #dddd;
+
 
 }
 
@@ -2111,10 +2157,8 @@ Tạo thông báo
 .playlist-detail .box-item__category--title--btnPlay {
   position: absolute;
   top: 10px;
-  /* bottom: 0;
-  right: 0; */
-  left: 42px;
-  display: none;
+  left: 47px;
+  /* display: none; */
 }
 
 .playlist-detail .box-item__category--title--btnPlay i {
@@ -2127,4 +2171,101 @@ Tạo thông báo
   font-weight: 600;
 }
 
+.playlist-detail__songSuggest--item .box-item__category {
+  width: 755px;
+}
+
 /*Hết detail-playlist*/
+/*Hiện xóa bài hát khỏi playlist*/
+
+.playlist-detail__image--other .modal-delete-music {
+  position: absolute;
+  top: 320px;
+  left: 170px;
+  background-color: #493961;
+}
+
+.modal-message-other .modal-delete-music__wrap {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.modal-message-other .modal-delete-music__wrap button {
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+  color: #ddd;
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+
+}
+
+.modal-message-other .modal-delete-music__wrap button:hover {
+  background-color: #584672;
+
+}
+
+.modal-message-other .modal-delete-music__wrap i {
+  margin-right: 10px;
+  border: 0;
+}
+
+/*Hết Hiện xóa bài hát khỏi playlist*/
+/*Kiểm tra muốn xóa khỏi playlist không*/
+
+.modal-check-remove-playlist {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-check-remove-playlist input {
+  background-color: #a389b9;
+  border-radius: 10px;
+  padding: 4px 6px;
+  outline: 0;
+  border: 0;
+}
+
+.modal-check-remove-playlist button {
+  background-color: #8B45CA;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 2px 3px;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+  width: 100px;
+}
+
+.modal-check-remove-playlist button:hover {
+  background-color: #004cd0;
+
+}
+
+.modal-check-remove-playlist .modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*Hết Kiểm tra muốn xóa khỏi playlist không*/
+/*chuyển màu khi bài hát đang chạy*/
+.playlist-detail .playlist-detail__songOfPlaylist--list .col-12.active .box-item__category {
+  background-color: #2F2739;
+}
+
+/*Hết chuyển màu khi bài hát đang chạy*/
