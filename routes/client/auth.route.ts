@@ -35,5 +35,6 @@ router.post("/password/otp", controller.otpPasswordPost);
 router.get("/password/reset", controller.resetPassword);
 router.post("/password/reset", controller.resetPasswordPost);
 router.get("/profile", requireAuth, controller.profile);
+router.patch("/profile/:id", requireAuth, controller.profilePatch);
 
 export const authRoute = router;

@@ -1,16 +1,36 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 block main
-  .container.my-3
-    .row
-      .col-12
-        +box-head(pageTitle)
-  if (users.avatar)
-    img(src=users.avatar width="150px" class="mb-3")
-  if (users.fullName)
-    p Họ tên: <b>#{users.fullName}</b>
-  if (users.email)
-    p Email: <b>#{users.email}</b>
-  p 
-    span
-      <b>#{users.type_user === "basic" ? "Basic": "Premium"}</b>
+  .container
+  .main-body1
+    .row.gutters-sm1
+      .col-md-4.mb-3
+        .card1
+          .card-body
+            .d-flex.flex-column.align-items-center.text-center
+              if (users.avatar)
+                img.rounded-circle(src='/../images/OIP.jpg' width='150')
+              else
+                img.rounded-circle(src='/public/images/OIP.jpg' alt='Default Avatar' width='150')
+              .mt-3
+                p.text-secondary.mb-1 #{users.fullName}
+                p.text-secondary.mb-1 #{users.email}
+                p.text-muted.font-size-sm #{users.type_user === "basic" ? "Basic": "Premium"}
+      .col-md-8
+        .card1.mb-3
+          .card-body1
+            .row
+              .col-sm-3
+                p.text-secondary.mb-1 Full Name
+              .col-sm-9.text-secondary
+                | #{users.fullName}
+            hr
+            .row
+              .col-sm-3
+                p.text-secondary.mb-1  Email
+              .col-sm-9.text-secondary
+                | #{users.email}
+            hr
+            .row
+              .col-sm-12
+                a.btn.btn-info(target='__blank' href='https://www.bootdey.com/snippets/view/profile-edit-data-and-skills') Edit
