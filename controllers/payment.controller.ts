@@ -41,5 +41,12 @@ export const receiveHook = async (req: Request, res: Response) => {
       }
     );
   }
+  const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+  setTimeout(async () => {
+    await User.updateOne(
+      { _id: req.body.data.description },
+      { type_user: "basic" }
+    );
+  }, THIRTY_DAYS);
   res.json();
 };
