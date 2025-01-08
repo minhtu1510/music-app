@@ -9,7 +9,9 @@ mixin box-song-playlist(song="", singer="", playlist="")
                         div(class="box-item__category--title--btnPlay" onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`)
                             <i class="fa-solid fa-play"></i>
                         img(src=song.avatar, alt="Ảnh bài hát")
-                        .box-item__category--title-main #{song.title}
+                        a(class=".box-item__category--title-main" 
+                            onClick=(users&&users.type_user=="premium")||(song.type_song=="free")?`handleUrl(event,${JSON.stringify(`http://localhost:3000/songs/detail/${song.slug}`)})`:`handleCheckPremium(event,${JSON.stringify(users)})`) #{song.title}
+                        //- .box-item__category--title-main #{song.title}
                             //- #{song.title}
                     .box-item__category--singer #{singer}
                     .box-item__category--buttons 
@@ -25,10 +27,12 @@ mixin box-song-suggest-playlist(song="", singer="", playlist="")
                 .box-item__category 
                     .box-item__category--title
                         <i class="fa-solid fa-music"></i>
-                        div(class="box-item__category--title--btnPlay" onClick=(users&&users.type_user == "premium") ? `handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`: `handleCheckPremium(event, ${JSON.stringify(users)})`)
+                        div(class="box-item__category--title--btnPlay" onClick=(users&&users.type_user == "premium" || users && song.type_song=="free") ? `handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`: `handleCheckPremium(event, ${JSON.stringify(users)})`)
                             <i class="fa-solid fa-play"></i>
                         img(src=song.avatar, alt="Ảnh bài hát")
-                        .box-item__category--title-main #{song.title}
+                        a(class=".box-item__category--title-main" 
+                            onClick=(users&&users.type_user=="premium")||(song.type_song=="free")?`handleUrl(event,${JSON.stringify(`http://localhost:3000/songs/detail/${song.slug}`)})`:`handleCheckPremium(event,${JSON.stringify(users)})`) #{song.title}
+                        //- .box-item__category--title-main #{song.title}
                         div(class=`inner-premium ${song.type_song=="premium" ? "active" : ""}`) Premium
                     .box-item__category--singer #{singer}
                     .box-item__category--buttons                        
