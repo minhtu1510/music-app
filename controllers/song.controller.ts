@@ -61,7 +61,6 @@ export const detail = async (req: Request, res: Response) => {
     deleted: false,
     status: "active",
   });
-  console.log(sameSong);
   const topic = await Topic.findOne({
     _id: song.topicId,
     deleted: false,
