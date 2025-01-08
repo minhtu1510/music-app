@@ -14,12 +14,12 @@ html
     .list-alert
       - if (messages.success)
         div(
-          class="alert alert-success alert-message"
+          class="alert alert--success alert-message"
           alert-message
         ) #{messages.success}
       - if (messages.error)
         div(
-          class="alert alert-danger alert-message"
+          class="alert alert--danger alert-message"
           alert-message
         ) #{messages.error}
     .container

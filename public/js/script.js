@@ -658,7 +658,9 @@ handleAddSong = (id,_path="") => {
   } else if (boxPlaylistDetail) {
     path = _path;
   }
-
+  console.log(_path);
+  console.log(path);
+  console.log(id);
   const data = { id: id };
   console.log(data);
   console.log(JSON.stringify(data)); // Kiểm tra dữ liệu
@@ -827,7 +829,7 @@ if (accountClick) {
           <img src=${user.avatar} alt="ảnh">
           <div class="account-title">
             <div class="account-title--name">${user.fullName}</div>
-            <div class="account-title-type">${user.type_user}</div>
+            <div class="account-title-type ${user.type_user = "premium" ? "premium" : "" }">${user.type_user}</div>
           </div>
         </div>
         <button id="btn-update">Nâng cấp tài khoản</button>
@@ -1090,7 +1092,7 @@ if (listSongPlaylist) {
   if (firstSongPlaylist) {
     songImg = firstSongPlaylist.getAttribute("songImg");
     playlistId_detail = firstSongPlaylist.getAttribute("playlistId");
-    console.log(playlistId_detail);
+    // console.log(playlistId_detail);
     const imgPlaylist = document.querySelector(
       ".playlist-detail .playlist-detail__image--img img"
     );

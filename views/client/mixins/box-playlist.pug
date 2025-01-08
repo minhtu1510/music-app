@@ -38,6 +38,6 @@ mixin box-song-suggest-playlist(song="", singer="", playlist="")
                             //- <i class="fa-regular fa-heart"></i>
                             <i class="fa-solid fa-heart"></i>
                         .inner-time #{time}
-                        div(class="inner-icon-add" onClick=(users && song.type_song=="free") ?`handleAddSong(${JSON.stringify(playlist._id)}, '/playlist/addSong/${song._id}' )`: `handleCheckPremium(event, ${JSON.stringify(users)})`)
+                        div(class="inner-icon-add" onClick=(users && song.type_song=="free" ||users&&users.type_user =="premium" ) ?`handleAddSong(${JSON.stringify(playlist._id)}, '/playlist/addSong/${song._id}' )`: `handleCheckPremium(event, ${JSON.stringify(users)})`)
                             <i class="fa-solid fa-plus"></i>
 
