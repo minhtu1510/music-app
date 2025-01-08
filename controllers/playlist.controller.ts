@@ -3,7 +3,8 @@ import { Singer } from "../models/singer.model";
 import { Playlist } from "../models/playlist.model";
 import { User } from "../models/user.model";
 import { Song } from "../models/song.model";
-import { title } from "process";
+import { ppid, title } from "process";
+import { FavoriteSong } from "../models/favorite-song.model";
 export const index = async (req: Request, res: Response) => {
     const userId = res.locals.users.id
     const playlists = await Playlist.find(
@@ -30,8 +31,23 @@ export const createPlaylist = async (req: Request, res: Response) => {
         userId: userId
     });
     await newPlaylist.save();
-    req.flash("success", "Tạo playlist thành công!");
-    res.redirect("/playlist");
+    console.log(newTitlePlaylist);
+    console.log("tao thanh cong");
+
+    // req.flash("success", "Tạo playlist thành công!");
+
+    // res.redirect("/playlist");
+    // window.location.href = window.location.href;
+    // res.json({
+    //     code: "success",
+    //     newPlaylistId: newPlaylist._id
+    // })
+    // res.render("")
+    res.json({
+        code: "success",
+        newPlaylistId: newPlaylist._id,
+        message: "Tạo playlist thành công!",
+    });
 
 };
 
@@ -158,6 +174,8 @@ export const deletePlaylist = async (req: Request, res: Response) => {
 export const detail = async (req: Request, res: Response) => {
     const userId = res.locals.users.id
     const titlePlaylist = req.params.titlePlaylist;
+    console.log(titlePlaylist);
+
     const playlist = await Playlist.findOne(
         {
             userId: userId,
@@ -172,10 +190,11 @@ export const detail = async (req: Request, res: Response) => {
     let songWithMaxLikes;
     let arrayTopicId = [];
     const songLikes = [];
-    const playlistSongId = playlist.songId?.length > 0 ? new Set(playlist.songId) : new Set();
+    if (playlist) {
+        const playlistSongId = playlist.songId?.length > 0 ? new Set(playlist.songId) : new Set()
 
-    // const playlistSongId = playlist.songId.length > 0 ? new Set(playlist.songId) : "";
-    if (playlistSongId != null) {
+
+        // const playlistSongId = playlist.songId.length > 0 ? new Set(playlist.songId) : "";
         for (const songId of playlist.songId) {
             const song = await Song.findOne(
                 {
@@ -186,7 +205,9 @@ export const detail = async (req: Request, res: Response) => {
             const singer = await Singer.findOne({
                 _id: song.singerId
             })
-            song["singerFullName"] = singer.fullName;
+            const singers = await Singer.find({ _id: { $in: song.singerId } });
+            song["singerFullName"] = singers.map((singer) => singer.fullName).join(", ");
+            // song["singerFullName"] = singer.fullName;
             songOfPlaylist.push(song);
             arrayTopicId.push(song.topicId)
 
@@ -231,46 +252,88 @@ export const detail = async (req: Request, res: Response) => {
             // }
 
         }
-    }
 
 
 
-    const songSuggests = await Song.find({
-        deleted: false,
-        topicId: { $in: [...arrayTopicId] },
-        _id: { $nin: [...playlistSongId] }
-    }).limit(5)
-    if (songSuggests.length > 0) {
-        for (const songSuggest of songSuggests) {
-            const singerSuggest = await Singer.findOne({ _id: songSuggest.singerId });
-            songSuggest["singerFullName"] = singerSuggest.fullName;
-            songWithTopic.push(songSuggest);
-        }
 
-        songWithMaxLikes = await Song.find({
+        const songSuggests = await Song.find({
             deleted: false,
-            _id: { $nin: [...playlistSongId, ...songSuggests.map(s => s._id)] }
-        }).sort({ likeCount: -1 })
-            .limit(5)
-        for (const songWithMaxLike of songWithMaxLikes) {
-            const singerWithMaxLike = await Singer.findOne({ _id: songWithMaxLike.singerId });
-            songWithMaxLike["singerFullName"] = singerWithMaxLike.fullName;
-            songLikes.push(songWithMaxLike);
-        }
+            topicId: { $in: [...arrayTopicId] },
+            _id: { $nin: [...playlistSongId] }
+        }).limit(5)
+        if (songSuggests.length > 0) {
+            for (const songSuggest of songSuggests) {
+                const singerSuggest = await Singer.findOne({ _id: songSuggest.singerId });
+                const singers = await Singer.find({ _id: { $in: songSuggest.singerId } });
+                songSuggest["singerFullName"] = singers.map((singer) => singer.fullName).join(", ");
+                // songSuggest["singerFullName"] = singerSuggest.fullName;
+                if (res.locals.users) {
+                    const exsitSongFavorite = await FavoriteSong.findOne({
+                        songId: songSuggest.id,
+                        userId: res.locals.users.id,
+                    });
+                    if (exsitSongFavorite) {
+                        songSuggest["favorite"] = true;
+                    } else {
+                        songSuggest["favorite"] = false;
+                    }
 
-    } else {
-        songWithMaxLikes = await Song.find({
-            deleted: false,
-            _id: { $nin: [...playlistSongId, ...songSuggests.map(s => s._id)] }
-        }).sort({ likeCount: -1 })
-            .limit(10)
-        for (const songWithMaxLike of songWithMaxLikes) {
-            const singerWithMaxLike = await Singer.findOne({ _id: songWithMaxLike.singerId });
-            songWithMaxLike["singerFullName"] = singerWithMaxLike.fullName;
-            songLikes.push(songWithMaxLike);
+                    songWithTopic.push(songSuggest);
+
+
+                } else songSuggest["favorite"] = false;
+            }
+            songWithMaxLikes = await Song.find({
+                deleted: false,
+                _id: { $nin: [...playlistSongId, ...songSuggests.map(s => s._id)] }
+            }).sort({ likeCount: -1 })
+                .limit(5)
+            for (const songWithMaxLike of songWithMaxLikes) {
+                const singerWithMaxLike = await Singer.findOne({ _id: songWithMaxLike.singerId });
+                // songWithMaxLike["singerFullName"] = singerWithMaxLike.fullName;
+                const singers = await Singer.find({ _id: { $in: songWithMaxLike.singerId } });
+                songWithMaxLike["singerFullName"] = singers.map((singer) => singer.fullName).join(", ");
+                if (res.locals.users) {
+                    const exsitSongFavorite = await FavoriteSong.findOne({
+                        songId: songWithMaxLike.id,
+                        userId: res.locals.users.id,
+                    });
+                    if (exsitSongFavorite) {
+                        songWithMaxLike["favorite"] = true;
+                    } else {
+                        songWithMaxLike["favorite"] = false;
+                    }
+                } else songWithMaxLike["favorite"] = false;
+
+                songLikes.push(songWithMaxLike);
+            }
+
+        } else {
+            songWithMaxLikes = await Song.find({
+                deleted: false,
+                _id: { $nin: [...playlistSongId, ...songSuggests.map(s => s._id)] }
+            }).sort({ likeCount: -1 })
+                .limit(10)
+            for (const songWithMaxLike of songWithMaxLikes) {
+                const singerWithMaxLike = await Singer.findOne({ _id: songWithMaxLike.singerId });
+                const singers = await Singer.find({ _id: { $in: songWithMaxLike.singerId } });
+                songWithMaxLike["singerFullName"] = singers.map((singer) => singer.fullName).join(", ");
+                if (res.locals.users) {
+                    const exsitSongFavorite = await FavoriteSong.findOne({
+                        songId: songWithMaxLike.id,
+                        userId: res.locals.users.id,
+                    });
+                    if (exsitSongFavorite) {
+                        songWithMaxLike["favorite"] = true;
+                    } else {
+                        songWithMaxLike["favorite"] = false;
+                    }
+                } else songWithMaxLike["favorite"] = false;
+
+                songLikes.push(songWithMaxLike);
+            }
         }
     }
-
 
     res.render("client/pages/playlist/detail", {
         pageTitle: "Bài hát yêu thích",

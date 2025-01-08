@@ -560,26 +560,62 @@ if (alertMessage) {
 // End alert-message
 
 //Hiện thông báo tạo playlist
-handleCreatePlaylist = () => {
-  const modal = document.createElement("div");
-  modal.setAttribute("class", "modal-create-playlist");
-  modal.innerHTML = `
-      <div class="modal-main"> 
-        <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
-        <form action="/playlist" method="POST" class="modal-wrap">
-          <div class="modal-title">Tạo playlist mới</div>
-          <input type="text" name="namePlaylist" placeholder="Nhập tên playlist...">
-          <button onClickCreate>Tạo mới</button>
-        </form>
-          
-      </div>
-      <div class="bg-modal"></div>
-  `;
-  body.appendChild(modal);
-  const close_btn = document.querySelector(".modal-create-playlist .modal-btn");
-  close_btn.addEventListener("click", () => {
-    body.removeChild(modal);
-  });
+handleCreatePlaylist = (songId="") => {
+  console.log(songId);
+    const modal = document.createElement("div");
+    modal.setAttribute("class", "modal-create-playlist");
+    // action="/playlist" method="POST"
+    modal.innerHTML = `
+        <div class="modal-main"> 
+          <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
+          <form id="modal-create-playlist-new" class="modal-wrap">
+            <div class="modal-title">Tạo playlist mới</div>
+            <input type="text" name="namePlaylist" placeholder="Nhập tên playlist...">
+            <button type="submit" onClickCreate songId=${songId}>Tạo mới</button>
+          </form>
+            
+        </div>
+        <div class="bg-modal"></div>
+    `;
+    body.appendChild(modal);
+    const close_btn = document.querySelector(".modal-create-playlist .modal-btn");
+    close_btn.addEventListener("click", () => {
+      body.removeChild(modal);
+    });
+    const form = document.querySelector("#modal-create-playlist-new");
+    form.addEventListener("submit", () =>{
+      const namePlaylist = form.namePlaylist.value;
+      console.log(namePlaylist)
+      const data={
+        namePlaylist: namePlaylist
+      }
+      fetch("/playlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          return res.json(); // Chỉ cần gọi một lần
+        })
+        .then((data) => {
+          if (data.code == "success") {
+            
+            console.log(data.newPlaylistId)
+            console.log("thanh cong")
+            if(songId != null){
+              id=data.newPlaylistId;
+              _path=`/playlist/addSong/${songId}`;
+              handleAddSong(id,_path)
+            }
+          }})
+    
+   
+    })
+    
+
+  
 };
 //Hết Hiện thông báo tạo playlist
 //thông báo khác của playlist <chỉnh sửa - xoa>
@@ -610,7 +646,7 @@ if (clickMessageOtherPlaylist) {
 //hết thông báo khác của playlist <chỉnh sửa - xoa>
 
 //Thêm bài hát vào playlist
-handleAddSong = (id, _path = "") => {
+handleAddSong = (id,_path="") => {
   const modal = document.querySelector(".modal-add-playlist");
   const boxPlaylistDetail = document.querySelector(
     ".playlist-detail__songSuggest--item"
@@ -668,24 +704,26 @@ handleAddSongPlaylist = (event, songId) => {
       <div class="modal-main"> 
         <div class="modal-btn"><i class="fa-solid fa-xmark"></i></div>
         <div class="modal-wrap">  
-          <input type="text" placeholder="Nhập tên playlist...">
+          <input type="text" id="nameSearchPlaylist" name="keyword" placeholder="Nhập tên playlist...">
           <div class="modal-playlist">
-            <div class="modal-create-new-playlist" onclick="handleCreatePlaylist()">
+            <div class="modal-create-new-playlist" onclick="handleCreatePlaylist('${songId}')">
               <i class="fa-solid fa-plus"></i>
               <div class="modal-item--title"> Tạo playlist mới
               </div>
             </div>
+            <div class="modal-add-old-playlist-list" playlist='${JSON.stringify(playlist)}' >
             `;
   for (const item of playlist) {
     content += `
-            <div class="modal-add-old-playlist-list">
+            
               <div class="modal-add-old-playlist">
                 <i class="fa-solid fa-icons"></i>
-                <div class="modal-item--title" path="/playlist/addSong/${songId}" onClick="handleAddSong('${item._id}')" >${item.title}</div>
+                <div class="modal-item--title" path="/playlist/addSong/${songId}" onClick="handleAddSong('${item._id}', '/playlist/addSong/${songId}')" >${item.title}</div>
               </div>
-            </div>`;
+            `;
   }
   content += `
+            </div>
           </div>
           
         </div>
@@ -699,6 +737,46 @@ handleAddSongPlaylist = (event, songId) => {
   close_btn.addEventListener("click", () => {
     body.removeChild(modal);
   });
+
+  //tim kiem
+  const inputElement = modal.querySelector(`input[name="keyword"]`);
+  inputElement.addEventListener("keyup", (event) =>{
+    keyword = event.target.value;
+    console.log(`keyword : ${keyword}`);
+    const listElement = modal.querySelector(".modal-add-old-playlist-list");
+    console.log(listElement);
+    let playlist = listElement.getAttribute("playlist");
+    playlist=JSON.parse(playlist)
+    console.log(playlist);
+    const list = playlist.filter(item => item.title.includes(keyword));
+    console.log(list)
+    let content;
+    for (const item of list) {
+       content+=
+      `
+                <div class="modal-add-old-playlist">
+                  <i class="fa-solid fa-icons"></i>
+                  <div class="modal-item--title" path="/playlist/addSong/${songId}" onClick="handleAddSong('${item._id}', '/playlist/addSong/${songId}')" >${item.title}</div>
+                </div>
+      `
+    }
+    listElement.innerHTML = content
+    if(keyword =""){
+      let content;
+      for (const item of playlist) {
+        content +=
+        `
+                  <div class="modal-add-old-playlist">
+                    <i class="fa-solid fa-icons"></i>
+                    <div class="modal-item--title" path="/playlist/addSong/${songId}" onClick="handleAddSong('${item._id}', '/playlist/addSong/${songId}')" >${item.title}</div>
+                  </div>
+        `
+      }
+      listElement.innerHTML = content
+    }
+  
+  })
+
 };
 
 //Hết Thêm bài hát vào playlist
@@ -1062,4 +1140,58 @@ if (googleBtn) {
     console.log((window.location.href = "/auth/google"));
   });
 }
-// Hết đăng nhập google
+// // Hết đăng nhập google
+// //Tìm kiếm ở playlist
+// //Gợi ý tìm kiếm
+// const boxSearchPlaylist = document.querySelector(".modal-add-playlist");
+// console.log(boxSearchPlaylist)
+// if (boxSearchPlaylist) {
+//   const input = boxSearchPlaylist.querySelector(`input[name="keyword"]`);
+//   // const innerSuggest = boxSearchPlaylist.querySelector(".inner-suggest");
+//   // const innerList = boxSearchPlaylist.querySelector(".inner-list");
+//   input.addEventListener("keyup", () => {
+//     const keyword = input.value;
+//     console.log(keyword)
+//     const listElement = boxSearchPlaylist.querySelector(".modal-add-old-playlist-list");
+//     const list = listElement.getAttribute("playlist");
+//     console.log(list)
+//     JSON.parse(list);
+
+//     // list.map((item) => {
+//     //   `
+//     //    <div class="modal-add-old-playlist">
+//     //             <i class="fa-solid fa-icons"></i>
+//     //             <div class="modal-item--title" path="/playlist/addSong/${songId}" onClick="handleAddSong('${item._id}', '/playlist/addSong/${songId}')" >${item.title}</div>
+//     //     </div>
+//     //   `
+//     // })
+//     // fetch(`/songs/search/suggest?keyword=${keyword}`)
+//     //   .then((res) => res.json())
+//     //   .then((data) => {
+//     //   //   if (data.songs.length > 0) {
+//     //   //     const htmls = data.songs.map(
+//     //   //       (item) => `
+//     //   //     <a class="inner-item" href="/songs/detail/${item.slug}">
+//     //   //     <div class="inner-image">
+//     //   //       <img src="${item.avatar}">
+//     //   //     </div>
+//     //   //     <div class="inner-info">
+//     //   //       <div class="inner-title">${item.title}</div>
+//     //   //       <div class="inner-singer">
+//     //   //         <i class="fa-solid fa-microphone-lines"></i> ${item.singerFullName}
+//     //   //       </div>
+//     //   //     </div>
+//     //   //   </a> 
+//     //   //     `
+//     //   //     );
+//     //   //     innerSuggest.classList.add("show");
+//     //   //     innerList.innerHTML = htmls.join("");
+//     //   //   } else {
+//     //   //     innerSuggest.classList.remove("show");
+//     //   //     innerList.innerHTML = "";
+//     //   //   }
+//     //   });
+//   });
+// }
+
+// //Hết tìm kiếm ở playlist

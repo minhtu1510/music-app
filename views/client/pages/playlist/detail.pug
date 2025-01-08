@@ -11,7 +11,7 @@ block main
                     .playlist-detail__image--info 
                         .playlist-detail__image--title 
                             div(class="playlist-detail__image--title-main" title=playlist.title) #{playlist.title} 
-                            div(class="playlist-detail__image--title-btnEdit" onclick="handleEditPlaylist()") <i class="fa-solid fa-pen"></i>    
+                            div(class="playlist-detail__image--title-btnEdit" onclick=`handleMessageEditPlaylist('${playlist._id}')`) <i class="fa-solid fa-pen"></i>    
                         .playlist-detail__image--user Tạo bởi #{userName}
                     .playlist-detail__image--play 
                         button(class="btnPlaySongInPlaylist" onclick="handlePlaySongInPlaylist(event)") 

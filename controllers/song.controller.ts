@@ -6,12 +6,8 @@ import { FavoriteSong } from "../models/favorite-song.model";
 import unidecode from "unidecode";
 import { title } from "process";
 import moment from "moment";
-<<<<<<< HEAD
 import { Playlist } from "../models/playlist.model";
-=======
 import { User } from "../models/user.model";
-
->>>>>>> 96964996b5737837d98b5747bf5344d2a7e4000e
 export const index = async (req: Request, res: Response) => {
   const slugTopic: string = req.params.slugTopic;
   // console.log(slugTopic);
@@ -105,7 +101,7 @@ export const detail = async (req: Request, res: Response) => {
       sameSong: sameSong,
       topic: topic,
       singer: singer,
-      // playlist: playlists
+      playlist: playlists
     });
   } else {
     res.redirect("/");
