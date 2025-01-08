@@ -13,7 +13,8 @@ mixin box-song-playlist(song="", singer="", playlist="")
                             //- #{song.title}
                     .box-item__category--singer #{singer}
                     .box-item__category--buttons 
-                        .inner-heart <i class="fa-regular fa-heart"></i>
+                        
+                        //- .inner-heart <i class="fa-regular fa-heart"></i>
                         .inner-time #{time}
                         div(class="inner-icon-trash" onClick=`handleDeleteSongPlaylist('${song._id}', '${playlist._id}')`)
                             <i class="fa-solid fa-trash-can"></i>
@@ -24,14 +25,19 @@ mixin box-song-suggest-playlist(song="", singer="", playlist="")
                 .box-item__category 
                     .box-item__category--title
                         <i class="fa-solid fa-music"></i>
-                        div(class="box-item__category--title--btnPlay" onClick=`handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`)
+                        div(class="box-item__category--title--btnPlay" onClick=(users&&users.type_user == "premium") ? `handlePlayAudio(event, ${JSON.stringify(song)}, ${JSON.stringify(singer)})`: `handleCheckPremium(event, ${JSON.stringify(users)})`)
                             <i class="fa-solid fa-play"></i>
                         img(src=song.avatar, alt="Ảnh bài hát")
                         .box-item__category--title-main #{song.title}
+                        div(class=`inner-premium ${song.type_song=="premium" ? "active" : ""}`) Premium
                     .box-item__category--singer #{singer}
-                    .box-item__category--buttons 
-                        .inner-heart <i class="fa-regular fa-heart"></i>
+                    .box-item__category--buttons                        
+                        //- .inner-heart <i class="fa-regular fa-heart"></i>
+                        div(class="inner-action inner-heart " +(song.favorite ? "active":"")
+                        button-favorite=song.id user-id=(users && users.id ? users.id : ""))
+                            //- <i class="fa-regular fa-heart"></i>
+                            <i class="fa-solid fa-heart"></i>
                         .inner-time #{time}
-                        div(class="inner-icon-add" onClick=`handleAddSong(${JSON.stringify(playlist._id)}, '/playlist/addSong/${song._id}' )`)
+                        div(class="inner-icon-add" onClick=(users && song.type_song=="free" ||users&&users.type_user =="premium" ) ?`handleAddSong(${JSON.stringify(playlist._id)}, '/playlist/addSong/${song._id}' )`: `handleCheckPremium(event, ${JSON.stringify(users)})`)
                             <i class="fa-solid fa-plus"></i>
 
