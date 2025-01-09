@@ -2282,7 +2282,7 @@ Tạo thông báo
   cursor: pointer;
 
 } */
-
+/*Button về playlist delete - edit*/
 .playlist-detail__image--other .modal-message-other {
   position: absolute;
   top: 316px;
@@ -2319,6 +2319,8 @@ Tạo thông báo
   margin-right: 10px;
   border: 0;
 }
+
+/*Hết Button về playlist delete - edit*/
 
 .song-detail-wrap {
   width: 60%;
