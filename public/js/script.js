@@ -215,15 +215,19 @@ if (boxSearch) {
         if (data.songs.length > 0) {
           const htmls = data.songs.map(
             (item) => `
-          <a class="inner-item" href="/songs/detail/${item.slug}">
+         
+          <a class="inner-item" href="/songs/detail/${item.slug}" >
           <div class="inner-image">
             <img src="${item.avatar}">
           </div>
           <div class="inner-info">
-            <div class="inner-title">${item.title}</div>
+            <div class="inner-title" type_song = ${item.type_song}>${item.title}</div>
             <div class="inner-singer">
               <i class="fa-solid fa-microphone-lines"></i> ${item.singerFullName}
             </div>
+          </div>
+          <div class="inner-premium ${item.type_song} ${item.type_song=="premium" ? "active" : ""} ">
+           Premium
           </div>
         </a> 
           `
@@ -234,6 +238,19 @@ if (boxSearch) {
           innerSuggest.classList.remove("show");
           innerList.innerHTML = "";
         }
+
+        // const a = document.createElement("a");
+        // a.className = "inner-item";
+        // a.href = link;
+        // a.textContent = "Xem chi tiết bài hát";
+      
+        // // Thêm xử lý click nếu là premium
+        // if (item.type_song === "premium") {
+        //   a.addEventListener("click", (e) => {
+        //     e.preventDefault(); // Ngăn hành động mặc định
+        //     alert("Bạn không có quyền truy cập vào nội dung premium."); // Hiển thị thông báo
+        //   });
+        // }
       });
   });
 }
@@ -585,6 +602,10 @@ handleCreatePlaylist = (songId="") => {
     const form = document.querySelector("#modal-create-playlist-new");
     form.addEventListener("submit", () =>{
       const namePlaylist = form.namePlaylist.value;
+      if(!namePlaylist){
+        alertFunc("Vui lòng nhập tên playlist",3000,"alert--error")
+        return;
+    }
       console.log(namePlaylist)
       const data={
         namePlaylist: namePlaylist
@@ -852,16 +873,67 @@ if (accountClick) {
 //Search
 const input = document.querySelector(".search .form-group input");
 const searchBox = document.querySelector(".search .inner-list");
-if (input) {
-  input.addEventListener("blur", () => {
-    searchBox.style.display = "none";
-  });
-  input.addEventListener("click", () => {
-    searchBox.style.display = "block";
-    searchBox.focus();
-  });
+if(input && searchBox) {
+  document.addEventListener("click", (event) => {
+    if(event.target == searchBox || event.target == input){
+      searchBox.style.display = "block";
+      // console.log(`target: ${event.target.a}`);
+    }else{
+      searchBox.style.display = "none";
+
+    }
+    // event.preventDefault();
+    //nếu nhấn vào item là premium sẽ hiện thông báo
+    console.log(event.target);
+      // Kiểm tra nếu phần tử được click là một liên kết (class "inner-item")
+    if (event.target.classList.contains("inner-title")) {
+      const isPremium = event.target.getAttribute("type_song") === "premium"; // Lấy giá trị premium
+      
+      if (isPremium) {
+        event.preventDefault(); // Ngăn hành động mặc định (chuyển trang)
+        alertFunc("Bạn không có quyền truy cập vào nội dung premium.",3000,"alert--error"); // Hiển thị thông báo
+      }
+    }
+  })
 }
+//hiên premium của favoriteSong và detailSinger
+const songItemFavorite = document.querySelector(".song-item");
+const songDetailSinger = document.querySelector(".box-item__category");
+if(songItemFavorite || songDetailSinger){
+  document.addEventListener("click", (event) => {
+    // event.preventDefault();
+    //nếu nhấn vào item là premium sẽ hiện thông báo
+    console.log(event.target);
+      // Kiểm tra nếu phần tử được click là một liên kết (class "inner-item")
+    if (event.target.tagName == "A" || event.target.tagName == "IMG") {
+      const isPremium = event.target.getAttribute("type_song") === "premium"; // Lấy giá trị premium
+      if (isPremium) {
+        event.preventDefault(); // Ngăn hành động mặc định (chuyển trang)
+        alertFunc("Bạn không có quyền truy cập vào nội dung premium.",3000,"alert--error"); // Hiển thị thông báo
+      }
+    }
+  })
+}
+//Hết hiên premium của favoriteSong và detailSinger
+//Hết hiên premium của favoriteSong và detailSinger
+
+// if (input) {
+//   input.addEventListener("blur", (e) => {
+//     if (!searchBox.contains(document.activeElement)) {
+//       searchBox.style.display = "none";
+//     }
+//   });
+//   input.addEventListener("click", () => {
+//     searchBox.style.display = "block";
+//     // searchBox.focus();
+//   });
+//   searchBox.addEventListener("click", () => {
+//     searchBox.style.display = "block";
+//   })
+// }
 //Hết Search
+
+
 //Hiện  chỉnh sửa playlist
 // handleEditPlaylist = (event, path) =>{
 //   event.preventDefault();
@@ -933,6 +1005,10 @@ handleMessageEditPlaylist = (playlistId) => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const input = form.querySelector("input").value;
+    if(!input){
+      alertFunc("Vui lòng nhập tên playlist chỉnh sửa",3000,"alert--error")
+      return;
+  }
     console.log(input);
     const data = {
       newNamePlaylist: input,

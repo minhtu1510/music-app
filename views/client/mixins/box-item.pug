@@ -8,7 +8,7 @@ mixin box-item(song="",favorite, singer="")
                             <i class="fa-solid fa-play"></i>
                         img(src=song.avatar, alt="Ảnh bài hát")
                         .box-item__category--title-main 
-                            a(href=`/songs/detail/${song.slug}`) #{song.title}
+                            a(href=`/songs/detail/${song.slug}` type_song =song.type_song) #{song.title}
                         div(class=`inner-premium ${song.type_song=="premium" ? "active" : ""}`) Premium
                     .box-item__category--singer #{singer}
                     .box-item__category--buttons 

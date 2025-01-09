@@ -90,21 +90,29 @@ export const detail = async (req: Request, res: Response) => {
   const playlists = await Playlist.find({
     userId: userId,
   });
-  if (
-    song.type_song == "free" ||
-    (res.locals.users && res.locals.users.type_user == "premium")
-  ) {
-    res.render("client/pages/songs/detail", {
-      pageTitle: "Chi tiết bài hát",
-      song: song,
-      sameSong: sameSong,
-      topic: topic,
-      singer: singer,
-      playlist: playlists
-    });
-  } else {
-    res.redirect("/");
-  }
+  res.render("client/pages/songs/detail", {
+    pageTitle: "Chi tiết bài hát",
+    song: song,
+    sameSong: sameSong,
+    topic: topic,
+    singer: singer,
+    playlist: playlists
+  });
+  // if (
+  //   song.type_song == "free" ||
+  //   (res.locals.users && res.locals.users.type_user == "premium")
+  // ) {
+  //   res.render("client/pages/songs/detail", {
+  //     pageTitle: "Chi tiết bài hát",
+  //     song: song,
+  //     sameSong: sameSong,
+  //     topic: topic,
+  //     singer: singer,
+  //     playlist: playlists
+  //   });
+  // } else {
+  //   res.redirect("/");
+  // }
 };
 // export const detailPlay = async (req: Request, res: Response) => {
 //   const slugSong: string = req.params.slugSong;
@@ -232,6 +240,7 @@ export const favorite = async (req: Request, res: Response) => {
     song["nameSinger"] = singers.map((singer) => singer.fullName).join(", ");
 
     song["slug"] = infoSong.slug;
+    song["type_song"] = infoSong.type_song;
     song["createdAtFormat"] = moment("2024-12-28T16:34:52.981+00:00").format(
       "DD/MM/YYYY"
     );
@@ -256,7 +265,7 @@ export const search = async (req: Request, res: Response) => {
 
   const songs = await Song.find({
     slug: slugRegex,
-  }).select("slug avatar title like singerId");
+  }).select("slug avatar title like singerId type_song");
 
   for (const song of songs) {
     const infoSinger = await Singer.findOne({
@@ -272,6 +281,7 @@ export const search = async (req: Request, res: Response) => {
       title: song.title,
       like: song.like,
       singerId: song.singerId,
+      type_song: song.type_song,
       singerFullName: song["singerFullName"],
     });
   }
