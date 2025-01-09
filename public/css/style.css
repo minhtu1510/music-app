@@ -65,6 +65,7 @@
   aspect-ratio: 1/1;
   border-radius: 5px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .song-item .inner-image img {
@@ -86,6 +87,7 @@
   -webkit-box-orient: vertical;
   display: -webkit-box;
   margin-bottom: 5px;
+  cursor: pointer;
 }
 
 .song-item .inner-content .inner-title a {
@@ -130,6 +132,7 @@
   font-weight: 500;
   margin-bottom: 2px;
   cursor: pointer;
+  color: rgb(79, 77, 77);
 }
 
 .song-item .inner-content .inner-heart.active {
@@ -155,6 +158,11 @@
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 10px;
+}
+
+.singer-detail .inner-actions .btn-plus:hover {
+  color: white;
+  cursor: pointer;
 }
 
 .singer-detail .inner-actions .inner-action {
@@ -466,7 +474,7 @@ li {
   font-weight: 600;
 }
 
-.sider .sider-menu li a.current-tab  {
+.sider .sider-menu li a.current-tab {
   color: #00ADEF;
 }
 
@@ -731,7 +739,10 @@ li {
   display: flex;
   gap: 12px;
   align-items: center;
-  width: 200px;
+  /* width: 240px; */
+  width: 262px;
+
+
 }
 
 .box-item__category .box-item__category--title i {
@@ -747,11 +758,41 @@ li {
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 700;
+  text-overflow: ellipsis;
+  width: 98px;
+  overflow: hidden;
+  line-height: 20px;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+
 }
 
 .box-item__category .box-item__category--buttons {
   display: flex;
   gap: 10px;
+  justify-content: space-between;
+}
+
+.box-item__category .inner-premium {
+  background-color: #3E804F;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  /* position: absolute; */
+  top: 3px;
+  right: 3px;
+  overflow: hidden;
+  padding: 2px 3px;
+  border-radius: 5px;
+  /* display: block; */
+  margin-left: 20px;
+  display: none;
+}
+
+.box-item__category .inner-premium.active {
+  display: block;
+
 }
 
 .box-items__category .inner-icon-trash {
@@ -1138,6 +1179,7 @@ li {
   justify-content: center;
   align-items: center;
   border: 1px solid #ddd;
+  cursor: pointer;
 }
 
 .dataSection1 .dataSection1__item.active .dataSection1__button--play {
@@ -1470,6 +1512,7 @@ li {
   margin-top: 20px;
   display: flex;
   gap: 25px;
+  flex-wrap: wrap;
 }
 
 .listmusic .create-playlist-new {
@@ -1478,7 +1521,8 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 130px;
+  width: 123px;
+  height: 160px;
 }
 
 .listmusic .create-playlist-new {
@@ -1502,18 +1546,40 @@ li {
   display: flex;
   gap: 30px;
   overflow: hidden;
+  flex-wrap: wrap;
 }
 
-.listmusic .playlist-old img {
+.listmusic .playlist--old img {
   width: 130px;
   height: 120px;
-  border-radius: 5px;
+  border-radius: 6px;
+}
+
+.playlist-old--title img {
+  width: 130px;
+  border-radius: 6px;
+
 }
 
 .listmusic .playlist-old--title {
   display: flex;
   flex-direction: column;
   /* margin-top: 5px; */
+}
+
+.listmusic .playlist-old--title:hover a {
+  border: 1px solid #dddd;
+  border-radius: 6px;
+  overflow: hidden;
+  /* padding: 6px; */
+}
+
+.listmusic .playlist-old--title a {
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 4px;
+
 }
 
 /* .listmusic .playlist-old--title:hover {
@@ -1528,8 +1594,10 @@ li {
   width: 100px;
   overflow: hidden;
   white-space: nowrap;
-  padding-bottom: 6px;
+  /* padding-bottom: 6px; */
+  /* margin-left: 3px; */
   margin-left: 3px;
+
 }
 
 .listmusic .playlist-old-name-creater {
@@ -1539,6 +1607,8 @@ li {
   width: 100px;
   overflow: hidden;
   white-space: nowrap;
+  margin-left: 3px;
+
 }
 
 /*end Playlist*/
@@ -1662,7 +1732,7 @@ li {
 .modal-add-playlist .modal-add-old-playlist-list {
   display: flex;
   flex-direction: column;
-  flex: 20px;
+  gap: 10px;
 }
 
 .modal-add-playlist .modal-add-old-playlist {
@@ -1881,7 +1951,16 @@ Tạo thông báo
   outline: 0;
   border: 0;
   width: 160px;
+  /* display: block; */
 }
+
+.account .boostAccount .basic {
+  display: block;
+}
+
+/* .account.premium #btn-update {
+  display: none;
+} */
 
 .modal-info-account {
   position: absolute;
@@ -1919,17 +1998,24 @@ Tạo thông báo
   flex-direction: column;
   font-size: 16px;
   font-weight: 600;
+  width: 125px;
 }
 
 .account-wrap .account-title-type {
-  padding: 2px;
+  /* padding: 2px; */
   background-color: #A1A1A1;
   border-radius: 5px;
-  width: 50px;
+  width: 70px;
+  /* padding: 3px 3px; */
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 20px;
+  height: 22px;
+  padding-bottom: 1px;
+}
+
+.account-wrap .account-title-type.premium {
+  background-color: #3E804F;
 }
 
 .account-wrap button {
@@ -2140,7 +2226,7 @@ Tạo thông báo
 
 .playlist-detail .box-item__category--title {
   position: relative;
-
+  width: 262px;
 }
 
 .playlist-detail .box-item__category:hover {
@@ -2173,6 +2259,23 @@ Tạo thông báo
 
 .playlist-detail__songSuggest--item .box-item__category {
   width: 755px;
+}
+
+.box-item__category--buttons .inner-heart {
+  /* font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px; */
+  cursor: pointer;
+  overflow: hidden;
+  background-color: transparent;
+  /* border: 1px solid #ddd; */
+}
+
+.box-item__category--buttons .inner-heart.active {
+  color: #b90000;
+  /* background-color: #b90000; */
+  /* overflow: hidden; */
+
 }
 
 /*Hết detail-playlist*/
