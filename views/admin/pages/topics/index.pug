@@ -81,14 +81,18 @@ block main
                   td #{item.title}
                   td
                     if (item.status === "active")
-                      a(
-                        href="javascript:;"
-                        class="badge badge-success"
+                      button(
+                      class="badge badge-success"
+                      item-id=item.id
+                      button-change-status="inactive"
+                      data-path=`/${prefixAdmin}/topics/change-status`
                       ) Hoạt động
                     else
-                      a(
-                        href="javascript:;"
-                        class="badge badge-danger"
+                      button(
+                      class="badge badge-danger"
+                      item-id=item.id
+                      button-change-status="active"
+                      data-path=`/${prefixAdmin}/topics/change-status`
                       ) Dừng hoạt động
                   td
                     a(

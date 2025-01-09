@@ -1,0 +1,35 @@
+extends ../../layouts/default.pug
+block main
+  -if(role.permissions.includes("roles_view"))
+    h1 #{pageTitle}
+    form(
+      action=`/${prefixAdmin}/roles/detail/${role.id}`
+      method="POST"
+    )
+      div(class="form-group")
+        label(for="title") Tiêu đề
+        input(
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          readonly
+          value=role.title
+        )
+      div(class="form-group")
+        label(for="desc") Mô tả
+        input(
+          type="text"
+          class="form-control"
+          id="desc"
+          name="description"
+          value=role.description
+          readonly
+        )
+      br
+      a(
+          class="btn btn-primary"
+          href=`/${prefixAdmin}/roles`
+        ) Trở về
+  -else 
+    .forbidden Không có quyền truy cập
