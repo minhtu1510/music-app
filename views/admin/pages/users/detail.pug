@@ -1,14 +1,14 @@
 extends ../../layouts/default.pug
 block main
-  -if(role.permissions.includes("accounts_view"))
+  -if(role.permissions.includes("users_view"))
     h1(class="mb-4") #{pageTitle}
     form(
-      action=`/${prefixAdmin}/accounts/edit/${account.id}?_method=PATCH`
+      action=""
       method="POST"
       enctype="multipart/form-data"
     )
       div(class="form-group")
-        label(for="fullName") Họ tên 
+        label(for="fullName") Họ tên *
         input(
           type="text"
           class="form-control"
@@ -16,10 +16,9 @@ block main
           name="fullName"
           readonly
           value=account.fullName
-
         )
       div(class="form-group")
-        label(for="email") Email 
+        label(for="email") Email *
         input(
           type="email"
           class="form-control"
@@ -35,30 +34,32 @@ block main
           class="form-control"
           id="phone"
           name="phone"
-          readonly
           value=account.phone
+          disabled
         )
       div(
         class="form-group"
         upload-image
       )
         label(for="avatar") Avatar
-          br
-          img(
-              src=account.avatar
-              class="image-preview"
-              upload-image-preview
-          )
+        br
+        img(
+          src=account.avatar
+          class="image-preview"
+          upload-image-preview
+        )
       div(class="form-group")
-        label(for="role_id") Nhóm quyền
-            input(
-              type="text"
-              class="form-control"
-              id="phone_id"
-              readonly
-              value=role.title
-              name="role_id"
-            )
+        label(for="type_user") Loại tài khoản
+        select(name="type_user" id="type_user" class="form-control" disabled) 
+          option(disabled) -- Chọn --
+            option(
+              value="basic"
+              selected=(account.type_user=="basic" ? true : false)
+            ) Cơ bản
+            option(
+              value="premium"
+              selected=(account.type_user=="premium" ? true : false)
+            ) Nâng cao
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
@@ -66,8 +67,8 @@ block main
           id="statusActive"
           name="status"
           value="active"
-          disabled
           checked=(account.status == "active" ? true : false)
+          disabled
         )
         label(for="statusActive" class="form-check-label") Hoạt động
       div(class="form-group form-check form-check-inline")
@@ -77,14 +78,14 @@ block main
           id="statusInActive"
           name="status"
           value="inactive"
-          disabled
           checked=(account.status == "inactive" ? true : false)
+          disabled
         )
         label(for="statusInActive" class="form-check-label") Dừng hoạt động
       br
       a(
           class="btn btn-primary"
-          href=`/${prefixAdmin}/accounts`
+          href=`/${prefixAdmin}/users`
         ) Trở về
   -else
     .forbidden Không có quyền truy cập

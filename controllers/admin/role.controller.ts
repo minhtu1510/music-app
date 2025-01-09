@@ -23,8 +23,19 @@ export const createPost = async (req, res) => {
     res.redirect(`/${systemConfig.prefixAdmin}/roles`);
   }
 };
+export const detail = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const role = await Role.findOne({
+    _id: id,
+    deleted: false,
+  });
+  res.render("admin/pages/roles/detail", {
+    pageTitle: "Chi tiết nhóm quyền",
+    role: role,
+  });
+};
 
-export const edit = async (req, res) => {
+export const edit = async (req: Request, res: Response) => {
   const id = req.params.id;
   const role = await Role.findOne({
     _id: id,
@@ -35,7 +46,7 @@ export const edit = async (req, res) => {
     role: role,
   });
 };
-export const editPatch = async (req, res) => {
+export const editPatch = async (req: Request, res: Response) => {
   if (res.locals.role.permissions.includes("roles_edit")) {
     const id = req.params.id;
     await Role.updateOne(
@@ -72,7 +83,7 @@ export const deletePatch = async (req: Request, res: Response) => {
   }
 };
 
-export const permissions = async (req, res) => {
+export const permissions = async (req: Request, res: Response) => {
   const records = await Role.find({
     deleted: false,
   });
@@ -81,7 +92,7 @@ export const permissions = async (req, res) => {
     records: records,
   });
 };
-export const permissionsPatch = async (req, res) => {
+export const permissionsPatch = async (req: Request, res: Response) => {
   if (res.locals.role.permissions.includes("roles_permissions")) {
     for (const item of req.body) {
       await Role.updateOne(
