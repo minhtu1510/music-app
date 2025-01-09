@@ -2616,3 +2616,50 @@ body1 {
 }
 
 /*Hết Bên ngoài file index playlist- một số nút*/
+/*Hiện premium ở tìm kiếm*/
+.inner-list .inner-premium {
+  background-color: #3E804F;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  /* position: absolute;
+  top: 3px;
+  right: 100px;
+  overflow: hidden; */
+  padding: 2px 3px;
+  border-radius: 5px;
+  /* display: block; */
+  display: none;
+  margin-bottom: 30px;
+}
+
+.inner-list .inner-premium.active {
+  display: block;
+}
+
+/*Hiện premium ở tìm kiếm*/
+/*Hiện premium ở yêu thích*/
+.song-item .inner-premium {
+  background-color: #3E804F;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  /* position: absolute;
+  top: 3px;
+  right: 100px;
+  overflow: hidden; */
+  padding: 2px 3px;
+  border-radius: 5px;
+  /* display: block; */
+  display: none;
+  margin-bottom: 30px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.song-item .inner-premium.active {
+  display: block;
+}
+
+/*Hết Hiện premium ở yêu thích*/
