@@ -609,6 +609,7 @@ handleCreatePlaylist = (songId="") => {
               _path=`/playlist/addSong/${songId}`;
               handleAddSong(id,_path)
             }
+            window.location.href = window.location.href;
           }})
     
    
@@ -648,6 +649,7 @@ if (clickMessageOtherPlaylist) {
 //Thêm bài hát vào playlist
 handleAddSong = (id,_path="") => {
   const modal = document.querySelector(".modal-add-playlist");
+  const dataSection1 = document.querySelector(".dataSection1");
   const boxPlaylistDetail = document.querySelector(
     ".playlist-detail__songSuggest--item"
   );
@@ -655,12 +657,12 @@ handleAddSong = (id,_path="") => {
   if (modal) {
     const pathElement = modal.querySelector("[path]");
     path = pathElement.getAttribute("path");
-  } else if (boxPlaylistDetail) {
+  } else if (boxPlaylistDetail ||dataSection1) {
     path = _path;
   }
-  console.log(_path);
-  console.log(path);
-  console.log(id);
+  console.log(`_path : ${_path}`);
+  console.log(`path : ${path}`);
+  console.log(`id: ${path}`);
   const data = { id: id };
   console.log(data);
   console.log(JSON.stringify(data)); // Kiểm tra dữ liệu
@@ -829,7 +831,7 @@ if (accountClick) {
           <img src=${user.avatar} alt="ảnh">
           <div class="account-title">
             <div class="account-title--name">${user.fullName}</div>
-            <div class="account-title-type ${user.type_user = "premium" ? "premium" : "" }">${user.type_user}</div>
+            <div class="account-title-type ${user.type_user == "premium" ? "premium" : "basic" }">${user.type_user}</div>
           </div>
         </div>
         <button id="btn-update">Nâng cấp tài khoản</button>
@@ -893,8 +895,21 @@ handleMessageEditPlaylist = (playlistId) => {
   const oldNamePlaylistElement = document.querySelector(
     ".playlist-detail__image--title-main"
   );
-  const oldNamePlaylist = oldNamePlaylistElement.getAttribute("title");
-  console.log(oldNamePlaylist);
+  let oldSlugPlaylist;
+  let checkDetailOrNot = true;
+  if(!oldNamePlaylistElement){
+    const oldNamePlaylistElement_index = document.querySelector(`[playlistId = "${playlistId}"]`)
+    const innerTitle = oldNamePlaylistElement_index.querySelector(".playlist-old-name-playlist")
+    oldSlugPlaylist = innerTitle.getAttribute("slug");
+    console.log(`ten :${oldSlugPlaylist}`)
+    playlistClickOther(playlistId);
+    checkDetailOrNot = false
+  }else{
+    oldSlugPlaylist = oldNamePlaylistElement.getAttribute("slug");
+    console.log(oldSlugPlaylist);
+  }
+
+
   //
   modal.innerHTML = `
       <div class="modal-main"> 
@@ -924,7 +939,7 @@ handleMessageEditPlaylist = (playlistId) => {
       id: playlistId,
     };
 
-    fetch(`/playlist/detail/${oldNamePlaylist}`, {
+    fetch(`/playlist/detail/${oldSlugPlaylist}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -939,16 +954,26 @@ handleMessageEditPlaylist = (playlistId) => {
           alertFunc("Chinh sua thanh cong");
           console.log("thanhcong");
           modal.remove();
-          oldNamePlaylistElement.innerHTML = input;
+          if(checkDetailOrNot){
+            oldNamePlaylistElement.innerHTML = input;
+            history.pushState(
+              {},
+              "",
+              `/playlist/detail/${encodeURIComponent(data.newSlug)}`
 
+            );
+            location.reload(); // Reload trang hiện tại
+          }else{
+            location.reload();
+            window.location.href  =  window.location.href ;
+          }
+          
+         
           console.log(`sau bien doi: ${oldNamePlaylistElement}`);
           // Thay đổi URL mà không reload trang
-          history.pushState(
-            {},
-            "",
-            `/playlist/detail/${encodeURIComponent(input)}`
-          );
-          location.reload(); // Reload trang hiện tại
+          
+          // 
+          
         } else {
           alertFunc("Chinh sua khong thanh cong", 3000, "alert--error");
         }
@@ -1014,7 +1039,21 @@ handleRemovePlaylist = (playlistId) => {
   const oldNamePlaylistElement = document.querySelector(
     ".playlist-detail__image--title-main"
   );
-  const oldNamePlaylist = oldNamePlaylistElement.getAttribute("title");
+  let oldNamePlaylist;
+  let checkDetailOrNot = true;
+  if(!oldNamePlaylistElement){
+
+    const oldNamePlaylistElement_index = document.querySelector(`[playlistId = "${playlistId}"]`)
+    const innerTitle = oldNamePlaylistElement_index.querySelector(".playlist-old-name-playlist")
+    oldNamePlaylist = innerTitle.getAttribute("title");
+    console.log(`ten :${oldNamePlaylist}`)
+    playlistClickOther(playlistId);
+    checkDetailOrNot = false
+  }else{
+    oldNamePlaylist = oldNamePlaylistElement.getAttribute("title");
+    console.log(oldNamePlaylist);
+  }
+  // const oldNamePlaylist = oldNamePlaylistElement.getAttribute("title");
   const data = {
     id: playlistId,
   };
@@ -1143,57 +1182,42 @@ if (googleBtn) {
   });
 }
 // // Hết đăng nhập google
-// //Tìm kiếm ở playlist
-// //Gợi ý tìm kiếm
-// const boxSearchPlaylist = document.querySelector(".modal-add-playlist");
-// console.log(boxSearchPlaylist)
-// if (boxSearchPlaylist) {
-//   const input = boxSearchPlaylist.querySelector(`input[name="keyword"]`);
-//   // const innerSuggest = boxSearchPlaylist.querySelector(".inner-suggest");
-//   // const innerList = boxSearchPlaylist.querySelector(".inner-list");
-//   input.addEventListener("keyup", () => {
-//     const keyword = input.value;
-//     console.log(keyword)
-//     const listElement = boxSearchPlaylist.querySelector(".modal-add-old-playlist-list");
-//     const list = listElement.getAttribute("playlist");
-//     console.log(list)
-//     JSON.parse(list);
-
-//     // list.map((item) => {
-//     //   `
-//     //    <div class="modal-add-old-playlist">
-//     //             <i class="fa-solid fa-icons"></i>
-//     //             <div class="modal-item--title" path="/playlist/addSong/${songId}" onClick="handleAddSong('${item._id}', '/playlist/addSong/${songId}')" >${item.title}</div>
-//     //     </div>
-//     //   `
-//     // })
-//     // fetch(`/songs/search/suggest?keyword=${keyword}`)
-//     //   .then((res) => res.json())
-//     //   .then((data) => {
-//     //   //   if (data.songs.length > 0) {
-//     //   //     const htmls = data.songs.map(
-//     //   //       (item) => `
-//     //   //     <a class="inner-item" href="/songs/detail/${item.slug}">
-//     //   //     <div class="inner-image">
-//     //   //       <img src="${item.avatar}">
-//     //   //     </div>
-//     //   //     <div class="inner-info">
-//     //   //       <div class="inner-title">${item.title}</div>
-//     //   //       <div class="inner-singer">
-//     //   //         <i class="fa-solid fa-microphone-lines"></i> ${item.singerFullName}
-//     //   //       </div>
-//     //   //     </div>
-//     //   //   </a> 
-//     //   //     `
-//     //   //     );
-//     //   //     innerSuggest.classList.add("show");
-//     //   //     innerList.innerHTML = htmls.join("");
-//     //   //   } else {
-//     //   //     innerSuggest.classList.remove("show");
-//     //   //     innerList.innerHTML = "";
-//     //   //   }
-//     //   });
-//   });
-// }
 
 // //Hết tìm kiếm ở playlist
+//nút phát nhạc ở ngoài
+playlistClickPlay = () => {
+
+}
+//thông báo khác của playlist <chỉnh sửa - xoa>
+playlistClickOther = (playlistId) => {
+    const clickOtherElement = document.querySelector(`[playlistId = "${playlistId}"]`);
+    console.log(`other: ${clickOtherElement.getAttribute("playlistId")}`)
+    console.log(clickOtherElement);
+    const btnContent = document.querySelector(".playlist__header--icon");
+    let modalMessageOther = document.querySelector(".modal-message-other-index");
+    if (!modalMessageOther) {
+      let modalMessageOther = document.createElement("div");
+      modalMessageOther.setAttribute("class", "modal-message-other-index");
+      modalMessageOther.innerHTML = `
+        <div class="modal-message-other__wrap">
+          <button onclick="handleMessageEditPlaylist('${playlistId}')"> <i class="fa-solid fa-pen"></i>  Chỉnh sửa playlist</button>  
+          <button onclick="handleRemovePlaylist('${playlistId}')"><i class="fa-solid fa-trash-can"></i> Xóa playlist</button>  
+        </div>
+      `;
+      console.log(modalMessageOther)
+      clickOtherElement.appendChild(modalMessageOther);
+    } else {
+      clickOtherElement.removeChild(modalMessageOther);
+    }
+}
+
+//hết thông báo khác của playlist <chỉnh sửa - xoa>
+//phát nhạc ở index playlist
+handleClickPlay = (event, playlist) => {
+  // playlist = JSON.parse(playlist);
+  console.log(playlist);
+
+  // handlePlayAudio = (event, song, singer);
+  //lấy API để hiện ra danh sách bài hát
+  
+}

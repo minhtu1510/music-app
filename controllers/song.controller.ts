@@ -251,6 +251,7 @@ export const search = async (req: Request, res: Response) => {
   keywordRegex = unidecode(keywordRegex);
   const slugRegex = new RegExp(keywordRegex, "i");
 
+
   const songsFinal = [];
 
   const songs = await Song.find({

@@ -4,6 +4,11 @@ const playlistSchema = new mongoose.Schema(
     title: String,
     userId: String,
     songId: Array,
+    slug: {
+      type: String,
+      slug: "title",
+      unique: true,
+    },
   },
   {
     timestamps: true,
