@@ -609,6 +609,7 @@ handleCreatePlaylist = (songId="") => {
               _path=`/playlist/addSong/${songId}`;
               handleAddSong(id,_path)
             }
+            window.location.href = window.location.href;
           }})
     
    
@@ -894,18 +895,18 @@ handleMessageEditPlaylist = (playlistId) => {
   const oldNamePlaylistElement = document.querySelector(
     ".playlist-detail__image--title-main"
   );
-  let oldNamePlaylist;
+  let oldSlugPlaylist;
   let checkDetailOrNot = true;
   if(!oldNamePlaylistElement){
     const oldNamePlaylistElement_index = document.querySelector(`[playlistId = "${playlistId}"]`)
     const innerTitle = oldNamePlaylistElement_index.querySelector(".playlist-old-name-playlist")
-    oldNamePlaylist = innerTitle.getAttribute("title");
-    console.log(`ten :${oldNamePlaylist}`)
+    oldSlugPlaylist = innerTitle.getAttribute("slug");
+    console.log(`ten :${oldSlugPlaylist}`)
     playlistClickOther(playlistId);
     checkDetailOrNot = false
   }else{
-    oldNamePlaylist = oldNamePlaylistElement.getAttribute("title");
-    console.log(oldNamePlaylist);
+    oldSlugPlaylist = oldNamePlaylistElement.getAttribute("slug");
+    console.log(oldSlugPlaylist);
   }
 
 
@@ -938,7 +939,7 @@ handleMessageEditPlaylist = (playlistId) => {
       id: playlistId,
     };
 
-    fetch(`/playlist/detail/${oldNamePlaylist}`, {
+    fetch(`/playlist/detail/${oldSlugPlaylist}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -958,7 +959,7 @@ handleMessageEditPlaylist = (playlistId) => {
             history.pushState(
               {},
               "",
-              `/playlist/detail/${encodeURIComponent(input)}`
+              `/playlist/detail/${encodeURIComponent(data.newSlug)}`
 
             );
             location.reload(); // Reload trang hiện tại
@@ -1211,3 +1212,12 @@ playlistClickOther = (playlistId) => {
 }
 
 //hết thông báo khác của playlist <chỉnh sửa - xoa>
+//phát nhạc ở index playlist
+handleClickPlay = (event, playlist) => {
+  // playlist = JSON.parse(playlist);
+  console.log(playlist);
+
+  // handlePlayAudio = (event, song, singer);
+  //lấy API để hiện ra danh sách bài hát
+  
+}

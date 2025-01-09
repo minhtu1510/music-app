@@ -120,12 +120,12 @@ export const deleteSongPlaylist = async (req: Request, res: Response) => {
 export const patchPlaylistTitle = async (req: Request, res: Response) => {
     const newTitle = req.body.newNamePlaylist;
     const playlistId = req.body.id;
-    const oldTitle = req.params.titlePlaylist
+    const oldSlug = req.params.slugPlaylist
     console.log(`New: ${newTitle}`);
-    console.log(`Old : ${oldTitle}`);
+    console.log(`Old : ${oldSlug}`);
     if (newTitle) {
         const oldNamePlaylist = await Playlist.findOne({
-            title: oldTitle,
+            slug: oldSlug,
             _id: playlistId
         })
         await Playlist.updateOne(
@@ -135,9 +135,11 @@ export const patchPlaylistTitle = async (req: Request, res: Response) => {
                     title: newTitle
                 }
             });
+        const newPlaylist = await Playlist.findOne({ _id: playlistId })
         res.json({
             code: "success",
-            message: "Chỉnh sửa playlist thành công"
+            message: "Chỉnh sửa playlist thành công",
+            newSlug: newPlaylist.slug
         })
         // console.log("thanhcong")
         // req.flash("success", "Chỉnh sửa playlist thành công!");
@@ -173,13 +175,13 @@ export const deletePlaylist = async (req: Request, res: Response) => {
 
 export const detail = async (req: Request, res: Response) => {
     const userId = res.locals.users.id
-    const titlePlaylist = req.params.titlePlaylist;
-    console.log(titlePlaylist);
+    const slugPlaylist = req.params.slugPlaylist;
+    console.log(slugPlaylist);
 
     const playlist = await Playlist.findOne(
         {
             userId: userId,
-            title: titlePlaylist
+            slug: slugPlaylist
         }
     )
     const user = await User.findOne({

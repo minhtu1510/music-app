@@ -4,9 +4,9 @@ const router = express.Router();
 import * as controller from "../../controllers/playlist.controller";
 
 router.get("/", controller.index);
-router.get("/detail/:titlePlaylist", controller.detail);
-router.patch("/detail/:titlePlaylist", controller.patchPlaylistTitle);
-router.delete("/detail/:titlePlaylist", controller.deletePlaylist);
+router.get("/detail/:slugPlaylist", controller.detail);
+router.patch("/detail/:slugPlaylist", controller.patchPlaylistTitle);
+router.delete("/detail/:slugPlaylist", controller.deletePlaylist);
 router.post("/", controller.createPlaylist);
 router.patch("/addSong/:songId", controller.addSongPlaylist);
 

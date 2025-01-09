@@ -14,10 +14,10 @@ block main
                         .create-playlist-new--title Tạo playlist mới
                     each playlist in playlists           
                         div(class="playlist-old--title" playlistId=playlist._id)
-                            a(href=`/playlist/detail/${playlist.title}`)
+                            a(href=`/playlist/detail/${playlist.slug}`)
                                 div(class="playlist-old--title__img")
                                     img(src="/images/img-playlist.png", alt="")                                                                   
-                                div(class="playlist-old-name-playlist" title=playlist.title) #{playlist.title}  
+                                div(class="playlist-old-name-playlist" slug=playlist.slug) #{playlist.title}  
                                 .playlist-old-name-creater  #{userName}
                             div(class="playlist-old--title__icons") 
                                     //- div(class="playlist-old--title__icon playlist-old--title__icon--play" onclick=`handleClickPlay(event,${JSON.stringify(playlist)})`) <i class="fa-solid fa-play"></i>
